@@ -2,3 +2,4 @@ Atividade 3: Modificar o seu código da Atividade 2, de tal forma a obter o mode
 de doutorado, em anexo a este email. Observe que agora os sinais são complexos.
 Para esse modelo MP, usar o conjunto de dados de entrada e saída enviados em anexo a este email da seguinte forma: usar os sinais "in_extraction" e "out_extraction" para obter os coeficientes. Usar os sinais "in_validation" e "out_validation" para obter a saída estimada do modelo. Uma vez tendo a saída estimada, calcular a métrica NMSE descrita pela equação (5.1) da minha tese de doutorado. Além disso, obter os gráficos: amplitude de saída em função da amplitude de entrada (AM-AM) e diferença entre fase de saída e de entrada em função da amplitude de entrada (AM-PM), para dados medidos e estimados.
 Dica: o comando ()' calcula o transposto conjugado. O comando ().' calcula apenas o transposto. Normalmente você quer apenas o transposto, ou seja, você quer apenas adequar sua matriz para a dimensão correta.
+
