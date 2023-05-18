@@ -1,0 +1,16 @@
+Atividade 4: Partindo do mesmo conjunto de dados da Atividade 3  e mantendo a extração em vírgula flutuante, realizar o processamento em vírgula fixa do sinal ao longo do modelo MP e calcular o NMSE em função da quantidade de bits.
+
+I. Normalizar os dados in e out fornecidos previamente de tal forma a garantir que as partes real e imaginária de todos os sinais envolvidos seja 1, da seguinte forma:
+a) obter os valores máximos de  "max(abs(real(in_extraction)))" "max(abs(real(out_extraction)))"  "max(abs(imag(in_extraction)))" "max(abs(imag(out_extraction)))"
+"max(abs(real(in_validation)))" "max(abs(real(out_validation)))"  "max(abs(imag(in_validation)))" "max(abs(imag(out_validation)))". Chamar de maior_maximo o maior destes 8 valores;
+b) dividir todos os sinais "in_extraction", "out_extraction", "in_validation" e "out_validation"  por maior_maximo (ou seja, todos os sinais serão divididos pelo mesmo valor);
+c) salvar os sinais "in_extraction", "out_extraction", "in_validation" e "out_validation" normalizados no item I.b.
+
+II. Extrair novamente os coeficientes do MP para P=5 e M=1, idem ao feito na Atividade 3, porém agora usando o conjunto "in_extraction" e "out_extraction" normalizado em I.c).
+
+III. Com os coeficientes extraídos em II e usando o conjunto "in_validation" e "out_validation" normalizado no item I.b., converter para vírgula fixa e calcular o NMSE ao variar da quantidade de bits usados, da seguinte forma:
+a. Converter números decimais em números inteiros. Sugestão: primeiro multiplicar o número decimal por 2^inteiro. Na sequência arredondá-lo (aqui há 3 opções: floor, round, ceil). Acredito que o melhor seja round. Considerando que o valor máximo é 1, então o "inteiro" definirá a precisão em decimais. Por exemplo: com inteiro=2, a precisão é 0,25; com inteiro=10, a precisão é 0,0009765625.
+b. Após a realização de cada multiplicação entre 2 números convertidos para inteiro, é necessário readequar. Em específico, é necessário primeiro dividir o resultado por 2^inteiro e então arredondar para baixo (aqui é necessário usar o floor). Isso é equivalente a desconsiderar metade dos bits menos significativos.
+c. Converter números inteiros em números decimais. Sugestão: dividir o número por 2^inteiro.
+d. Overflow: após a realização de cada operação (soma ou multiplicação), você deve verificar qual foi o resultado obtido. Em específico, o objetivo é anotar qual é o maior módulo (ou seja, maior valor positivo ou menor negativo) manipulado durante todo o procedimento. Esse valor irá definir qual a quantidade de bits adicionais para evitar overflow. Por exemplo, considerando que a normalização foi feita assumindo máximo igual a 1: se o maior valor encontrado for 3 (que é maior que 2 e menor que 4), bastam adicionar 2 bits; se o maior valor encontrado for 6 (que é maior que 4 e menor que 8), bastam adicionar 3 bits.
+e. A quantidade total de bits é: bits de precisão + 1bit de sinal + bits extras para evitar overflow.
