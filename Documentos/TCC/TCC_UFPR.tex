@@ -29,11 +29,27 @@
 \usepackage{multirow}
 \NewDocumentCommand\cc{+u{\cc}}{\ignorespaces}
 \usepackage[justification=centering]{caption}
+\usepackage{listings}
 
 % --------------------
 % Dados do Documento
 % --------------------
 
+\lstset{
+  basicstyle=\ttfamily,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  tabsize=2,
+  breaklines=true,
+  breakatwhitespace=false
+}
 \titulo{Projeto de um circuito integrado de um pré-distorcedor digital baseado em polinômio de
 memória}
 \autor{Leonardo de Andrade Santos}
@@ -214,7 +230,10 @@ Apêndice: texto ou documento elaborado pelo autor, a fim de complementar sua ar
 \renewcommand{\ABNTEXchapterfontsize}{\ABNTEXsectionfont}
 
 \chapter*{\normalsize ANEXO A - Digite o cabeçalho do anexo}
-
+\begin{lstlisting}[language = Python, caption={Código}, label={lst:hello_world}]
+def hello_world():
+    print("Hello, World!")
+\end{lstlisting}
 Anexo: texto ou documento não elaborado pelo autor, que serve de fundamentação, comprovação e ilustração.
 
 \chapter*{\normalsize ANEXO B - Digite o cabeçalho do anexo}
