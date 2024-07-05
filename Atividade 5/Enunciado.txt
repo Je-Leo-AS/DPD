@@ -1,7 +1,0 @@
-Atividade 5: Realizar uma pré-distorção
-a. Partindo dos resultados da Atividade 3, o PA a ser linearizado é um modelo MP (ou seja, seu PA será o modelo MP treinado na Atividade 3). 
-b. Treinar um DPD. Como modelo de DPD, usar o MP (ou seja, PA e DPD terão a mesma equação, porém coeficientes diferentes). Para treinar o DPD, primeiro coletar dados na entrada e na saída do MP que modelo o PA (ou seja, passar o in_extraction no MP e medir a saída estimada). No DPD, trocam-se os papeís de entrada e saída (ou seja, saída do PA é entrada do DPD e vice-versa)
-c. Obter a seguinte cascata (modelo MP do DPD +  modelo MP do PA):
-c1. O sinal de entrada, a ser aplicado no modelo MP do DPD  treinado no item b. é ganho*in_validation. O ganho é um número fixo e evita extrapolação do modelo. Obtê-lo usando ganho= abs(out_esimado_PA)/abs(in).  
-c2. O sinal estimado na saída do modelo MP do DPD  agora deve ser aplicado como entrada do modelo MP do PA. 
-d. Para validar a pré-distorção, comparar a entrada da cascata com a saída da cascata.
