@@ -1,36 +1,35 @@
-library IEEE;
-use IEEE.std_logic_1164.all;
-use IEEE.NUMERIC_STD.ALL;
-library work;
-use work.Math_Package.all;
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
+LIBRARY work;
+USE work.Math_Package.ALL;
+ENTITY test_power IS
+  GENERIC (
+    n_bits_overflow : INTEGER := 10;
+    n_signals_used : INTEGER := 2;
+    n_polygnos_degree : INTEGER := 2);
+  PORT (
+    reset : IN STD_LOGIC;
+    clk : IN STD_LOGIC;
+    U : IN signed(n_bits_resolution DOWNTO 0);
+    U_out_int : OUT INTEGER;
+    U_out : OUT signed(n_bits_resolution DOWNTO 0));
+END test_power;
 
-entity test_power is 
-    generic(
-        n_bits_overflow :INTEGER := 10;
-        n_signals_used : INTEGER := 2;
-        n_polygnos_degree : INTEGER := 2);
-    port(
-        reset : in std_logic;
-        clk : in std_logic;
-        U : in signed(n_bits_resolution downto 0);
-	U_out_int : out integer;
-        U_out : out signed(n_bits_resolution downto 0));
-end test_power;
-
-architecture hardware of test_power is
-   signal complex_signal_in : complex_number;  
-   signal u_int : limited_integer;
-  begin
-    u_int <= to_integer(U);
-    calcul_process: process(clk, reset)
-variable int_out : integer := 0; 
-    begin
-      if reset = '1' then
-        U_out <= (others => '0'); 
-      elsif rising_edge(clk) then
-	int_out := pow(u_int);
-	U_out_int <= int_out;
-        U_out <= to_signed(u_int, n_bits_resolution + 1);
-      end if;
-    end process;
-end hardware;
+ARCHITECTURE hardware OF test_power IS
+  SIGNAL complex_signal_in : complex_number;
+  SIGNAL u_int : limited_integer;
+BEGIN
+  u_int <= to_integer(U);
+  calcul_process : PROCESS (clk, reset)
+    VARIABLE int_out : INTEGER := 0;
+  BEGIN
+    IF reset = '1' THEN
+      U_out <= (OTHERS => '0');
+    ELSIF rising_edge(clk) THEN
+      int_out := u_int * u_int;
+      U_out_int <= int_out;
+      U_out <= to_signed(int_out, U_out'length);
+    END IF;
+  END PROCESS;
+END hardware;

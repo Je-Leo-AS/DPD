@@ -1,80 +1,58 @@
-library IEEE;
-use IEEE.std_logic_1164.all;
-library packge;
-use packge.all;
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+LIBRARY work;
+USE work.Math_Package.ALL;
 -- TODO tera uma entrada exclusiva para sinal?
 
-entity DPD is 
-    generic(
-        n_bits_resolution :INTEGER := 10 + 1;
-        n_bits_overflow :INTEGER := 10;
-        n_signals_used : INTEGER := 2;
-        n_polygnos_degree : INTEGER := 2;
-    );
-    port(
-        reset : in std_logic;
-        clk : in std_logic;
-        UR : in std_logic_vector(n_bits_resolution downto 0);
-        IR : in std_logic_vector(n_bits_resolution downto 0);
-        UR_out : out std_logic_vector(n_bits_resolution downto 0);
-        IR_out : out std_logic_vector(n_bits_resolution downto 0) );
-end DPD;
+ENTITY DPD IS
+  GENERIC (
+    n_bits_overflow : INTEGER := 10;
+    n_signals_used : INTEGER := 2;
+    n_polygnos_degree : INTEGER := 2;
+  );
+  PORT (
+    reset : IN STD_LOGIC;
+    clk : IN STD_LOGIC;
+    UR : IN signed(n_bits_resolution DOWNTO 0);
+    IR : IN signed(n_bits_resolution DOWNTO 0);
+    UR_out : OUT signed(n_bits_resolution DOWNTO 0);
+    IR_out : OUT signed(n_bits_resolution DOWNTO 0));
+END DPD;
 
-architecture hardware of DPD is
-    type Array_signals is array (0 to n_signals_used) of std_logic_vector(n_bits_resolution downto 0);
-    type Array_coeficients is array (0 to n_signals_used * n_polygnos_degree) of std_logic_vector(n_bits_resolution downto 0);
-    type Array_multiplication is array (0 to n_signals_used * n_polygnos_degree) of std_logic_vector(n_bits_overflow + n_bits_resolution downto 0);
-    signal UR_Last_signals : Array_signals := (others => (others => '0'));
-    signal UI_Last_signals : Array_signals := (others => (others => '0'));
-    signal coeficients : Array_coeficients := (others => (others => '0'));
-    signal UR_process : Array_multiplication := (others => (others => '0'));
-    signal IR_process : Array_multiplication := (others => (others => '0'));
-    signal sum_i : std_logic_vector(n_bits_resolution downto 0) := others => '0';
-    signal sum_r : std_logic_vector(n_bits_resolution downto 0) := others => '0';
-begin
-    calcul_process: process(clk, reset)
-  begin
-    --TODO separar o processo em batidas de clock 
-    if reset = '1' then
-      UR_out <= (others => '0'); 
-      IR_out <= (others => '0'); 
-    elsif rising_edge(clk) then
-      for i in 0 to n_signals_used loop
-        for j in 0 to n_polygnos_degree  loop
-          UR_process[i + j] <=  pow(UR_Last_signals[i], j); 
-          IR_process[i + j] <=  pow(UI_Last_signals[i], j); 
-        end loop;
-      end loop;
-      for i in 0 to n_signals_used loop
-        for j in 0 to n_polygnos_degree  loop
-          UR_process[i + j] <=  UR_process[i + j] * coeficients[i+j]; 
-          IR_process[i + j] <=  IR_process[i + j] * coeficients[i+j]; 
-        end loop;
-      end loop;
-      for i in 0 to (n_signals_used * n_polygnos_degree) loop
-        sum_r <= sum_r + UR_process[i](UR_process'left downto UR_process'left - sum_r'length + 1);
-        sum_i <= sum_i + IR_process[i](IR_process'left downto IR_process'left - sum_i'length + 1);
-      end loop;
-    else
-      sum_i :=  others => '0'
-      sum_r :=  others => '0'
-    end if;
+ARCHITECTURE hardware OF DPD IS
+  TYPE Array_signals IS ARRAY (0 TO n_signals_used) OF complex_number(n_bits_resolution DOWNTO 0);
+  TYPE Array_powers IS ARRAY (0 TO n_polygnos_degree) OF Array_signals;
+  TYPE Array_multiplication IS ARRAY (0 TO n_signals_used * n_polygnos_degree) OF complex_number_overflow;
+  SIGNAL U_signals : Array_signals := (OTHERS => (real => 0, imag => 0));
+  SIGNAL sum : IS ARRAY (0 TO n_signals_used * n_polygnos_degree) OF complex_number (OTHERS => (real => 0, imag => 0));
+BEGIN
 
-  end process;
-  
-  process_change_signal: process(clk)
-  begin
-    if reset = '1' then
-      UR_out <= (others => '0'); 
-      IR_out <= (others => '0'); 
-    elsif rising_edge(clk) then
-      for i in 1 to n_signals_used loop
-        UR_Last_signals[i-1] <= UR_Last_signals[i];
-        UI_Last_signals[i-1] <= UI_Last_signals[i];
-      end loop;
-      UR_out <= UR_Last_signals[n_signals_used - 1];
-      IR_out <= UI_Last_signals[n_signals_used - 1];
-    end if;
-  end process;
-    
-end architecture;
+  -- Processo que atualiza novos sinais a cada ciclo de clock
+  process_signal : PROCESS (clk, reset)
+    VARIABLE U_signal_in : complex_number(n_bits_resolution DOWNTO 0) := (real => 0, imag => 0);
+  BEGIN
+    IF reset = '1' THEN
+      UR_out <= (OTHERS => '0');
+      IR_out <= (OTHERS => '0');
+      U_signals <= (OTHERS => (OTHERS => '0'));
+    ELSIF rising_edge(clk) THEN
+      FOR i IN n_signals_used - 1 DOWNTO 1 :
+        U_signals(i) <= U_signals(i - 1)
+      END LOOP;
+      U_signal_in <= (real => to_integer(UR), imag => to_integer(UI));
+      U_signals(0) <= U_signal_in;
+    END IF;
+  END PROCESS;
+
+  -- processo que realiza os calculos e adiciona saida
+  calcul_process : PROCESS (clk, reset)
+    VARIABLE potencias : Array_powers := (OTHERS => (OTHERS => (real => 0, imag => 0)))
+  BEGIN
+    IF reset = '1' THEN
+      
+    ELSIF rising_edge(clk) THEN
+
+    END IF;
+  END PROCESS;
+
+END ARCHITECTURE;
