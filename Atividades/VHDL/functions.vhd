@@ -1,42 +1,38 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
+PACKAGE Math_Package IS
 
+  CONSTANT n_bits_resolution : INTEGER := 9;
+  CONSTANT n_bits_overflow : INTEGER := 10;
 
-package Math_Package is
-  
-  constant n_bits_resolution : INTEGER := 9;
-  
-  constant max_value : INTEGER := 2**(n_bits_resolution-1) - 1;
-  
-  subtype limited_integer is integer range - max_value to max_value;
-  
-  function pow(base: limited_integer) return limited_integer;
- 
-  type complex_number is record
+  CONSTANT max_value : INTEGER := 2 ** (n_bits_resolution - 1) - 1;
+  CONSTANT max_value_overflow : INTEGER := 2 ** (n_bits_resolution + n_bits_overflow - 1) - 1;
+
+  SUBTYPE limited_integer IS INTEGER RANGE -max_value TO max_value;
+  SUBTYPE overflow_integer IS INTEGER RANGE -max_value_overflow TO max_value_overflow;
+
+  TYPE complex_number IS RECORD
     real : limited_integer;
     imag : limited_integer;
-  end record;
+  END RECORD;
 
-  type complex_array is array (0 to 3) of complex_number;
+  TYPE complex_number_overflow IS RECORD
+    real : overflow_integer;
+    imag : overflow_integer;
+  END RECORD;
 
-  constant coefficients : complex_array := (
-    (real => 1, imag => 1),
-    (real => 8, imag => -1),
-    (real => -3, imag => -1),
+  TYPE complex_array IS ARRAY (0 TO 3) OF complex_number;
+
+  CONSTANT coefficients : complex_array := (
+  (real => 1, imag => 1),
+    (real => 8, imag => - 1),
+    (real => - 3, imag => - 1),
     (real => 1, imag => 1)
   );
 
-end Math_Package;
+END Math_Package;
 
-package body Math_Package is
-    
-    -- Função para calcular potência
-   function pow(base: limited_integer) return limited_integer is
-        variable result_int: limited_integer := 0;
-	variable base_int: limited_integer := 0;
-    begin
-        result_int := base_int * base_int;
-        return result_int;
-    end pow;
-end Math_Package;
+PACKAGE BODY Math_Package IS
+
+END Math_Package;

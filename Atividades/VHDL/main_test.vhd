@@ -3,6 +3,7 @@ USE IEEE.std_logic_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
 LIBRARY work;
 USE work.Math_Package.ALL;
+
 ENTITY test_power IS
   GENERIC (
     n_bits_overflow : INTEGER := 10;
