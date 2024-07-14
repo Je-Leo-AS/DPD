@@ -1,93 +1,86 @@
-library IEEE;
-use IEEE.std_logic_1164.all;
-use IEEE.numeric_std.all;
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.numeric_std.ALL;
 
-entity tb_main is
-end tb_main;
+ENTITY tb_main IS
+END tb_main;
 
-architecture behavior of tb_main is
-    constant n_bits_resolution : INTEGER := 9;
-    constant n_signals_used : INTEGER := 2;
-    constant n_polygnos_degree : INTEGER := 2;
-
+ARCHITECTURE behavior OF tb_main IS
+    CONSTANT n_bits_resolution : INTEGER := 9;
+    CONSTANT n_bits_overflow : INTEGER := 10;
+    CONSTANT n_signals_used : INTEGER := 2;
+    CONSTANT n_polygnos_degree : INTEGER := 2;
     -- Component Declaration for the Unit Under Test (UUT)
-    component DPD
-        generic(
+    COMPONENT test_power
+        GENERIC (
+            n_bits_overflow : INTEGER;
             n_signals_used : INTEGER;
             n_polygnos_degree : INTEGER
         );
-        port(
-            reset : in std_logic;
-            clk : in std_logic;
-            UR : in signed(n_bits_resolution downto 0);
-            UI : in signed(n_bits_resolution downto 0);
-            UR_out : out signed(n_bits_resolution downto 0);
-            UI_out : out signed(n_bits_resolution downto 0)
+        PORT (
+            reset : IN STD_LOGIC;
+            clk : IN STD_LOGIC;
+            U : IN signed;
+            U_out_int : OUT INTEGER;
+            U_out : OUT signed
         );
-    end component;
+    END COMPONENT;
 
     -- Signals for connecting to UUT
-    signal reset : std_logic := '0';
-    signal clk : std_logic := '0';
-    signal UR : signed(n_bits_resolution downto 0) := (others => '0');
-    signal UI : signed(n_bits_resolution downto 0) := (others => '0');
-    signal UR_out : signed(n_bits_resolution downto 0);
-    signal UI_out : signed(n_bits_resolution downto 0);
+    SIGNAL reset : STD_LOGIC := '0';
+    SIGNAL clk : STD_LOGIC := '0';
+    SIGNAL U : signed(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
+    SIGNAL U_out_int : INTEGER;
+    SIGNAL U_out : signed(n_bits_resolution DOWNTO 0);
 
     -- Clock period definition
-    constant clk_period : time := 10 ns;
+    CONSTANT clk_period : TIME := 10 ns;
 
-begin
+BEGIN
 
     -- Instantiate the Unit Under Test (UUT)
-    uut: DPD
-        generic map(
-            n_signals_used => n_signals_used,
-            n_polygnos_degree => n_polygnos_degree
-        )
-        port map(
-            reset => reset,
-            clk => clk,
-            UR => UR,
-            UI => UI,
-            UR_out => UR_out,
-            UI_out => UI_out
-        );
+    uut : test_power
+    GENERIC MAP(
+        n_bits_overflow => n_bits_overflow,
+        n_signals_used => n_signals_used,
+        n_polygnos_degree => n_polygnos_degree
+    )
+    PORT MAP(
+        reset => reset,
+        clk => clk,
+        U => U,
+        U_out_int => U_out_int,
+        U_out => U_out
+    );
 
     -- Clock process definitions
-    clk_process :process
-    begin
+    clk_process : PROCESS
+    BEGIN
         clk <= '0';
-        wait for clk_period/2;
+        WAIT FOR clk_period/2;
         clk <= '1';
-        wait for clk_period/2;
-    end process;
+        WAIT FOR clk_period/2;
+    END PROCESS;
 
     -- Stimulus process
-    stim_proc: process
-    begin
+    stim_proc : PROCESS
+    BEGIN
         -- Initialize Inputs
         reset <= '1';
-        wait for clk_period;
+        WAIT FOR clk_period/2;
         reset <= '0';
-        wait for clk_period;
+        WAIT FOR clk_period/2;
+        U <= to_signed(2, n_bits_resolution + 1);
+        WAIT FOR clk_period;
 
-        -- Apply test vectors
-        UR <= to_signed(2, n_bits_resolution + 1);
-        UI <= to_signed(1, n_bits_resolution + 1);
-        wait for n_polygnos_degree * clk_period;
+        U <= to_signed(-3, n_bits_resolution + 1);
+        WAIT FOR clk_period;
 
-        UR <= to_signed(-3, n_bits_resolution + 1);
-        UI <= to_signed(0, n_bits_resolution + 1);
-        wait for n_polygnos_degree * clk_period;
+        U <= to_signed(4, n_bits_resolution + 1);
+        WAIT FOR clk_period;
 
-        UR <= to_signed(4, n_bits_resolution + 1);
-        UI <= to_signed(-2, n_bits_resolution + 1);
-        wait for n_polygnos_degree * clk_period;
+        -- Add stimulus here
+        WAIT;
+    END PROCESS;
 
-        -- Add more stimulus here if necessary
-        wait;
-    end process;
-
-end behavior;
-
+END behavior;
