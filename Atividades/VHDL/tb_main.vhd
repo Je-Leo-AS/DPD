@@ -7,31 +7,32 @@ end tb_main;
 
 architecture behavior of tb_main is
     constant n_bits_resolution : INTEGER := 9;
-    constant n_bits_overflow : INTEGER := 10;
     constant n_signals_used : INTEGER := 2;
     constant n_polygnos_degree : INTEGER := 2;
+
     -- Component Declaration for the Unit Under Test (UUT)
-    component test_power
+    component DPD
         generic(
-            n_bits_overflow : INTEGER;
             n_signals_used : INTEGER;
             n_polygnos_degree : INTEGER
         );
         port(
             reset : in std_logic;
             clk : in std_logic;
-            U : in signed;
-	    U_out_int : out integer;
-            U_out : out signed
+            UR : in signed(n_bits_resolution downto 0);
+            UI : in signed(n_bits_resolution downto 0);
+            UR_out : out signed(n_bits_resolution downto 0);
+            UI_out : out signed(n_bits_resolution downto 0)
         );
     end component;
 
     -- Signals for connecting to UUT
     signal reset : std_logic := '0';
     signal clk : std_logic := '0';
-    signal U : signed(n_bits_resolution downto 0) := (others => '0');
-    signal U_out_int : integer;
-    signal U_out : signed(n_bits_resolution downto 0);
+    signal UR : signed(n_bits_resolution downto 0) := (others => '0');
+    signal UI : signed(n_bits_resolution downto 0) := (others => '0');
+    signal UR_out : signed(n_bits_resolution downto 0);
+    signal UI_out : signed(n_bits_resolution downto 0);
 
     -- Clock period definition
     constant clk_period : time := 10 ns;
@@ -39,18 +40,18 @@ architecture behavior of tb_main is
 begin
 
     -- Instantiate the Unit Under Test (UUT)
-    uut: test_power
+    uut: DPD
         generic map(
-            n_bits_overflow => n_bits_overflow,
             n_signals_used => n_signals_used,
             n_polygnos_degree => n_polygnos_degree
         )
         port map(
             reset => reset,
             clk => clk,
-            U => U,
-	    U_out_int => U_out_int,
-            U_out => U_out
+            UR => UR,
+            UI => UI,
+            UR_out => UR_out,
+            UI_out => UI_out
         );
 
     -- Clock process definitions
@@ -67,20 +68,26 @@ begin
     begin
         -- Initialize Inputs
         reset <= '1';
-        wait for clk_period/2;
+        wait for clk_period;
         reset <= '0';
-	wait for clk_period/2;
-        U <= to_signed(2, n_bits_resolution + 1);
         wait for clk_period;
-        
-        U <= to_signed(-3, n_bits_resolution + 1);
+
+        -- Apply test vectors
+        UR <= to_signed(2, n_bits_resolution + 1);
+        UI <= to_signed(1, n_bits_resolution + 1);
         wait for clk_period;
-        
-        U <= to_signed(4, n_bits_resolution + 1);
+
+        UR <= to_signed(-3, n_bits_resolution + 1);
+        UI <= to_signed(0, n_bits_resolution + 1);
         wait for clk_period;
-        
-        -- Add stimulus here
+
+        UR <= to_signed(4, n_bits_resolution + 1);
+        UI <= to_signed(-2, n_bits_resolution + 1);
+        wait for clk_period;
+
+        -- Add more stimulus here if necessary
         wait;
     end process;
 
 end behavior;
+
