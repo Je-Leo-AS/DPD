@@ -75,15 +75,15 @@ begin
         -- Apply test vectors
         UR <= to_signed(2, n_bits_resolution + 1);
         UI <= to_signed(1, n_bits_resolution + 1);
-        wait for clk_period;
+        wait for n_polygnos_degree * clk_period;
 
         UR <= to_signed(-3, n_bits_resolution + 1);
         UI <= to_signed(0, n_bits_resolution + 1);
-        wait for clk_period;
+        wait for n_polygnos_degree * clk_period;
 
         UR <= to_signed(4, n_bits_resolution + 1);
         UI <= to_signed(-2, n_bits_resolution + 1);
-        wait for clk_period;
+        wait for n_polygnos_degree * clk_period;
 
         -- Add more stimulus here if necessary
         wait;
