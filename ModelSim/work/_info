@@ -8,129 +8,128 @@ z2
 !i10f 100
 cModel Technology
 dC:/intelFPGA/18.1
-Pmath_package
-Z0 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
-Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
-Z2 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
-Z3 w1720878602
-Z4 dC:/Users/Je/Codes/IC/ModelSim
-Z5 8C:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd
-Z6 FC:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd
+Edpd
+Z0 w1720992813
+Z1 DPx4 work 12 math_package 0 22 UU]]lGS5K0_zT9dY8Ylo71
+Z2 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z5 dC:/Users/Je/Codes/IC/ModelSim
+Z6 8C:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd
+Z7 FC:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd
 l0
-L6
-VaRCi7GlO<H3^a`cElkQbN0
-!s100 mH:OSY5h`4akcIn^80Znj2
-Z7 OV;C;10.5b;63
+L7
+VfX`gA6ObE:LUZZVWHV]hi3
+!s100 >GnlX4HD`k^XzYJX`[<[^3
+Z8 OV;C;10.5b;63
 32
-b1
-Z8 !s110 1720878617
+Z9 !s110 1720993873
 !i10b 1
-Z9 !s108 1720878617.000000
-Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd|
-Z11 !s107 C:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd|
+Z10 !s108 1720993873.000000
+Z11 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd|
+Z12 !s107 C:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd|
 !i113 1
-Z12 o-work work -2002 -explicit
-Z13 tExplicit 1 CvgOpt 0
-Bbody
-Z14 DPx4 work 12 math_package 0 22 aRCi7GlO<H3^a`cElkQbN0
-R0
+Z13 o-work work -2002 -explicit
+Z14 tExplicit 1 CvgOpt 0
+Ahardware
 R1
 R2
-l0
-L32
-VJ1VaJfX82olb:^H_`P<zi2
-!s100 h0eZf[>;fKc9`4KhEhVcC0
-R7
-32
+R3
+R4
+Z15 DEx4 work 3 dpd 0 22 fX`gA6ObE:LUZZVWHV]hi3
+l29
+L21
+Z16 V6CASHLIMbF;JK<SEOjS1z1
+Z17 !s100 ehc=9IeTiN3XVY<:mhEH93
 R8
-!i10b 1
+32
 R9
+!i10b 1
 R10
 R11
-!i113 1
 R12
+!i113 1
 R13
-Etb_main
-Z15 w1720744689
-R0
+R14
+Pmath_package
+R2
+R3
+R4
+Z18 w1720886541
+R5
+Z19 8C:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd
+Z20 FC:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd
+l0
+L4
+VUU]]lGS5K0_zT9dY8Ylo71
+!s100 ?7hgdLMnVH7l_d;G86iF>1
+R8
+32
+R9
+!i10b 1
+R10
+Z21 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd|
+Z22 !s107 C:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd|
+!i113 1
+R13
+R14
+Bbody
 R1
 R2
+R3
 R4
-Z16 8C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd
-Z17 FC:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd
+l0
+L36
+Vn@Nhc27WVi@2WA^mEWQSe0
+!s100 d8CYV]9ElCgzN5b_Hn:890
+R8
+32
+R9
+!i10b 1
+R10
+R21
+R22
+!i113 1
+R13
+R14
+Etb_main
+Z23 w1720993765
+R2
+R3
+R4
+R5
+Z24 8C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd
+Z25 FC:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd
 l0
 L5
 VOjTc]AF5YAYn>2V7`F=Lj0
 !s100 S;k6DYVW:V`W3X<dc<UmG1
-R7
-32
 R8
-!i10b 1
+32
 R9
-Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd|
-Z19 !s107 C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd|
+!i10b 1
+R10
+Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd|
+Z27 !s107 C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd|
 !i113 1
-R12
 R13
+R14
 Abehavior
-R0
-R1
 R2
-DEx4 work 7 tb_main 0 22 OjTc]AF5YAYn>2V7`F=Lj0
-l39
-L8
-V2d6Y:nmgUSB7@XCd7JQ_N2
-!s100 4z^i;WE5EO=UR1VC9K6e51
-R7
-32
-R8
-!i10b 1
-R9
-R18
-R19
-!i113 1
-R12
-R13
-Etest_power
-Z20 w1720878563
-R14
-R0
-R1
-R2
+R3
 R4
-Z21 8C:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd
-Z22 FC:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd
-l0
+DEx4 work 7 tb_main 0 22 OjTc]AF5YAYn>2V7`F=Lj0
+l40
 L8
-VcNSanb<RQedzzEmJCfh@A3
-!s100 N;lXkNCJbozBeQGPfenFg1
-R7
-32
+V@NkeImLAhA^d?1iB0UFKE2
+!s100 S]:3;LAgH[KHPMOf?d>F32
 R8
-!i10b 1
+32
 R9
-Z23 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd|
-Z24 !s107 C:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd|
+!i10b 1
+R10
+R26
+R27
 !i113 1
-R12
 R13
-Ahardware
 R14
-R0
-R1
-R2
-Z25 DEx4 work 10 test_power 0 22 cNSanb<RQedzzEmJCfh@A3
-l24
-L21
-Z26 VMR5z;aPJhaCPKJ@1;M=_k1
-Z27 !s100 ^dRfR?Cf[S8h>hH[gIWQM2
-R7
-32
-R8
-!i10b 1
-R9
-R23
-R24
-!i113 1
-R12
-R13

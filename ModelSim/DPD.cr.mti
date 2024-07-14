@@ -1,4 +1,24 @@
-C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd
+C:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/Je/Codes/IC/Atividades/VHDL/main_test.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package Math_Package
+-- Compiling entity DPD
+-- Compiling architecture hardware of DPD
+
+} {} {}} C:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/Je/Codes/IC/Atividades/VHDL/functions.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling package Math_Package
+-- Compiling package body Math_Package
+-- Loading package Math_Package
+
+} {} {}} C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/Je/Codes/IC/Atividades/VHDL/tb_main.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
