@@ -66,7 +66,7 @@ BEGIN
       potencias(count_pot + 1)(0).real := potencias(count_pot)(0).real * potencias(count_pot)(0).real;
       potencias(count_pot + 1)(0).imag := potencias(count_pot)(0).imag * potencias(count_pot)(0).imag;
       FOR j IN 0 TO n_signals_used - 1 LOOP
-	index := (j + count_pot) * n_polygnos_degree;
+	index := j * n_polygnos_degree + count_pot;
         multiplic(count_pot)(j).real := coefficients(index).real * potencias(count_pot)(j).real - coefficients(index).imag * potencias(count_pot)(j).imag;
         multiplic(count_pot)(j).imag := coefficients(index).imag * potencias(count_pot)(j).real + coefficients(index).real * potencias(count_pot)(j).imag;
         sum(count_pot).real := sum(count_pot).real + multiplic(count_pot)(j).real;
