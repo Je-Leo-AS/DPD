@@ -11,7 +11,7 @@ ARCHITECTURE behavior OF tb_main IS
     CONSTANT n_signals_used : INTEGER := 2;
     CONSTANT n_polygnos_degree : INTEGER := 2;
     -- Component Declaration for the Unit Under Test (UUT)
-    COMPONENT test_power
+    COMPONENT dpd
         GENERIC (
             n_bits_overflow : INTEGER;
             n_signals_used : INTEGER;
@@ -20,18 +20,20 @@ ARCHITECTURE behavior OF tb_main IS
         PORT (
             reset : IN STD_LOGIC;
             clk : IN STD_LOGIC;
-            U : IN signed;
-            U_out_int : OUT INTEGER;
-            U_out : OUT signed
+    UR : IN signed;
+    UI : IN signed;
+    UR_out : OUT signed;
+    UI_out : OUT signed;
         );
     END COMPONENT;
 
     -- Signals for connecting to UUT
     SIGNAL reset : STD_LOGIC := '0';
     SIGNAL clk : STD_LOGIC := '0';
-    SIGNAL U : signed(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
-    SIGNAL U_out_int : INTEGER;
-    SIGNAL U_out : signed(n_bits_resolution DOWNTO 0);
+    SIGNAL UR : signed(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
+    SIGNAL UI: signed(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
+    SIGNAL UR_out : signed(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
+    SIGNAL UI_out : signed(n_bits_resolution DOWNTO 0);
 
     -- Clock period definition
     CONSTANT clk_period : TIME := 10 ns;
@@ -39,18 +41,18 @@ ARCHITECTURE behavior OF tb_main IS
 BEGIN
 
     -- Instantiate the Unit Under Test (UUT)
-    uut : test_power
+    uut : dpd
     GENERIC MAP(
-        n_bits_overflow => n_bits_overflow,
         n_signals_used => n_signals_used,
         n_polygnos_degree => n_polygnos_degree
     )
     PORT MAP(
         reset => reset,
         clk => clk,
-        U => U,
-        U_out_int => U_out_int,
-        U_out => U_out
+        UR => UR,
+	UI => UI,
+	UR_out => UR_out,
+	UI_out => UI_out
     );
 
     -- Clock process definitions

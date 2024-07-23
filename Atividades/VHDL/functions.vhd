@@ -13,22 +13,22 @@ PACKAGE Math_Package IS
   SUBTYPE overflow_integer IS INTEGER RANGE -max_value_overflow TO max_value_overflow;
 
   TYPE complex_number IS RECORD
-    real : limited_integer;
+    reall : limited_integer;
     imag : limited_integer;
   END RECORD;
 
   TYPE complex_number_overflow IS RECORD
-    real : overflow_integer;
+    reall : overflow_integer;
     imag : overflow_integer;
   END RECORD;
 
   TYPE complex_array IS ARRAY (0 TO 3) OF complex_number;
 
   CONSTANT coefficients : complex_array := (
-  (real => 1, imag => 1),
-    (real => 8, imag => - 1),
-    (real => - 3, imag => - 1),
-    (real => 1, imag => 1)
+    (reall => 1, imag => 1),
+    (reall => 8, imag => - 1),
+    (reall => - 3, imag => - 1),
+    (reall => 1, imag => 1)
   );
 
 END Math_Package;
