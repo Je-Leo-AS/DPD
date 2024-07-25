@@ -5,7 +5,6 @@
 	a4paper,			% tamanho do papel.
 	brazil				% o Ãºltimo idioma Ã© o principal do documento
 	]{abntex2}
-
 \usepackage{etoolbox}
 \usepackage{lmodern}			% Usa a fonte Latin Modern			
 \usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
@@ -164,6 +163,8 @@ memória}
  \item[LAB]  Logic Array Block 
  \item[ALM]  Adaptive Logic Module
  \item[LE]   Logic Element 
+ \item[HEMT] transistor de efeito de campo de heterojunção
+ \item[VSA] analisador de sinal vetorial  
 \end{siglas}
 
 \listoffigures*
@@ -189,19 +190,23 @@ memória}
 
 \setcounter{page}{1}
 
-\chapter{Introdução}
+\chapter{Introdução} 
+\label{chap:introducao}
 \input{Introducao}
 
-\chapter{Revisão de Literatura}
+\chapter{Revisão de Literatura} 
+\label{chap:revi}
 \input{Revisao}
 
-\chapter{Material e Métodos}
+\chapter{Material e Métodos} 
+\label{chap:mati}
 \input{MaterialeMetodos}
 
-\chapter{Resultados e Discussão}
+\chapter{Resultados e Discussão} 
+\label{chap:resul}
 \input{Resultados}
 
-\chapter{Conclusão}
+\chapter{Conclusão} \label{chap:conc}
 \input{ConsFinais}
 
 % ----------------------------------------------------------
@@ -222,17 +227,13 @@ memória}
 % ANEXOS
 % ----------------------------------------------------------
 
-\begin{apendicesenv}
+% \begin{apendicesenv}
 
-\partapendices
+% \partapendices
 
-\chapter*{\normalsize APÊNDICE A - Digite o cabeçalho do apêndice}
+% \input{apendices.tex}
 
-Apêndice: texto ou documento elaborado pelo autor, a fim de complementar sua argumentação, sem prejuízo da unidade nuclear do trabalho.
-
-\chapter*{\normalsize APÊNDICE B - Digite o cabeçalho do apêndice}
-
-\end{apendicesenv}
+% \end{apendicesenv}
 
 \begin{anexosenv}
 
@@ -240,14 +241,7 @@ Apêndice: texto ou documento elaborado pelo autor, a fim de complementar sua ar
 %\addcontentsline{toc}{chapter}{\hspace{2.105cm}ANEXOS}
 \renewcommand{\ABNTEXchapterfontsize}{\ABNTEXsectionfont}
 
-\chapter*{\normalsize ANEXO A - Digite o cabeçalho do anexo}
-\begin{lstlisting}[language = Python, caption={Código}, label={lst:hello_world}]
-def hello_world():
-    print("Hello, World!")
-\end{lstlisting}
-Anexo: texto ou documento não elaborado pelo autor, que serve de fundamentação, comprovação e ilustração.
-
-\chapter*{\normalsize ANEXO B - Digite o cabeçalho do anexo}
+\input{anexos.tex}
 
 \end{anexosenv}
 
