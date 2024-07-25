@@ -41,9 +41,23 @@ A fim de contornar esse obstáculo foi adicionado a cadeia de transmissão, um m
 
 Segundo \cite{John2016}, existem duas técnicas utilizadas para fazer essa modelagem. Uma consiste na descrição detalhada do PARF, que implica em uma maior complexibilidade computacional, esses modelos são conhecidos como modelos físicos. A outra abordagem é conhecida como modelo empírico, este modelo consiste em medições realizadas na entrada e na saída do PARF, e através destes dados simulam um modelo matemático do sistema. Uma das vantagens desse método é que ele não exige conhecimento prévio da estrutura do PARF e possui baixa complexidade computacional. No entanto, sua precisão pode ser ligeiramente afetada pelo modelo adotado.
 % // TODO FALAR DE VOLTERRA
-\section{modelagem matemáticas}
+\section{Modelagem Matemáticas}
 
+Segundo \cite{Gonçalves2009} série de Volterra pode ser vista como uma extensão multidimensional da série de Taylor para sistemas dinâmicos. A modelagem começa com a representação do sistema através de uma série infinita de integrais convolucionais, onde cada termo da série corresponde a uma ordem de não linearidade e memória.
 
+A saída \( y(t) \) de um sistema pode ser expressa como:
+
+\[
+y(t) = h_0 + \sum_{n=1}^{\infty} \int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} h_n(\tau_1, \tau_2, \ldots, \tau_n) \prod_{i=1}^{n} x(t - \tau_i) \, d\tau_i
+\]
+
+onde \( h_n \) são os núcleos de Volterra, que caracterizam a resposta do sistema para a \( n \)-ésima ordem de não linearidade e \( x(t) \) é a entrada do sistema.
+
+\subsection*{Núcleos de Volterra}
+
+Os núcleos de Volterra \( h_n \) são funções de várias variáveis que capturam a dinâmica do sistema em diferentes ordens. Para a maioria das aplicações práticas, a série é truncada para incluir apenas um número finito de termos, já que a identificação de todos os núcleos de uma série infinita é impraticável.
+
+\subsection*{Aplicação em RF PA}
 
 % // TODO Falar mais sobre FPGA 
 \section{FPGA}
