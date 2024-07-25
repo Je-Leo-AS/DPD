@@ -19,6 +19,8 @@ No entanto, este trabalho foca exclusivamente no sistema transmissor, ilustrado 
 
 Sabe-se que a evolução dos sistemas de comunicação móveis causou na implementação de diversos serviços como aplicações multimídias, desenvolvimento web, aplicações IoT. De acordo com \cite{John2016}, há uma demanda cada vez maior por sistemas de comunicação mais rápidos, robustos e eficientes, devido ao aumento no número de usuários.  Nesse contexto, melhorar a eficiência energética se mostra uma alternativa desejável tanto para aparelhos moveis, visando melhorar a autonomia da bateria, quanto para estações rádio base, uma vez que diminuiria o gasto de potência por perdas em calor. Considerando também que a largura de banda reservada para sistemas de comunicação sem fio é reduzida, torna-se desejável que ela seja utilizada da maneira mais eficiente o possível. Diante desse cenário, segundo \cite{Kenington2000}, só é possível alcançar as maiores taxas utilizando estratégias de modulações, que alterem tanto a fase quanto a amplitude de uma onda portadora em rádio frequência. Ainda segundo \cite{Kenington2000}, a modulação na amplitude, exige linearidade na transmissão afim de evitar erros e interferência na comunicação entre os usuários vizinhos. Ante esse panorama, o projetista do PARFT se depara com esse desafio, que é desenvolver um hardware eficiente, energeticamente, e com uma boa linearidade simultaneamente, uma vez que esse compromisso é conflitante, conforme descrito por \cite{Cripps2006}. Esse comportamento se deve, pois, um PARF, atua de forma eficiente, ou seja, com baixo consumo de energia, na área próxima à de saturação, que é a região em que eles operam em regimes não lineares, conforme ilustrado pela figura \ref{fig:saidaparf}.
 
+%  //TODO Adicionar  figura schuwats norma regulamentadora
+
 \begin{figure}[ht!]
     \centering
     \captionsetup{justification=centering}
@@ -39,34 +41,46 @@ A fim de contornar esse obstáculo foi adicionado a cadeia de transmissão, um m
     \label{fig:cascatadpd}
 \end{figure}
 
-Segundo \cite{John2016}, existem duas técnicas utilizadas para fazer essa modelagem. Uma consiste na descrição detalhada do PARF, que implica em uma maior complexibilidade computacional, esses modelos são conhecidos como modelos físicos. A outra abordagem é conhecida como modelo empírico, este modelo consiste em medições realizadas na entrada e na saída do PARF, e através destes dados simulam um modelo matemático do sistema. Uma das vantagens desse método é que ele não exige conhecimento prévio da estrutura do PARF e possui baixa complexidade computacional. No entanto, sua precisão pode ser ligeiramente afetada pelo modelo adotado.
-% // TODO FALAR DE VOLTERRA
+Segundo \cite{John2016}, existem duas técnicas utilizadas para fazer essa modelagem. Uma consiste na descrição detalhada do PARF, que implica em uma maior complexibilidade computacional, esses modelos são conhecidos como modelos físicos. A outra abordagem é conhecida como modelo empírico, este modelo consiste em coletadas amostradas na entrada e na saída do PARF em domínio temporal, e através destes dados simulam um modelo matemático do sistema. Uma das vantagens desse método é que ele não exige conhecimento prévio da estrutura do PARF e possui baixa complexidade computacional e mesmo se todos os parâmetros fossem conhecidos, conhecendo o equacionamento completo do circuito, uma função inversa poderia ser encontrada, possivelmente muito mais complexa que séries de Volterra. No entanto, sua precisão pode ser ligeiramente afetada pelo modelo adotado. 
+Sendo assim, como a proposta do projeto é a implementação de um DPD em hardware, então se faz necessário que o circuito apresente a menor complexidade possivel, por tanto, torna-se mais viavel fazer a implementação utilizando modelagem matemática. 
 \section{Modelagem Matemáticas}
 
+\subsection*{Séries de Volterra}
 Segundo \cite{Gonçalves2009} série de Volterra pode ser vista como uma extensão multidimensional da série de Taylor para sistemas dinâmicos. A modelagem começa com a representação do sistema através de uma série infinita de integrais convolucionais, onde cada termo da série corresponde a uma ordem de não linearidade e memória.
 
-A saída \( y(t) \) de um sistema pode ser expressa como:
+A saída \( y(t) \) de um sistema pode ser expressa pela equação \ref{eq:Volterra}:
 
-\[
-y(t) = h_0 + \sum_{n=1}^{\infty} \int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} h_n(\tau_1, \tau_2, \ldots, \tau_n) \prod_{i=1}^{n} x(t - \tau_i) \, d\tau_i
-\]
+\begin{equation}
+    y(t) = h_0 + \sum_{n=1}^{\infty} \int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty} h_n(\tau_1, \tau_2, \ldots, \tau_n) \prod_{i=1}^{n} x(t - \tau_i) \, d\tau_i
+    \label{eq:Volterra}
+\end{equation}
 
-onde \( h_n \) são os núcleos de Volterra, que caracterizam a resposta do sistema para a \( n \)-ésima ordem de não linearidade e \( x(t) \) é a entrada do sistema.
-
-\subsection*{Núcleos de Volterra}
+Onde \( h_n \) são os núcleos de Volterra, que caracterizam a resposta do sistema para a \( n \)-ésima ordem de não linearidade e \( x(t) \) é a entrada do sistema.
 
 Os núcleos de Volterra \( h_n \) são funções de várias variáveis que capturam a dinâmica do sistema em diferentes ordens. Para a maioria das aplicações práticas, a série é truncada para incluir apenas um número finito de termos, já que a identificação de todos os núcleos de uma série infinita é impraticável.
 
-\subsection*{Aplicação em RF PA}
+\subsection*{Polinômio de memória}
 
-% // TODO Falar mais sobre FPGA 
+Um modelo simples, utilizado na modelagem comportamental simpliﬁcada das séries de Volterra considerando apenas componentes unidimensionais2 é o MP, que é um modelo compacto, de baixo custo computacional e linear em
+seus parâmetros3. O MP gera baixo erro quando aplicado à PAs que apresentam pouco efeito de memória4. O DPD e pós distorsor apresentam característica inversa a do PA \cite{Schuartz2017}, portanto o mesmo modelo pode ser utilizado. A equação \ref{eq:mp} apresenta o MP conforme apresenta \cite{Schuartz2017}: 
+
+\begin{equation}
+    y(n) = \sum_{p=1}^{P} \sum_{m=0}^{M} h_{p,m} x(n - m) \left| x(n - m) \right|^{p-1}
+    \label{eq:mp}
+\end{equation}
+
+Como a proposta do trabalho é a implementação em hardware desse modelo, então torna-se necessário paralelizar operações aritiméticas de forma a alcançar uma taxa de operação que satisfaça a norma regulamentadora. Nesse contexto, as FPGAs apresentam-se como uma alternativa viável para a implementação de circuitos pré-distorcedores 
+
 \section{FPGA}
+
 Como foi visto em \cite{Pedroni2010}, FPGAs, são uma classe de dispositivos lógicos programáveis, ou seja, permitem a reconfiguração física de seus componentes de eletrônica digital, que ocorre através de uma linguagem de descrição de hardware. 
 As FPGAs consistem, basicamente, em um conjunto de sub circuitos digitais interconectados que realizam funções comuns e ao mesmo tempo, possuem alto nível de flexibilidade, portanto, pode ser utilizada para processamento de imagem em tempo real, machine learning, entre outras aplicações.
 As FPGAs possuem a capacidade de sintetizar complexas arquiteturas de eletrônica digital o que acaba resultando em um funcionamento bastante paralelizado, permitindo um processamento rápido envolvendo várias portas de entrada e saída,
 mas sem excluir a possibilidade de desenvolver códigos sequenciais.
 A estrutura interna de uma FPGA é fundamentalmente composta por blocos lógicos interligados, dispostos como uma matriz. Cada bloco é composto por um determinado número de sub-blocos, e os sub-blocos possuem os componentes mais básicos da hierarquia. As FPGAs da Intel e da Xilinx possuem diferenças na nomenclatura dos blocos e sub-blocos, bem como na organização dos sub-blocos,
-como exemplificado na Figura \ref{fig:Stratix} e na Figura \ref{fig:Ultrascale}, que mostram as FPGAS Intel Stratix X e Xilinx Ultrascale+, respectivamente. As arquiteturas fundamentalmente são semelhantes, já que a forma de matriz dos blocos e a funcionalidade dos componentes fundamentais são universais. Os blocos lógicos recebem o nome de LAB em FPGAs da Intel, e Configurable Logic Block (CLB) em FPGAs da  ilinx. Os sub-blocos são denominados ALM ou LE dependendo da FPGA da Intel, e são denominados Slices nos FPGAs da Xilinx.
+como exemplificado na Figura \ref{fig:Stratix} e na Figura \ref{fig:Ultrascale}, que mostram as FPGAS Intel Stratix X e Xilinx Ultrascale+, respectivamente. As arquiteturas fundamentalmente são semelhantes, já que a forma de matriz dos blocos e a funcionalidade dos componentes fundamentais são universais. Os blocos lógicos recebem o nome de LAB em FPGAs da Intel, e CLB em FPGAs da  ilinx. Os sub-blocos são denominados ALM ou LE dependendo da FPGA da Intel, e são denominados Slices nos FPGAs da Xilinx.
+
+% // TODO Refazer figuras
 \begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
@@ -86,9 +100,8 @@ como exemplificado na Figura \ref{fig:Stratix} e na Figura \ref{fig:Ultrascale},
 \end{figure}
 
 Os sub-blocos das FPGAs são compostos por LUTs e registradores. As LUTs são compostas por uma árvore binária de multiplexadores 2:1, permitindo o armazenamento de uma função lógica na forma de SOP. Os registradores são os componentes síncronos dos sub-blocos. Além da estrutura mencionada, FPGAs comumente possuem diversos módulos integrados, como CPUs, DSPs, memória Flash, PLLs, que aumentam ainda mais as capacidades do FPGA.
-Embora tradicionalmente algoritmos de alta segurança criptográfica tenha sido implementada como um ASIC, recentemente esta tendência vem mudando, tornando o FPGA mais popular para essas aplicações. Há várias razões para isto, o FPGA pode ser  eprogramado, levando a uma maior flexibilidade para a modificação de algoritmos e conserto de erros segundo [2]. Além de que o FPGA tem vantagens de
-desempenho em tempo de design, consumo de energia, custo ou área de chip em
-relação a outros sistemas baseados em microprocessadores de acordo com [3].
+
+% Embora tradicionalmente algoritmos de alta segurança criptográfica tenha sido implementada como um ASIC, recentemente esta tendência vem mudando, tornando o FPGA mais popular para essas aplicações. Há várias razões para isto, o FPGA pode ser  eprogramado, levando a uma maior flexibilidade para a modificação de algoritmos e conserto de erros segundo [2]. Além de que o FPGA tem vantagens de desempenho em tempo de design, consumo de energia, custo ou área de chip em relação a outros sistemas baseados em microprocessadores de acordo com [3].
 
 
 
