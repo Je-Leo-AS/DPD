@@ -8,13 +8,17 @@ Conforme dito anteriormente o trabalho busca o desenvolvimento do design do circ
 \end{itemize}
 
 \section{Estudo dos DPDs}
-A etapa consistia so estudo dos DPDs que foi apresentado no capitulo \ref{chap:revi}, onde e feito todo o estudo e levantamento sobre os tipos de modelagem do DPDs. 
+A etapa consistiu no estudo dos DPDs, conforme apresentado no Capítulo \ref{chap:revi}, onde foi feito todo o levantamento sobre os tipos de modelagem dos DPDs. O objetivo deste estudo é entender as diferentes abordagens de modelagem, avaliar seus desempenhos e identificar as mais adequadas para a aplicação em amplificadores de potência.
 
 \section{Implementação em software}
-Nesta etapa é feito a implementação propriamente dita do modelo do DPD em software, para isso foi utilizado a linguagem de programação python que é uma linguagem de programação amigavel, bastante difundida na comunidade academica e prática de ser utilizada.
-Para fazer essa modelagem foram coletados sinais de entrada e de saída de um amplificador de potência classe AB, que utiliza um HEMT fabricado em tecnologia GaN. O amplificador foi excitado por um sinal portadora de frequência de 900 MHz e modulado por um sinal de envelope WCDMA 3GPP com cerca de 3,84 MHz de largura de banda. Os dados de entrada e saída do amplificador de potência foram medidos usando um VSA Rohde \& Schwarz FSQ com uma taxa de amostragem de 61,44 MHz, disponível em \cite{Bonfim2016}.
-Para tal 
 
+Nesta etapa, foi realizada a implementação do modelo DPD em software, utilizando a linguagem de programação Python. Python é uma linguagem amigável, amplamente difundida na comunidade acadêmica e prática de usar.
+
+Para essa modelagem, foram coletados sinais de entrada e saída de um amplificador de potência classe AB, que utiliza um HEMT fabricado com tecnologia GaN. O amplificador foi excitado por um sinal portador de frequência de 900 MHz, modulado por um sinal de envelope WCDMA 3GPP com aproximadamente 3,84 MHz de largura de banda. Os dados de entrada e saída do amplificador de potência foram medidos usando um VSA Rohde & Schwarz FSQ com uma taxa de amostragem de 61,44 MHz, conforme disponível em \cite{Bonfim2016}.
+
+Em seguida, foi feito o cálculo de estimativa de sinal utilizando números em vírgula fixa. Para validar se a estimativa é fiel ao sinal original, foi utilizado o cálculo do NMSE. O NMSE alcançado para um polinômio de 2° grau com uma amostra memorizada foi de -23,57 dB. Em seguida foi feito 
+
+% //TODO Adicionar arquivo foto da resolução
 \section{Implementação em FPGA}
 
 
