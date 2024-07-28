@@ -16,9 +16,14 @@ Nesta etapa, foi realizada a implementação do modelo DPD em software, utilizan
 
 Para essa modelagem, foram coletados sinais de entrada e saída de um amplificador de potência classe AB, que utiliza um HEMT fabricado com tecnologia GaN. O amplificador foi excitado por um sinal portador de frequência de 900 MHz, modulado por um sinal de envelope WCDMA 3GPP com aproximadamente 3,84 MHz de largura de banda. Os dados de entrada e saída do amplificador de potência foram medidos usando um VSA Rohde & Schwarz FSQ com uma taxa de amostragem de 61,44 MHz, conforme disponível em \cite{Bonfim2016}.
 
-Em seguida, foi feito o cálculo de estimativa de sinal utilizando números em vírgula fixa. Para validar se a estimativa é fiel ao sinal original, foi utilizado o cálculo do NMSE. O NMSE alcançado para um polinômio de 2° grau com uma amostra memorizada foi de -23,57 dB. Em seguida foi feito 
+Em seguida, foi feito o cálculo de estimativa de sinal utilizando números em vírgula fixa. Para validar se a estimativa é fiel ao sinal original, foi utilizado o cálculo do NMSE. O NMSE alcançado para um polinômio de 2° grau com uma amostra memorizada foi de -23,57 dB. Para realizar essa validação, inicialmente foi divido od dados disponiel entre dados de extração e validação, e em seguida foi feito o calculo da matriz de confusão com os dados de extração, citada na seção \ref{sub:polimem},  utilizado o codigo disponivel no anexo \ref{cod:mp}, p. 
 
-% //TODO Adicionar arquivo foto da resolução
+
+%  \\TODO TERMINAR PARAGRAFO.
+
+
+Em seguida foi feito um ajuste do algortimo para que ele realiza-se as operações com numeros em virgula fixa, para em seguida realizar um reajuste do numero total de bits de forma a alcançar a menor resolução possivel para para o menor NMSE desejado. 
+
 \section{Implementação em FPGA}
 
 
@@ -36,3 +41,4 @@ O fluxo de projeto VLSI  para design de um circuito integrado de aplicação esp
 \end{figure}
 
 No processo de desenvolvimento do circuito, várias etapas são executadas. Primeiro, há a simulação comportamental para verificar se o circuito VHDL atende às expectativas, utilizando um testbench em VHDL e a ferramenta Cadence NCLaunch. Em seguida, ocorre a síntese lógica, onde a partir do modelo comportamental, utiliza-se a ferramenta Genus para criar um modelo RTL com células padrão de tecnologia específica, considerando restrições de área, frequência e consumo de energia. A síntese gera dois arquivos: um com componentes e conexões, em Verilog, e outro com informações de atraso no formato SDF. A simulação pós-síntese é realizada para validar o netlist gerado, usando o mesmo testbench da simulação comportamental. Em seguida, na etapa de PAR, o layout é criado posicionando as células e realizando as conexões entre essas células, utilizando a ferramenta Innovus. Por fim, na simulação pós-PAR, o circuito é simulado considerando as resistências e capacitâncias parasitas. Cada etapa é fundamental para garantir o correto funcionamento do circuito.
+

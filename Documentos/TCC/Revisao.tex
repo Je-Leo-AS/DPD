@@ -59,7 +59,7 @@ Onde \( h_n \) são os núcleos de Volterra, que caracterizam a resposta do sist
 
 Os núcleos de Volterra \( h_n \) são funções de várias variáveis que capturam a dinâmica do sistema em diferentes ordens. Para a maioria das aplicações práticas, a série é truncada para incluir apenas um número finito de termos, já que a identificação de todos os núcleos de uma série infinita é impraticável.
 
-\subsection*{Polinômio de memória}
+\subsection*{Polinômio de memória}\label{sub:polimem}
 
 Um modelo simples, utilizado na modelagem comportamental simpliﬁcada das séries de Volterra considerando apenas componentes unidimensionais2 é o MP, que é um modelo compacto, de baixo custo computacional e linear em
 seus parâmetros3. O MP gera baixo erro quando aplicado à PAs que apresentam pouco efeito de memória4. O DPD e pós distorsor apresentam característica inversa a do PA \cite{Schuartz2017}, portanto o mesmo modelo pode ser utilizado. A equação \ref{eq:mp} apresenta o MP conforme apresenta \cite{Schuartz2017}: 
@@ -75,10 +75,8 @@ Como a proposta do trabalho é a implementação em hardware desse modelo, entã
 
 Como foi visto em \cite{Pedroni2010}, FPGAs, são uma classe de dispositivos lógicos programáveis, ou seja, permitem a reconfiguração física de seus componentes de eletrônica digital, que ocorre através de uma linguagem de descrição de hardware. 
 As FPGAs consistem, basicamente, em um conjunto de sub circuitos digitais interconectados que realizam funções comuns e ao mesmo tempo, possuem alto nível de flexibilidade, portanto, pode ser utilizada para processamento de imagem em tempo real, machine learning, entre outras aplicações.
-As FPGAs possuem a capacidade de sintetizar complexas arquiteturas de eletrônica digital o que acaba resultando em um funcionamento bastante paralelizado, permitindo um processamento rápido envolvendo várias portas de entrada e saída,
-mas sem excluir a possibilidade de desenvolver códigos sequenciais.
-A estrutura interna de uma FPGA é fundamentalmente composta por blocos lógicos interligados, dispostos como uma matriz. Cada bloco é composto por um determinado número de sub-blocos, e os sub-blocos possuem os componentes mais básicos da hierarquia. As FPGAs da Intel e da Xilinx possuem diferenças na nomenclatura dos blocos e sub-blocos, bem como na organização dos sub-blocos,
-como exemplificado na Figura \ref{fig:Stratix} e na Figura \ref{fig:Ultrascale}, que mostram as FPGAS Intel Stratix X e Xilinx Ultrascale+, respectivamente. As arquiteturas fundamentalmente são semelhantes, já que a forma de matriz dos blocos e a funcionalidade dos componentes fundamentais são universais. Os blocos lógicos recebem o nome de LAB em FPGAs da Intel, e CLB em FPGAs da  ilinx. Os sub-blocos são denominados ALM ou LE dependendo da FPGA da Intel, e são denominados Slices nos FPGAs da Xilinx.
+As FPGAs possuem a capacidade de sintetizar complexas arquiteturas de eletrônica digital o que acaba resultando em um funcionamento bastante paralelizado, permitindo um processamento rápido envolvendo várias portas de entrada e saída, mas sem excluir a possibilidade de desenvolver códigos sequenciais.
+A estrutura interna de uma FPGA é fundamentalmente composta por blocos lógicos interligados, dispostos como uma matriz. Cada bloco é composto por um determinado número de sub-blocos, e os sub-blocos possuem os componentes mais básicos da hierarquia. As FPGAs da Intel e da Xilinx possuem diferenças na nomenclatura dos blocos e sub-blocos, bem como na organização dos sub-blocos, como exemplificado na Figura \ref{fig:Stratix} e na Figura \ref{fig:Ultrascale}, que mostram as FPGAS Intel Stratix X e Xilinx Ultrascale+, respectivamente. As arquiteturas fundamentalmente são semelhantes, já que a forma de matriz dos blocos e a funcionalidade dos componentes fundamentais são universais. Os blocos lógicos recebem o nome de LAB em FPGAs da Intel, e CLB em FPGAs da  ilinx. Os sub-blocos são denominados ALM ou LE dependendo da FPGA da Intel, e são denominados Slices nos FPGAs da Xilinx.
 
 % // TODO Refazer figuras
 \begin{figure}[h!]
@@ -101,12 +99,11 @@ como exemplificado na Figura \ref{fig:Stratix} e na Figura \ref{fig:Ultrascale},
 
 Os sub-blocos das FPGAs são compostos por LUTs e registradores. As LUTs são compostas por uma árvore binária de multiplexadores 2:1, permitindo o armazenamento de uma função lógica na forma de SOP. Os registradores são os componentes síncronos dos sub-blocos. Além da estrutura mencionada, FPGAs comumente possuem diversos módulos integrados, como CPUs, DSPs, memória Flash, PLLs, que aumentam ainda mais as capacidades do FPGA.
 
-% Embora tradicionalmente algoritmos de alta segurança criptográfica tenha sido implementada como um ASIC, recentemente esta tendência vem mudando, tornando o FPGA mais popular para essas aplicações. Há várias razões para isto, o FPGA pode ser  eprogramado, levando a uma maior flexibilidade para a modificação de algoritmos e conserto de erros segundo [2]. Além de que o FPGA tem vantagens de desempenho em tempo de design, consumo de energia, custo ou área de chip em relação a outros sistemas baseados em microprocessadores de acordo com [3].
-
-
+%
 
 % // TODO Falar mais sobre FPGA 
 
 Como mencionado anteriormente, as FPGAs são programadas utilizando uma linguagem de descrição de hardware, sendo VHDL uma das mais comuns para a síntese de circuitos integrados de alta velocidade. Foi criada por uma iniciativa financiada pelo departamento de defesa dos Estados Unidos em meados dos anos 80 e foi a primeira linguagem de descrição de hardware padronizada pela IEEE.
 A estrutura de um código VHDL consiste em três partes principais: declaração de bibliotecas/pacotes, entidade e arquitetura. Na primeira parte, são listadas as bibliotecas e pacotes necessários para o projeto. As bibliotecas padrão incluem a std e a work. A entidade, que é a interface do sistema, descreve as entradas e saídas e é dividida em duas partes: parâmetros e conexões. Os parâmetros são valores constantes, como a largura de um barramento, que são declarados como genéricos. As conexões, por sua vez, definem a transferência de informações e correspondem aos pinos de entrada e saída do circuito. Já a arquitetura é a parte principal do sistema, onde o circuito é descrito. Nessa seção, são definidas as atribuições, operações lógicas e aritméticas, comparações, entre outros. Há também uma parte declarativa da sintaxe, que apresenta uma ampla variedade de declarações possíveis.
 Sendo assim, circuitos digitais para processamento de sinais em tempo real são muito utilizados em sistemas de comunicações sem fio. Um exemplo de aplicação são os pré-distorcedores para transmissores sem fio. Os PDs são baseados em operações matemáticas que envolvem uma grande quantidade de operações de soma, produto e tabelas de busca. Devido às rigorosas exigências de frequência de operação, torna-se fundamental a paralelização das operações necessárias. Nesse contexto, as FPGAs são uma alternativa viável para a implementação de circuitos pré-distorcedores.
+

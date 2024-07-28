@@ -1,6 +1,6 @@
 \chapter*{\normalsize ANEXO A - função que calcula matriz de confusão em python}
 \small % Altera o tamanho da fonte
-\begin{lstlisting}[language = Python, label={lst:mp}]
+\begin{lstlisting}[language = Python, label={cod:mp}]
 def mp(P, M, xn):
     L = xn.shape
     XX = np.zeros((L[0] - M, P * (M+1)), dtype=np.complex128)
@@ -9,6 +9,11 @@ def mp(P, M, xn):
             for m in range(0, M+1):
                 XX[l-M-1, ((p-1)*(M+1))+m] = (np.abs(xn[l-m])**(2*p-2)*(xn[l-m]))[0]
     return XX
+
+XX_ext = mp(P, M, in_data_ext)
+coefficients, _, _, _ = np.linalg.lstsq(XX_ext, out_data_ext[M:], rcond=None)
+predicted_val = XX_val @ coefficients
+
 \end{lstlisting}
 Anexo: texto ou documento não elaborado pelo autor, que serve de fundamentação, comprovação e ilustração.
 

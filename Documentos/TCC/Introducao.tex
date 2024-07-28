@@ -12,12 +12,7 @@ amplificador de potência de radiofrequência (PARF), que enfrenta o desafio de 
 hardware eficiente em termos energéticos e linear ao mesmo tempo, uma vez que esses dois objetivos
 podem entrar em conflito \cite{Chavez2018}.
 Uma solução para contornar esse desafio é a implementação de um pré-distorcedor de Sinais
-Digital em Banda Base, que visa compensar a distorção causada pelo PARF \cite{Cripps2006}. O DPD é conectado
-em cascata ao PARF e requer um modelo de alta precisão e baixa complexidade computacional para
-representar as características de transferência direta e inversa do PARF. Existem duas abordagens
-para modelar o PARF: modelos físicos, que são detalhadas e computacionalmente complexos, e
-modelos empíricos, que se baseiam em medições de entrada e saída do PARF, com menor
-complexidade computacional, mas com uma possível diminuição da precisão.
+Digital em Banda Base, que visa compensar a distorção causada pelo PARF \cite{Cripps2006}. O DPD é conectado em cascata ao PARF e requer um modelo de alta precisão e baixa complexidade computacional para representar as características de transferência direta e inversa do PARF. Existem duas abordagens para modelar o PARF: modelos físicos, que são detalhadas e computacionalmente complexos, e modelos empíricos, que se baseiam em medições de entrada e saída do PARF, com menor complexidade computacional, mas com uma possível diminuição da precisão.
 Devido às exigências rigorosas de frequência de operação, a paralelização das operações
 torna-se essencial, e os Arranjos de Portas Programáveis em Campo emergem como uma
 alternativa viável para a implementação de circuitos pré-distorcedores \cite{Pedroni2010}. As FPGAs são dispositivos
@@ -36,5 +31,3 @@ Para alcançar esse objetivo geral esse trabalho foi desenvolvido, separando-o n
     \item Implementar o DPD em hradware utilizando uma HDL;
     \item Fazer Design do circuito integrado
 \end{enumerate}
-
-
