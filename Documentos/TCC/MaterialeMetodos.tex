@@ -16,16 +16,13 @@ Nesta etapa, foi realizada a implementação do modelo DPD em software, utilizan
 
 Para essa modelagem, foram coletados sinais de entrada e saída de um amplificador de potência classe AB, que utiliza um HEMT fabricado com tecnologia GaN. O amplificador foi excitado por um sinal portador de frequência de 900 MHz, modulado por um sinal de envelope WCDMA 3GPP com aproximadamente 3,84 MHz de largura de banda. Os dados de entrada e saída do amplificador de potência foram medidos usando um VSA Rohde & Schwarz FSQ com uma taxa de amostragem de 61,44 MHz, conforme disponível em \cite{Bonfim2016}.
 
-Em seguida, foi feito o cálculo de estimativa de sinal utilizando números em vírgula fixa. Para validar se a estimativa é fiel ao sinal original, foi utilizado o cálculo do NMSE. O NMSE alcançado para um polinômio de 2° grau com uma amostra memorizada foi de -23,57 dB. Para realizar essa validação, inicialmente foi divido od dados disponiel entre dados de extração e validação, e em seguida foi feito o calculo da matriz de confusão com os dados de extração, citada na seção \ref{sub:polimem},  utilizado o codigo disponivel no anexo \ref{cod:mp}, p. 
+A seguir, foi realizado o cálculo da estimativa do sinal utilizando números com vírgula fixa. Para verificar a precisão dessa estimativa em relação ao sinal original, foi calculado o NMSE. Para essa validação, os dados foram inicialmente divididos em conjuntos de extração e validação. A matriz de confusão foi calculada com os dados de extração, conforme descrito na seção \ref{sub:polimem}, utilizando o código disponível no anexo \ref{cod:mp}. Esse cálculo é essencial para a extração dos coeficientes do polinômio de memória. Após a extração dos coeficientes, foi calculado o modelo do PA, que foi então validado com os dados de validação. O NMSE obtido para um polinômio de 2° grau com uma amostra memorizada foi de -23,57 dB.
 
+Em seguida, o algoritmo foi ajustado para operar com números em vírgula fixa, e o número total de bits foi reajustado para atingir a menor resolução possível, buscando o menor NMSE simulado.
 
-%  \\TODO TERMINAR PARAGRAFO.
-
-
-Em seguida foi feito um ajuste do algortimo para que ele realiza-se as operações com numeros em virgula fixa, para em seguida realizar um reajuste do numero total de bits de forma a alcançar a menor resolução possivel para para o menor NMSE desejado. 
 
 \section{Implementação em FPGA}
-
+Essa etapa conssise no desenvolvimento do DPD do polinomio de memória 
 
 \section{Design e validação}
 Finalmente, na última etapa, realiza-se o processo de concepção do circuito integrado do DPD como um circuito dedicado integrado na tecnologia BiCMOS 130 nm 8HP, utilizando as ferramentas do Cadence.
