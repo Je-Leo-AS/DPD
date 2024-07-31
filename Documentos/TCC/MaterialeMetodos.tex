@@ -7,6 +7,29 @@ Conforme dito anteriormente o trabalho busca o desenvolvimento do design do circ
     \item Design e validação do circuito integrado.
 \end{itemize}
 
+O cronograma para o desenvolvimento dessas atividades esta disponivel na tabela \ref{tab:cronograma} a seguir:
+
+\begin{table}[ht!]
+    \centering
+    \renewcommand{\arraystretch}{0.8} % Diminui a altura das linhas
+    \setlength{\tabcolsep}{4pt} % Diminui o espaçamento horizontal das células
+    \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
+    \hline
+    & mar/24 & abr/24 & mai/24 & jun/24 & jul/24 & ago/24 & set/24 & out/24 & nov/24\\
+    \hline
+    Etapa 1 & \cellcolor{yellow} & \cellcolor{yellow} &&&&&&& \\
+    \rowcolor{gray!20} % Cor da linha
+    Etapa 2 && \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} &&&&&\\
+    Etapa 3 &&& \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow} &&&\\ 
+    \rowcolor{gray!20} % Cor da linha
+    Etapa 4 &&&&&& \cellcolor{yellow}& \cellcolor{yellow} & \cellcolor{yellow} & \cellcolor{yellow}\\ 
+    \hline
+\end{tabular}
+\caption{Cronograma de Etapas}
+\label{tab:cronograma}
+\end{table}
+    
+
 \section{Estudo dos DPDs}
 A etapa consistiu no estudo dos DPDs, conforme apresentado no Capítulo \ref{chap:revi}, onde foi feito todo o levantamento sobre os tipos de modelagem dos DPDs. O objetivo deste estudo é entender as diferentes abordagens de modelagem, avaliar seus desempenhos e identificar as mais adequadas para a aplicação em amplificadores de potência.
 
@@ -14,12 +37,11 @@ A etapa consistiu no estudo dos DPDs, conforme apresentado no Capítulo \ref{cha
 
 Nesta etapa, foi realizada a implementação do modelo DPD em software, utilizando a linguagem de programação Python. Python é uma linguagem amigável, amplamente difundida na comunidade acadêmica e prática de usar.
 
-Para essa modelagem, foram coletados sinais de entrada e saída de um amplificador de potência classe AB, que utiliza um HEMT fabricado com tecnologia GaN. O amplificador foi excitado por um sinal portador de frequência de 900 MHz, modulado por um sinal de envelope WCDMA 3GPP com aproximadamente 3,84 MHz de largura de banda. Os dados de entrada e saída do amplificador de potência foram medidos usando um VSA Rohde & Schwarz FSQ com uma taxa de amostragem de 61,44 MHz, conforme disponível em \cite{Bonfim2016}.
+Para essa modelagem, foram coletados sinais de entrada e saída de um amplificador de potência classe AB, que utiliza um HEMT fabricado com tecnologia GaN. O amplificador foi excitado por um sinal portador de frequência de 900 MHz, modulado por um sinal de envelope WCDMA 3GPP com aproximadamente 3,84 MHz de largura de banda. Os dados de entrada e saída do amplificador de potência foram medidos usando um VSA Rohde \& Schwarz FSQ com uma taxa de amostragem de 61,44 MHz, conforme disponível em \cite{Bonfim2016}.
 
 A seguir, foi realizado o cálculo da estimativa do sinal utilizando números com vírgula fixa. Para verificar a precisão dessa estimativa em relação ao sinal original, foi calculado o NMSE. Para essa validação, os dados foram inicialmente divididos em conjuntos de extração e validação. A matriz de confusão foi calculada com os dados de extração, conforme descrito na seção \ref{sub:polimem}, utilizando o código disponível no anexo \ref{cod:mp}. Esse cálculo é essencial para a extração dos coeficientes do polinômio de memória. Após a extração dos coeficientes, foi calculado o modelo do PA, que foi então validado com os dados de validação. O NMSE obtido para um polinômio de 2° grau com uma amostra memorizada foi de -23,57 dB.
 
-Em seguida, o algoritmo foi ajustado para operar com números em vírgula fixa, e o número total de bits foi reajustado para atingir a menor resolução possível, buscando o menor NMSE simulado.
-
+Em seguida, o algoritmo foi ajustado para operar com números em vírgula fixa e o número total de bits foi reajustado para atingir a menor resolução possível, buscando o menor NMSE simulado, conforme ilustrado pelo anexo \ref{cod:mpint}, perceba que por ser tratar de um calculo em virgula flutuante, foi necessário fazer uma readequação do resultado obtido entre cada multiplicação de forma a manter a resolução inicial.
 
 \section{Implementação em FPGA}
 Essa etapa conssise no desenvolvimento do DPD do polinomio de memória 
