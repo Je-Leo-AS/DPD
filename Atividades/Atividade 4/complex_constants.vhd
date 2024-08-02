@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 package ComplexConstants is
-  constant n_bits_resolution : INTEGER := 9 + 1;
+  constant n_bits_resolution : INTEGER := 8 + 1;
   
   subtype limited_integer is integer range 0 to 2**n_bits_resolution - 1;
   
@@ -17,7 +17,7 @@ package ComplexConstants is
 
   constant complex_values : complex_array := (
     (real => 1, imag => 1),
-    (real => 8, imag => -1),
+    (real => 7, imag => -1),
     (real => -3, imag => -1),
     (real => 1, imag => 1)
   );
