@@ -39,12 +39,21 @@ Nesta etapa, foi realizada a implementação do modelo DPD em software, utilizan
 
 Para essa modelagem, foram coletados sinais de entrada e saída de um amplificador de potência classe AB, que utiliza um HEMT fabricado com tecnologia GaN. O amplificador foi excitado por um sinal portador de frequência de 900 MHz, modulado por um sinal de envelope WCDMA 3GPP com aproximadamente 3,84 MHz de largura de banda. Os dados de entrada e saída do amplificador de potência foram medidos usando um VSA Rohde \& Schwarz FSQ com uma taxa de amostragem de 61,44 MHz, conforme disponível em \cite{Bonfim2016}.
 
-A seguir, foi realizado o cálculo da estimativa do sinal utilizando números com vírgula fixa. Para verificar a precisão dessa estimativa em relação ao sinal original, foi calculado o NMSE. Para essa validação, os dados foram inicialmente divididos em conjuntos de extração e validação. A matriz de confusão foi calculada com os dados de extração, conforme descrito na seção \ref{sub:polimem}, utilizando o código disponível no anexo \ref{cod:mp}. Esse cálculo é essencial para a extração dos coeficientes do polinômio de memória. Após a extração dos coeficientes, foi calculado o modelo do PA, que foi então validado com os dados de validação. O NMSE obtido para um polinômio de 2° grau com uma amostra memorizada foi de -23,57 dB.
+A seguir, foi realizado o cálculo da estimativa do sinal utilizando números com vírgula fixa. Para verificar a precisão dessa estimativa em relação ao sinal original, foi calculado o NMSE. Para essa validação, os dados foram inicialmente divididos em conjuntos de extração e validação. A matriz de confusão\footnote{Uma matriz de confusão em um polinômio de memória é uma ferramenta analítica usada para visualizar e avaliar o desempenho do modelo, comparando as saídas previstas com as saídas reais. A matriz normalmente resume os resultados das previsões em termos de verdadeiros positivos, falsos positivos, verdadeiros negativos e falsos negativos.} foi calculada com os dados de extração, utilizando o código disponível no anexo \ref{cod:mp}. Esse cálculo é essencial para a extração dos coeficientes do polinômio de memória. Após a extração dos coeficientes, foi calculado o modelo do PA, que foi então validado com os dados de validação. O NMSE obtido para um polinômio de 2° grau com uma amostra memorizada foi de -23,57 dB.
 
-Em seguida, o algoritmo foi ajustado para operar com números em vírgula fixa e o número total de bits foi reajustado para atingir a menor resolução possível, buscando o menor NMSE simulado, conforme ilustrado pelo anexo \ref{cod:mpint}, perceba que por ser tratar de um calculo em virgula flutuante, foi necessário fazer uma readequação do resultado obtido entre cada multiplicação de forma a manter a resolução inicial.
+Em seguida, o algoritmo foi ajustado para operar com números em vírgula fixa e o número total de bits foi reajustado para atingir a menor resolução possível, buscando o menor NMSE simulado, conforme ilustrado pelo anexo \ref{cod:mpint}. Perceba que por ser tratar de um calculo em virgula fixa, foi necessário fazer uma readequação do resultado obtido entre cada multiplicação de forma a manter a resolução inicial.
 
 \section{Implementação em FPGA}
-Essa etapa conssise no desenvolvimento do DPD do polinomio de memória 
+Essa etapa consiste na implementação do DPD em FPGA. Para isso, é necessário realizar paralelizações nas operações aritméticas. A Figura \ref{fig:diagramaprocess} ilustra como esse processo está dividido entre cada ciclo de clock. A cada ciclo, duas operações ocorrem de forma paralela: a elevação do sinal atual ao quadrado e o registro deste sinal, além do somatório da multiplicação dos sinais do mesmo instante de tempo pelo seu respectivo coeficiente. Esse processo ocorre P vezes para os P graus do polinômio de memória. Portanto, a saída do DPD é inválida para os primeiros P períodos de clock.
+
+\begin{figure}[ht!]
+    \centering
+    \captionsetup{justification=centering}
+    \caption*{Fonte: Autor}
+    \includegraphics[width=0.5\textwidth]{diagrama_process.png}
+    \caption{Processo de calculo da saida}
+    \label{fig:diagramaprocess}
+\end{figure}
 
 \section{Design e validação}
 Finalmente, na última etapa, realiza-se o processo de concepção do circuito integrado do DPD como um circuito dedicado integrado na tecnologia BiCMOS 130 nm 8HP, utilizando as ferramentas do Cadence.

@@ -3,8 +3,7 @@ Neste capitulo serão exibidos os resultados das etapas 2 ja que a etapa 1 cosis
 
 \section{Etapa 2}
 A etapa 2 consiste na modelagem do PA em software para posteriormente ser feito a modelagem do DPD, e finalmente ser feito o levantamento da quantidade de bits necessarios para a implementação do DPD em hardware minimizando os erros de quantização. 
-O resultado desse levantamento esta presente no grafico na figura \ref{fig:bits}, onde observa-se que a partir de 7 bits de resolução não tem uma melhora expressiva no NMSE do sinal.
-
+O resultado desse levantamento esta presente no grafico na figura \ref{fig:bits}.
 \begin{figure}[ht!]
     \centering
     \captionsetup{justification=centering}
@@ -14,4 +13,23 @@ O resultado desse levantamento esta presente no grafico na figura \ref{fig:bits}
     \label{fig:bits}
 \end{figure}
 
+Neste grafico observa-se que nao existe ganhos significativos no erro a partir de 7 bits, por tanto foi feito a modelagem do PA para esses 8 bits, o resultado alcançado está ilustrado pela figura \ref{fig:modelopa} a seguir.
+\begin{figure}[ht!]
+    \centering
+    \captionsetup{justification=centering}
+    \caption*{Fonte: Autor}
+    \includegraphics[width=0.75\textwidth]{modeloPA.png}
+    \caption{Modelo do PA em virgula fixa}
+    \label{fig:modelopa}
+\end{figure}
 
+Observando a figura \ref{fig:modelopa} observa-se que o modelo apresentou o resultado esperado e partir disso foi feito a modelagem do DPD, cujo o resultado esta ilustrado pela figura \ref{fig:modelodpd} a seguir
+
+\begin{figure}[ht!]
+    \centering
+    \captionsetup{justification=centering}
+    \caption*{Fonte: Autor}
+    \includegraphics[width=0.75\textwidth]{modeloPA.png}
+    \caption{Modelo do DPD em virgula fixa}
+    \label{fig:modelodpd}
+\end{figure}
