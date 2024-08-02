@@ -5,7 +5,7 @@ O sistema de comunicação pode ser divido em 3 sub-sistemas principais:
     \item Transmissor;
 \end{itemize}
 
-No entanto, este trabalho foca exclusivamente no sistema transmissor, ilustrado pela figura \ref{fig:sistemadetrasmissao}, onde observa-se diversos compinentes de que compõem o transmissor de sinal e dentre esses elementos tem-se que o amplificador de sinal é o componente de maior demanda energética, por se tratar do componente que converte a energia da fonte em energia irradiada pela antes de transmissão. Então para que o sistema de transmissão atue de maneira eficiênte é imprescindível que o trasmissor atue da maneira mais eficiênte o possivel. Conforme argumentado por \cite{Schuartz2017}.
+No entanto, este trabalho foca exclusivamente no sistema transmissor, ilustrado pela figura \ref{fig:sistemadetrasmissao}, onde observa-se diversos componentes de que compõem o transmissor de sinal e dentre esses elementos tem-se que o amplificador de potência é o componente de maior demanda energética, por se tratar do componente que converte a energia da fonte em energia irradiada pela antes de transmissão. Então para que o sistema de transmissão atue de maneira eficiênte é imprescindível que o trasmissor atue da maneira mais eficiênte o possivel. Conforme argumentado por \cite{Schuartz2017}.
 
 % // TODO Refazer figura
 \begin{figure}[ht!]
@@ -43,6 +43,7 @@ A fim de contornar esse obstáculo foi adicionado a cadeia de transmissão, um m
 
 Segundo \cite{John2016}, existem duas técnicas utilizadas para fazer essa modelagem. Uma consiste na descrição detalhada do PARF, que implica em uma maior complexibilidade computacional, esses modelos são conhecidos como modelos físicos. A outra abordagem é conhecida como modelo empírico, este modelo consiste em coletadas amostradas na entrada e na saída do PARF em domínio temporal, e através destes dados simulam um modelo matemático do sistema. Uma das vantagens desse método é que ele não exige conhecimento prévio da estrutura do PARF e possui baixa complexidade computacional e mesmo se todos os parâmetros fossem conhecidos, conhecendo o equacionamento completo do circuito, uma função inversa poderia ser encontrada, possivelmente muito mais complexa que séries de Volterra. No entanto, sua precisão pode ser ligeiramente afetada pelo modelo adotado. 
 Sendo assim, como a proposta do projeto é a implementação de um DPD em hardware, então se faz necessário que o circuito apresente a menor complexidade possivel, por tanto, torna-se mais viavel fazer a implementação utilizando modelagem matemática. 
+
 \section{Modelagem Matemáticas}
 
 \subsection*{Séries de Volterra}
@@ -61,8 +62,7 @@ Os núcleos de Volterra \( h_n \) são funções de várias variáveis que captu
 
 \subsection*{Polinômio de memória}\label{sub:polimem}
 
-Um modelo simples, utilizado na modelagem comportamental simpliﬁcada das séries de Volterra considerando apenas componentes unidimensionais2 é o MP, que é um modelo compacto, de baixo custo computacional e linear em
-seus parâmetros3. O MP gera baixo erro quando aplicado à PAs que apresentam pouco efeito de memória4. O DPD e pós distorsor apresentam característica inversa a do PA \cite{Schuartz2017}, portanto o mesmo modelo pode ser utilizado. A equação \ref{eq:mp} apresenta o MP conforme apresenta \cite{Schuartz2017}: 
+Um modelo simples, utilizado na modelagem comportamental simpliﬁcada das séries de Volterra considerando apenas componentes unidimensionais\footnote{Cada termo do somatório é composto por amostras no mesmo instante, por exemplo: $x(n)|x(n)|,x(n - 1)|x(n - 1)|$; termos bidimensionais são compostos por amostras em instantes de tempos distintos, como por exemplo: $x(n)|x(n - 1)|$} é o MP, que é um modelo compacto, de baixo custo computacional e linear em seus parâmetros. O MP gera baixo erro quando aplicado à PAs que apresentam pouco efeito de memória. O DPD e pós distorsor apresentam característica inversa a do PA \cite{Schuartz2017}, portanto o mesmo modelo pode ser utilizado. A equação \ref{eq:mp} apresenta o MP conforme apresenta \cite{Schuartz2017}: 
 
 \begin{equation}
     y(n) = \sum_{p=1}^{P} \sum_{m=0}^{M} h_{p,m} x(n - m) \left| x(n - m) \right|^{p-1}
@@ -73,17 +73,17 @@ Como a proposta do trabalho é a implementação em hardware desse modelo, entã
 
 \section{FPGA}
 
-Como foi visto em \cite{Pedroni2010}, FPGAs, são uma classe de dispositivos lógicos programáveis, ou seja, permitem a reconfiguração física de seus componentes de eletrônica digital, que ocorre através de uma linguagem de descrição de hardware. 
-As FPGAs consistem, basicamente, em um conjunto de sub circuitos digitais interconectados que realizam funções comuns e ao mesmo tempo, possuem alto nível de flexibilidade, portanto, pode ser utilizada para processamento de imagem em tempo real, machine learning, entre outras aplicações.
-As FPGAs possuem a capacidade de sintetizar complexas arquiteturas de eletrônica digital o que acaba resultando em um funcionamento bastante paralelizado, permitindo um processamento rápido envolvendo várias portas de entrada e saída, mas sem excluir a possibilidade de desenvolver códigos sequenciais.
-A estrutura interna de uma FPGA é fundamentalmente composta por blocos lógicos interligados, dispostos como uma matriz. Cada bloco é composto por um determinado número de sub-blocos, e os sub-blocos possuem os componentes mais básicos da hierarquia. As FPGAs da Intel e da Xilinx possuem diferenças na nomenclatura dos blocos e sub-blocos, bem como na organização dos sub-blocos, como exemplificado na Figura \ref{fig:Stratix} e na Figura \ref{fig:Ultrascale}, que mostram as FPGAS Intel Stratix X e Xilinx Ultrascale+, respectivamente. As arquiteturas fundamentalmente são semelhantes, já que a forma de matriz dos blocos e a funcionalidade dos componentes fundamentais são universais. Os blocos lógicos recebem o nome de LAB em FPGAs da Intel, e CLB em FPGAs da  ilinx. Os sub-blocos são denominados ALM ou LE dependendo da FPGA da Intel, e são denominados Slices nos FPGAs da Xilinx.
+Como descrito em \cite{Pedroni2010}, FPGAs são uma classe de dispositivos lógicos programáveis que permitem a reconfiguração física de seus componentes de eletrônica digital por meio de uma linguagem de descrição de hardware. Basicamente, as FPGAs consistem em um conjunto de subcircuitos digitais interconectados, capazes de realizar diversas funções comuns enquanto oferecem um alto nível de flexibilidade. Devido a essas características, FPGAs podem ser utilizadas para aplicações como processamento de imagem em tempo real e aprendizado de máquina.
 
-% // TODO Refazer figuras
+FPGAs têm a capacidade de sintetizar arquiteturas complexas de eletrônica digital, resultando em um funcionamento altamente paralelizado que permite um processamento rápido com várias portas de entrada e saída. Apesar disso, elas também suportam o desenvolvimento de códigos sequenciais.
+
+A estrutura interna de uma FPGA é composta fundamentalmente por blocos lógicos interligados, organizados em uma matriz. Cada bloco é formado por diversos sub-blocos, que por sua vez contêm os componentes mais básicos da hierarquia. FPGAs da Intel e da Xilinx possuem nomenclaturas e organizações diferentes para esses blocos e sub-blocos. Isso é ilustrado na Figura \ref{fig:Stratix} e na Figura \ref{fig:Ultrascale}, que mostram as FPGAs Intel Stratix X e Xilinx Ultrascale+, respectivamente. Embora as arquiteturas sejam fundamentalmente semelhantes, com a disposição em matriz dos blocos e funcionalidades dos componentes fundamentais sendo universais, os blocos lógicos são denominados LAB nas FPGAs da Intel e CLB nas FPGAs da Xilinx. Os sub-blocos são chamados de ALM ou LE, dependendo da FPGA da Intel, e de Slices nas FPGAs da Xilinx.
+
 \begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
     \caption*{Fonte: \cite{Pedroni2010}}
-    \includegraphics[width=0.5\textwidth]{FPGA Stratix X da Intel.png}
+    \includegraphics[width=0.75\textwidth]{FPGA Stratix X da Intel.png}
     \caption{Estrutura Interna da FPGA Stratix X da Intel}
     \label{fig:Stratix}
 \end{figure}
@@ -92,18 +92,16 @@ A estrutura interna de uma FPGA é fundamentalmente composta por blocos lógicos
     \centering
     \captionsetup{justification=centering}
     \caption*{Fonte: \cite{Pedroni2010}}
-    \includegraphics[width=0.5\textwidth]{FPGA Ultrascale+.png}
+    \includegraphics[width=0.75\textwidth]{FPGA Ultrascale+.png}
     \caption{Estrutura Interna da FPGA Ultrascale+}
     \label{fig:Ultrascale}
 \end{figure}
 
 Os sub-blocos das FPGAs são compostos por LUTs e registradores. As LUTs são compostas por uma árvore binária de multiplexadores 2:1, permitindo o armazenamento de uma função lógica na forma de SOP. Os registradores são os componentes síncronos dos sub-blocos. Além da estrutura mencionada, FPGAs comumente possuem diversos módulos integrados, como CPUs, DSPs, memória Flash, PLLs, que aumentam ainda mais as capacidades do FPGA.
 
-%
+Como mencionado anteriormente, as FPGAs são programadas utilizando uma linguagem de descrição de hardware, sendo o VHDL uma das mais comuns para a síntese de circuitos integrados de alta velocidade. Criada por uma iniciativa financiada pelo Departamento de Defesa dos Estados Unidos em meados dos anos 80, o VHDL foi a primeira linguagem de descrição de hardware padronizada pela IEEE.
 
-% // TODO Falar mais sobre FPGA 
+A estrutura de um código VHDL consiste em três partes principais: declaração de bibliotecas/pacotes, entidade e arquitetura. Na primeira parte, são listadas as bibliotecas e pacotes necessários para o projeto. As bibliotecas padrão incluem a `std` e a `work`. A entidade, que é a interface do sistema, descreve as entradas e saídas e é dividida em duas partes: parâmetros e conexões. Os parâmetros são valores constantes, como a largura de um barramento, que são declarados como genéricos. As conexões, por sua vez, definem a transferência de informações e correspondem aos pinos de entrada e saída do circuito. Já a arquitetura é a parte principal do sistema, onde o circuito é descrito. Nessa seção, são definidas as atribuições, operações lógicas e aritméticas, comparações, entre outros. Há também uma parte declarativa da sintaxe, que apresenta uma ampla variedade de declarações possíveis.
 
-Como mencionado anteriormente, as FPGAs são programadas utilizando uma linguagem de descrição de hardware, sendo VHDL uma das mais comuns para a síntese de circuitos integrados de alta velocidade. Foi criada por uma iniciativa financiada pelo departamento de defesa dos Estados Unidos em meados dos anos 80 e foi a primeira linguagem de descrição de hardware padronizada pela IEEE.
-A estrutura de um código VHDL consiste em três partes principais: declaração de bibliotecas/pacotes, entidade e arquitetura. Na primeira parte, são listadas as bibliotecas e pacotes necessários para o projeto. As bibliotecas padrão incluem a std e a work. A entidade, que é a interface do sistema, descreve as entradas e saídas e é dividida em duas partes: parâmetros e conexões. Os parâmetros são valores constantes, como a largura de um barramento, que são declarados como genéricos. As conexões, por sua vez, definem a transferência de informações e correspondem aos pinos de entrada e saída do circuito. Já a arquitetura é a parte principal do sistema, onde o circuito é descrito. Nessa seção, são definidas as atribuições, operações lógicas e aritméticas, comparações, entre outros. Há também uma parte declarativa da sintaxe, que apresenta uma ampla variedade de declarações possíveis.
-Sendo assim, circuitos digitais para processamento de sinais em tempo real são muito utilizados em sistemas de comunicações sem fio. Um exemplo de aplicação são os pré-distorcedores para transmissores sem fio. Os PDs são baseados em operações matemáticas que envolvem uma grande quantidade de operações de soma, produto e tabelas de busca. Devido às rigorosas exigências de frequência de operação, torna-se fundamental a paralelização das operações necessárias. Nesse contexto, as FPGAs são uma alternativa viável para a implementação de circuitos pré-distorcedores.
+Dessa forma, circuitos digitais para processamento de sinais em tempo real são muito utilizados em sistemas de comunicações sem fio. Um exemplo de aplicação são os DPDs para transmissores sem fio. Os DPDs são baseados em operações matemáticas que envolvem uma grande quantidade de somas, produtos e tabelas de busca. Devido às rigorosas exigências de frequência de operação, torna-se fundamental a paralelização das operações necessárias. Nesse contexto, as FPGAs são uma alternativa viável para a implementação de circuitos DPDs.
 
