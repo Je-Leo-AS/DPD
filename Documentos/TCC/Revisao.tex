@@ -1,6 +1,6 @@
-A evolução dos sistemas de comunicações sem fio, fomentou a implementação de diversas aplicações móveis. Neste contexto, melhorar a eficiência energética desses sistemas se torna uma característica desejável, tanto para os dispositivos móveis que buscam melhorar a autonomia das baterias quando para os sistemas de comunicação radio base que, tendem a perder enrgia em forma de calor.  
+A evolução dos sistemas de comunicações sem fio, fomentou a implementação de diversas aplicações móveis. Neste contexto, melhorar a eficiência energética desses sistemas se torna uma característica desejável, tanto para os dispositivos móveis que buscam melhorar a autonomia das baterias quando para os sistemas de comunicação radio base que, tendem a perder energia em forma de calor.  
 Sendo assim, o sistema de comunicação pode ser dividido em 3 sub-sistemas principais: Meio transmissor, Receptor e o Transmissor, conforme argumentado por \cite{Schuartz2017}.
-No entanto, este trabalho foca exclusivamente no sistema transmissor, ilustrado pela figura \ref{fig:sistemadetrasmissao}, onde observa-se diversos componentes que compõem o transmissor de sinal e dentre esses elementos tem-se que o amplificador de potência é o componente de maior demanda energética, por se tratar do componente que converte a energia da fonte em energia irradiada pela antena de transmissão. Então para que o sistema de transmissão atue de maneira eficiente é imprescindível que o transmissor atue da maneira mais eficiente o possivel.
+No entanto, este trabalho foca exclusivamente no sistema transmissor, ilustrado pela figura \ref{fig:sistemadetrasmissao}, onde observa-se diversos componentes que compõem o transmissor de sinal e dentre esses elementos tem-se que o amplificador de potência é o componente de maior demanda energética, por se tratar do componente que converte a energia da fonte em energia irradiada pela antena de transmissão. Então para que o sistema de transmissão atue de maneira eficiente é imprescindível que o transmissor atue da maneira mais eficiente o possível.
 
 % // TODO Refazer figura
 \begin{figure}[ht!]
@@ -36,8 +36,8 @@ A fim de contornar esse obstáculo foi adicionado a cadeia de transmissão, um m
     \label{fig:cascatadpd}
 \end{figure}
 
-Segundo \cite{John2016}, existem duas técnicas utilizadas para fazer essa modelagem. Uma consiste na descrição detalhada do PARF, que implica em uma maior complexibilidade computacional, esses modelos são conhecidos como modelos físicos. A outra abordagem é conhecida como modelo empírico, este modelo consiste em coletadas amostradas na entrada e na saída do PARF em domínio temporal, e através destes dados simulam um modelo matemático do sistema. Uma das vantagens desse método é que ele não exige conhecimento prévio da estrutura do PARF e possui baixa complexidade computacional e mesmo se todos os parâmetros fossem conhecidos, conhecendo o equacionamento completo do circuito, uma função inversa poderia ser encontrada, possivelmente muito mais complexa que séries de Volterra. No entanto, sua precisão pode ser ligeiramente afetada pelo modelo adotado. 
-Sendo assim, como a proposta do projeto é a implementação de um DPD em hardware, então se faz necessário que o circuito apresente a menor complexidade possivel, por tanto, torna-se mais viavel fazer a implementação utilizando modelagem matemática. 
+Segundo \cite{John2016}, existem duas técnicas utilizadas para fazer essa modelagem. Uma consiste na descrição detalhada do PARF, que implica em uma maior complexibilidade computacional, esses modelos são conhecidos como modelos físicos. A outra abordagem é conhecida como modelo empírico, este modelo consiste em coletadas amostradas na entrada e na saída do PARF em domínio temporal, e através destes dados simulam um modelo matemático do sistema. Uma das vantagens desse método é que ele não exige conhecimento prévio da estrutura do PARF e possui baixa complexidade computacional e mesmo se todos os parâmetros fossem conhecidos, conhecendo o equacionamento completo do circuito, uma função inversa poderia ser encontrada, possívelmente muito mais complexa que séries de Volterra. No entanto, sua precisão pode ser ligeiramente afetada pelo modelo adotado. 
+Sendo assim, como a proposta do projeto é a implementação de um DPD em hardware, então se faz necessário que o circuito apresente a menor complexidade possível, por tanto, torna-se mais viável fazer a implementação utilizando modelagem matemática. 
 
 \section{Modelagem Matemáticas}
 
@@ -64,7 +64,7 @@ Um modelo simples, utilizado na modelagem comportamental simpliﬁcada das séri
     \label{eq:mp}
 \end{equation}
 
-Como a proposta do trabalho é a implementação em hardware desse modelo, então torna-se necessário paralelizar operações aritiméticas de forma a alcançar uma taxa de operação que satisfaça a norma regulamentadora. Nesse contexto, as FPGAs apresentam-se como uma alternativa viável para a implementação de circuitos pré-distorcedores 
+Como a proposta do trabalho é a implementação em hardware desse modelo, então torna-se necessário paralelizar operações aritméticas de forma a alcançar uma taxa de operação que satisfaça a norma regulamentadora. Nesse contexto, as FPGAs apresentam-se como uma alternativa viável para a implementação de circuitos pré-distorcedores 
 
 \section{FPGA}
 

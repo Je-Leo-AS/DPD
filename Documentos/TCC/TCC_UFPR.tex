@@ -66,7 +66,7 @@ memória}
 
 % informaÃ§Ãµes do PDF
 \makeatletter
-
+\def\figsize{0.9\textwidth} % Define 80% da largura do texto
 \hypersetup{
      	%pagebackref=true,
 		pdftitle={\@title},
@@ -139,12 +139,6 @@ memória}
 \setlength{\absparsep}{18pt}   % ajusta o espaÃ§amento dos parÃ¡grafos do resumo
 \setlength{\abstitleskip}{1cm} % adiciona mais um cm apÃ³s o 'titulo' do Resumo para ficar com 2cm,
 
-\begin{resumo}
-
-\input{resumo}
-.
-\end{resumo}
-
 % -------------------------------
 % Lista de abreviaturas e siglas - Opcional
 % -------------------------------
@@ -168,6 +162,14 @@ memória}
  \item[NMSE] Erro Médio Quadrado Normalizado
 \end{siglas}
 
+
+\begin{resumo}
+
+	\input{resumo}
+	.
+	\end{resumo}
+
+	
 \listoffigures*
 \cleardoublepage
 % -------
