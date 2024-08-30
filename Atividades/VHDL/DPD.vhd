@@ -5,10 +5,6 @@ LIBRARY work;
 USE work.Math_Package.ALL;
 
 ENTITY DPD IS
-  GENERIC (
-    n_signals_used : INTEGER := 2;
-    n_polygnos_degree : INTEGER := 2
-  );
   PORT (
     reset : IN STD_LOGIC;
     clk : IN STD_LOGIC;
@@ -19,14 +15,10 @@ ENTITY DPD IS
 END DPD;
 
 ARCHITECTURE hardware OF DPD IS
-  TYPE Array_signals IS ARRAY (0 TO n_signals_used) OF complex_number;
-  TYPE Array_signals_overflow IS ARRAY (0 TO n_signals_used) OF complex_number_overflow;
-  TYPE Array_signals_powers IS ARRAY (0 TO n_polygnos_degree) OF Array_signals;
-  TYPE Array_signals_powers_overflow IS ARRAY (0 TO n_polygnos_degree) OF Array_signals_overflow;
   SIGNAL U_signal_out : complex_number := (reall => 0, imag => 0); -- sinal de saida
   SIGNAL U_signal_in : complex_number := (reall => 0, imag => 0); -- sinal de entrada
   SIGNAL sum : Array_signals := (OTHERS => (reall => 0, imag => 0));
-  SIGNAL confusion_matrix : Array_signals_powers := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+  SIGNAL confusion_matrix, power_matrix : Array_signals_powers := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
   SIGNAL multiplic : Array_signals_powers := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
   signal final_signal: Array_signals := (OTHERS => (reall => 0, imag => 0));
 BEGIN
@@ -40,24 +32,26 @@ BEGIN
 		confusion_matrix <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 	 ELSIF rising_edge(clk) THEN
 		FOR j IN n_signals_used - 1 DOWNTO 1 LOOP
+			power_matrix(j + 1) <= power_matrix(j);
+		END LOOP;
+		power_matrix(0)(0) <= U_signal_in;
+		FOR j IN n_signals_used - 1 DOWNTO 1 LOOP
+			power_matrix(j)(j+1) <= power(power_matrix(j)(j));
+		END LOOP;
+		FOR j IN n_signals_used - 1 DOWNTO 1 LOOP
 			confusion_matrix(j + 1) <= confusion_matrix(j);
 		END LOOP;
-		confusion_matrix(0)(0) <= U_signal_in;
-		FOR j IN n_signals_used - 1 DOWNTO 1 LOOP
---			confusion_matrix(j + 1)(j).reall <= confusion_matrix(count_pot)(0).reall * confusion_matrix(count_pot)(0).reall;
---			confusion_matrix(j + 1)(j).imag <= confusion_matrix(count_pot)(0).imag * confusion_matrix(count_pot)(0).imag;
-			confusion_matrix(j + 1)(j) <= power(confusion_matrix(j)(j));
-		END LOOP;	
+		confusion_matrix(0) <= power_matrix(n_signals_used - 1);
 	END IF;
   END PROCESS;
   
   
-	generate_multiplications: FOR i IN 0 TO n_signals_used - 1 GENERATE
-	  signal_generate: FOR j IN 0 TO n_polygnos_degree - 1 GENERATE
+	generate_signals_used: FOR i IN 0 TO n_signals_used - 1 GENERATE
+	  generate_polygons_used: FOR j IN 0 TO n_polygnos_degree - 1 GENERATE
 		 BEGIN
-			multiplic(i)(j) <= multiplication(confusion_matrix(i)(j), coefficients(i * (i + 1) / 2 + j));
-	  END GENERATE signal_generate;
-	END GENERATE generate_multiplications;
+			multiplic(i)(j) <= multiplication(confusion_matrix(i)(j), coefficients(i * n_polygnos_degree + j));
+	  END GENERATE generate_polygons_used;
+	END GENERATE generate_signals_used;
   
   
   calcula_sum_process : PROCESS (clk, reset)
@@ -67,22 +61,14 @@ BEGIN
 	IF reset = '1' THEN
 		U_signal_out <= (reall => 0, imag => 0);
 	ELSIF rising_edge(clk) THEN
-		FOR j IN n_signals_used - 1 DOWNTO 1 LOOP
-				sum(j + 1) <= sum(j);
+		FOR i IN 0 TO n_signals_used - 1 LOOP
+				sum(i) <= sum_array(multiplic(i));
 		END LOOP;
-		sum(0) <= (reall => 0, imag => 0);
-		FOR j IN 0 TO n_signals_used - 1 LOOP -- LOOP PARA CALCULAR A SOMA DO ULTIMO SINAL
-			sum(0).reall <= sum(0).reall + multiplic(n_signals_used - 1)(j).reall; 
-			sum(0).imag <= sum(0).imag + multiplic(n_signals_used - 1)(j).imag;	
-			
-		END LOOP;
-		FOR j IN 0 TO n_signals_used - 1 LOOP -- LOOP PARA CALCULAR A SOMA DO ULTIMO SINAL
-			U_signals_out_temp.reall := U_signals_out_temp.reall +  sum(j).reall; 
-			U_signals_out_temp.imag := U_signals_out_temp.imag +  sum(j).imag;	
-				
-		END LOOP;
-		U_signal_out <= U_signals_out_temp;
+		U_signal_out <= sum_array(sum);
 	end if;
   END PROCESS;
+  
+
+  
 
 END ARCHITECTURE;

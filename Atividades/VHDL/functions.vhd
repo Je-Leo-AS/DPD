@@ -5,13 +5,17 @@ PACKAGE Math_Package IS
 
   CONSTANT n_bits_resolution : INTEGER := 9;
   CONSTANT n_bits_overflow : INTEGER := 10;
-
+  
+  CONSTANT n_signals_used : INTEGER := 2;
+  CONSTANT n_polygnos_degree : INTEGER := 2;
+  
   CONSTANT max_value : INTEGER := 2 ** (n_bits_resolution - 1) - 1;
   CONSTANT max_value_overflow : INTEGER := 2 ** (n_bits_resolution + n_bits_overflow - 1) - 1;
 
   SUBTYPE limited_integer IS INTEGER RANGE -max_value TO max_value;
   SUBTYPE overflow_integer IS INTEGER RANGE -max_value_overflow TO max_value_overflow;
-
+  
+  
   TYPE complex_number IS RECORD
     reall : limited_integer;
     imag : limited_integer;
@@ -23,6 +27,11 @@ PACKAGE Math_Package IS
   END RECORD;
 
   TYPE complex_array IS ARRAY (0 TO 3) OF complex_number;
+  
+  TYPE Array_signals IS ARRAY (0 TO n_signals_used) OF complex_number;
+  TYPE Array_signals_overflow IS ARRAY (0 TO n_signals_used) OF complex_number_overflow;
+  TYPE Array_signals_powers IS ARRAY (0 TO n_polygnos_degree) OF Array_signals;
+  TYPE Array_signals_powers_overflow IS ARRAY (0 TO n_polygnos_degree) OF Array_signals_overflow;
 
   CONSTANT coefficients : complex_array := (
     (reall => 1, imag => 1),
@@ -33,9 +42,19 @@ PACKAGE Math_Package IS
   FUNCTION cast_to_limited(
 			  input : complex_number_overflow
 			) RETURN complex_number;
-	Function multiplication(A : complex_number; B : complex_number) return complex_number;
+			
+	FUNCTION sum_array(
+	input_array : Array_signals
+	) RETURN complex_number;
 	
-	Function power(A : complex_number) return complex_number;
+	Function multiplication(
+		A : complex_number; 
+		B : complex_number
+		) return complex_number;
+	
+	Function power(
+				A : complex_number
+				) return complex_number;
 END Math_Package;
 
 PACKAGE BODY Math_Package IS
@@ -70,4 +89,15 @@ PACKAGE BODY Math_Package IS
 		
 		  return cast_to_limited(result);
 	 end function;
+	 
+	 FUNCTION sum_array(input_array : Array_signals) RETURN complex_number IS
+		  VARIABLE result : complex_number := (reall => 0, imag => 0);
+		BEGIN
+		  FOR i IN 0 TO n_signals_used LOOP
+			 result.reall := result.reall + input_array(i).reall;
+			 result.imag := result.imag + input_array(i).imag;
+		  END LOOP;
+		  RETURN result;
+		END FUNCTION;
+
 END Math_Package;
