@@ -27,7 +27,7 @@ ARCHITECTURE hardware OF DPD IS
   SIGNAL U_signal_in : complex_number := (reall => 0, imag => 0); -- sinal de entrada
   SIGNAL sum : Array_signals := (OTHERS => (reall => 0, imag => 0));
   SIGNAL confusion_matrix : Array_signals_powers := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
-  SIGNAL multiplic : Array_signals_powers_overflow := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+  SIGNAL multiplic : Array_signals_powers := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
   signal final_signal: Array_signals := (OTHERS => (reall => 0, imag => 0));
 BEGIN
   -- Processo que atualiza novos sinais a cada ciclo de clock
@@ -51,21 +51,15 @@ BEGIN
 	END IF;
   END PROCESS;
   
-  calcula_multiplications_process : PROCESS (clk, reset)
-VARIABLE index : INTEGER RANGE 0 TO n_polygnos_degree *  n_signals_used - 1 := 0;
-
-  BEGIN
-	IF reset = '1' THEN
-		multiplic <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
-	ELSIF rising_edge(clk) THEN
-		FOR j IN 0 TO n_signals_used - 1 LOOP
-			index := j + (j * n_polygnos_degree);
-			multiplic(j)(j).reall <= coefficients(index).reall * confusion_matrix(j)(j).imag - coefficients(j).imag * confusion_matrix(j)(j).imag;
-			multiplic(j)(j).imag <= coefficients(index).imag * confusion_matrix(j)(j).reall + coefficients(j).reall * confusion_matrix(j)(j).imag;			
-		END LOOP;
-	END IF;
-  END PROCESS;
-
+  
+	generate_multiplications: FOR i IN 0 TO n_signals_used - 1 GENERATE
+	  signal_generate: FOR j IN 0 TO n_polygnos_degree - 1 GENERATE
+		 BEGIN
+			multiplic(i)(j) <= multiplication(confusion_matrix(i)(j), coefficients(i * (i + 1) / 2 + j));
+	  END GENERATE signal_generate;
+	END GENERATE generate_multiplications;
+  
+  
   calcula_sum_process : PROCESS (clk, reset)
   VARIABLE U_signals_out_temp : complex_number := (reall => 0, imag => 0);
 
