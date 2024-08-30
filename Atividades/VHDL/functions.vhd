@@ -30,9 +30,30 @@ PACKAGE Math_Package IS
     (reall => - 3, imag => - 1),
     (reall => 1, imag => 1)
   );
-
+	Function multiplication(A : complex_number; B : complex_number) return complex_number;
+	
+	Function power(A : complex_number) return complex_number;
 END Math_Package;
 
 PACKAGE BODY Math_Package IS
-
+    -- Definição da função
+		 function multiplication(A : complex_number; B : complex_number) return complex_number is
+			  variable result : complex_number;
+		 begin
+			  -- Exemplo de processamento: Incrementa os valores real e imaginário em 1
+			result.reall:= A.reall * B.imag - A.imag * B.imag;
+			result.imag := A.imag * B.reall + A.reall * B.imag;			
+		
+		  return result;
+	 end function;
+	 
+	 function power(A : complex_number) return complex_number is
+			  variable result : complex_number;
+		 begin
+			  -- Exemplo de processamento: Incrementa os valores real e imaginário em 1
+			result.reall := A.reall * A.reall;
+			result.imag := A.imag * A.imag;		
+		
+		  return result;
+	 end function;
 END Math_Package;
