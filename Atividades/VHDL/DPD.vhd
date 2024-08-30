@@ -26,6 +26,8 @@ BEGIN
   U_signal_in <= (reall => to_integer(UR), imag => to_integer(UI));
   UR_out <= to_signed(U_signal_out.reall, UR_out'length);
   UI_out <= to_signed(U_signal_out.imag, UI_out'length);
+  
+  
   calcula_potencia_process : PROCESS (clk, reset)
   BEGIN
 	IF reset = '1' THEN
@@ -59,6 +61,7 @@ BEGIN
 
   BEGIN
 	IF reset = '1' THEN
+		sum <= (OTHERS => (reall => 0, imag => 0));
 		U_signal_out <= (reall => 0, imag => 0);
 	ELSIF rising_edge(clk) THEN
 		FOR i IN 0 TO n_signals_used - 1 LOOP
