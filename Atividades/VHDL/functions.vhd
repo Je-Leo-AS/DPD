@@ -30,8 +30,13 @@ PACKAGE Math_Package IS
   
   TYPE Array_signals IS ARRAY (0 TO n_signals_used) OF complex_number;
   TYPE Array_signals_overflow IS ARRAY (0 TO n_signals_used) OF complex_number_overflow;
-  TYPE Array_signals_powers IS ARRAY (0 TO n_polygnos_degree) OF Array_signals;
-  TYPE Array_signals_powers_overflow IS ARRAY (0 TO n_polygnos_degree) OF Array_signals_overflow;
+  TYPE Array_poly_degree is ARRAY (0 TO n_polygnos_degree) OF complex_number;
+  TYPE Array_poly_degree_overflow IS ARRAY (0 TO n_signals_used - 1) OF complex_number_overflow;
+  TYPE Array_signals_multip IS ARRAY (0 TO n_signals_used - 1) OF Array_poly_degree;
+  TYPE Array_signals_multip_overflow IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree_overflow;
+  TYPE Array_signals_powers IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree;
+  TYPE Array_signals_powers_overflow IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree_overflow;
+  
 
   CONSTANT coefficients : complex_array := (
     (reall => 1, imag => 1),
@@ -43,8 +48,12 @@ PACKAGE Math_Package IS
 			  input : complex_number_overflow
 			) RETURN complex_number;
 			
-	FUNCTION sum_array(
+	FUNCTION sum_rows(
 	input_array : Array_signals
+	) RETURN complex_number;
+	
+	FUNCTION sum_columns(
+	input_array : Array_poly_degree
 	) RETURN complex_number;
 	
 	Function multiplication(
@@ -74,7 +83,7 @@ PACKAGE BODY Math_Package IS
 			  variable result : complex_number_overflow;
 		 begin
 			  -- Exemplo de processamento: Incrementa os valores real e imaginário em 1
-			result.reall:= A.reall * B.imag - A.imag * B.imag;
+			result.reall:= A.reall * B.reall - A.imag * B.imag;
 			result.imag := A.imag * B.reall + A.reall * B.imag;			
 		
 		  return cast_to_limited(result);
@@ -90,7 +99,7 @@ PACKAGE BODY Math_Package IS
 		  return cast_to_limited(result);
 	 end function;
 	 
-	 FUNCTION sum_array(input_array : Array_signals) RETURN complex_number IS
+	 FUNCTION sum_rows(input_array : Array_signals) RETURN complex_number IS
 		  VARIABLE result : complex_number := (reall => 0, imag => 0);
 		BEGIN
 		  FOR i IN 0 TO n_signals_used LOOP
@@ -100,4 +109,14 @@ PACKAGE BODY Math_Package IS
 		  RETURN result;
 		END FUNCTION;
 
+		
+	FUNCTION sum_columns(input_array : Array_poly_degree) RETURN complex_number IS
+		  VARIABLE result : complex_number := (reall => 0, imag => 0);
+		BEGIN
+		  FOR i IN 0 TO n_polygnos_degree LOOP
+			 result.reall := result.reall + input_array(i).reall;
+			 result.imag := result.imag + input_array(i).imag;
+		  END LOOP;
+		  RETURN result;
+		END FUNCTION;
 END Math_Package;
