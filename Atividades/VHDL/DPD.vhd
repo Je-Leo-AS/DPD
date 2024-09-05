@@ -33,19 +33,20 @@ BEGIN
   
   
   calcula_potencia_process : PROCESS (clk, reset)
- variable confusion_matrix_temp : Array_signals_multip := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+ variable power_matrix_temp : Array_signals_powers := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 
   BEGIN
 	IF reset = '1' THEN
 		power_matrix <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 	 ELSIF rising_edge(clk) THEN
+			power_matrix <= power_matrix_temp;
 		FOR j IN n_polygnos_degree - 1 DOWNTO 1 LOOP
-			power_matrix(j) <= power_matrix(j-1);
+			power_matrix_temp(j) := power_matrix_temp(j-1);
 		END LOOP;
-		power_matrix(0) <= (OTHERS => (reall => 0, imag => 0));
-		power_matrix(0)(0) <= U_signal_in;
+--		power_matrix_temp(0) <= (OTHERS => (reall => 0, imag => 0));
+		power_matrix_temp(0)(0) := U_signal_in;
 		FOR j IN n_polygnos_degree - 1 DOWNTO 0 LOOP
-			power_matrix(j)(j+1) <= power(power_matrix(j)(j));
+			power_matrix_temp(j)(j+1) := power(power_matrix_temp(j)(j));
 		END LOOP;
 	END IF;
   END PROCESS;
@@ -78,7 +79,6 @@ variable sum_temp : Array_signals := (OTHERS => (reall => 0, imag => 0));
 variable U_signal_out_temp : complex_number := (reall => 0, imag => 0);
 BEGIN
 	IF reset = '1' THEN
---		sum <= (OTHERS => (reall => 0, imag => 0));
 		U_signal_out <= (reall => 0, imag => 0);
 	ELSIF rising_edge(clk) THEN
 		U_signal_out <= U_signal_out_temp;
