@@ -12,28 +12,23 @@ ARCHITECTURE behavior OF tb_main IS
     CONSTANT n_polygnos_degree : INTEGER := 2;
     -- Component Declaration for the Unit Under Test (UUT)
     COMPONENT dpd
-        GENERIC (
-            n_bits_overflow : INTEGER;
-            n_signals_used : INTEGER;
-            n_polygnos_degree : INTEGER
-        );
         PORT (
             reset : IN STD_LOGIC;
             clk : IN STD_LOGIC;
-    UR : IN signed;
-    UI : IN signed;
-    UR_out : OUT signed;
-    UI_out : OUT signed;
+    UR : IN STD_LOGIC_VECTOR(n_bits_resolution DOWNTO 0);
+    UI : IN STD_LOGIC_VECTOR(n_bits_resolution DOWNTO 0);
+    UR_out : OUT STD_LOGIC_VECTOR(n_bits_resolution DOWNTO 0);
+    UI_out : OUT STD_LOGIC_VECTOR(n_bits_resolution DOWNTO 0) 
         );
     END COMPONENT;
 
     -- Signals for connecting to UUT
     SIGNAL reset : STD_LOGIC := '0';
     SIGNAL clk : STD_LOGIC := '0';
-    SIGNAL UR : signed(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
-    SIGNAL UI: signed(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
-    SIGNAL UR_out : signed(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
-    SIGNAL UI_out : signed(n_bits_resolution DOWNTO 0);
+    SIGNAL UR : STD_LOGIC_VECTOR(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
+    SIGNAL UI: STD_LOGIC_VECTOR(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
+    SIGNAL UR_out : STD_LOGIC_VECTOR(n_bits_resolution DOWNTO 0) := (OTHERS => '0');
+    SIGNAL UI_out : STD_LOGIC_VECTOR(n_bits_resolution DOWNTO 0);
 
     -- Clock period definition
     CONSTANT clk_period : TIME := 10 ns;
@@ -72,14 +67,7 @@ BEGIN
         WAIT FOR clk_period/2;
         reset <= '0';
         WAIT FOR clk_period/2;
-        U <= to_signed(2, n_bits_resolution + 1);
-        WAIT FOR clk_period;
-
-        U <= to_signed(-3, n_bits_resolution + 1);
-        WAIT FOR clk_period;
-
-        U <= to_signed(4, n_bits_resolution + 1);
-        WAIT FOR clk_period;
+        
 
         -- Add stimulus here
         WAIT;
