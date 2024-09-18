@@ -71,30 +71,7 @@ def Calculo_do_modelo(P, M, p_bits, coefficients, in_val_norm, out_val_norm):
 
 nmse_calculo = lambda predicted_val, data_out, M:10 * np.log10(np.mean(np.abs(data_out[M:] - predicted_val) ** 2) / np.mean(np.abs(data_out[M:]) ** 2))
 
-# carregar arquivo .mat
-mat = loadmat('in_out_SBRT2_direto.mat')
-
-in_data_ext = mat['in_extraction']
-out_data_ext = mat['out_extraction']
-in_data_val = mat['in_validation']
-out_data_val = mat['out_validation']
-
-
-lista = [in_data_ext, out_data_ext, in_data_val, out_data_val]
-
-modulos = []
-for i in lista:
-    modulos.append(max(i.imag))
-    modulos.append(max(i.real))
-
-maior_modulo = max(modulos)
-
-in_ext_norm  = in_data_ext / maior_modulo
-out_ext_norm = out_data_ext /maior_modulo
-in_val_norm  = in_data_val/maior_modulo
-out_val_norm = out_data_val/maior_modulo
-
-def plot_signals():
+def plot_signals(in_data_ext, out_data_ext, in_data_val, out_data_val):
     # plotar sinais de entrada e saída
     x_ext = range(len(in_data_ext))
     x_val = range(len(in_data_val))
@@ -110,17 +87,4 @@ def plot_signals():
     plt.show()
 
     
-def plot_signals_norm():
-    # plotar sinais de entrada e saída
-    x_ext = range(len(in_data_ext))
-    x_val = range(len(in_data_val))
 
-    fig, axs = plt.subplots(2, sharex=True, figsize=(8, 6))
-    fig.suptitle('Sinais de entrada e saída')
-    axs[0].plot(x_ext, np.real(in_ext_norm), label='Entrada')
-    axs[0].plot(x_ext, np.real(out_ext_norm), label='Saída')
-    axs[0].legend()
-    axs[1].plot(x_val, np.real(in_val_norm), label='Entrada')
-    axs[1].plot(x_val, np.real(out_val_norm), label='Saída')
-    axs[1].legend()
-    plt.show()
