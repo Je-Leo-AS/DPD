@@ -47,8 +47,8 @@ def MultiplicadorMatrizes(coefficients, XX, precision):
             readequated_real = readeq(A * C - B * D, precision)
             readequated_imag = readeq(A * D + B * C, precision)
 
-            max_value = max(max_value, readequated_real)
-            max_value = max(max_value, readequated_imag)
+            max_value = max(max_value, readequated_real, readequated_imag)
+
             
             result[i, j] = complex(readequated_real, readequated_imag) 
 
@@ -86,5 +86,11 @@ def plot_signals(in_data_ext, out_data_ext, in_data_val, out_data_val):
     axs[1].legend()
     plt.show()
 
-    
+def extract_coefficients(in_ext,out_ext,M, P):
+    XX_ext = mp(P, M, in_ext)
+    N = abs(out_ext.shape[0]-XX_ext.shape[0])
+    coefficients, _, _, _ = np.linalg.lstsq(XX_ext, out_ext[N:], rcond=None)
+    return XX_ext, coefficients   
 
+inteiro_para_binario = lambda numero, pbits: bin(numero & ((1 << pbits) - 1))[2:].zfill(pbits)
+ 

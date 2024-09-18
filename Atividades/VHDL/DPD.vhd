@@ -70,18 +70,7 @@ BEGIN
 	
 	generate_signals_used : FOR i IN confusion_matrix'RANGE GENERATE
 		generate_polygons_used : FOR j IN confusion_matrix(i)'RANGE GENERATE
-			multiplication_process : process(clk, reset)
-				VARIABLE multiplic_temp : complex_number := (reall => 0, imag => 0);
-				VARIABLE coefficient_selected : complex_number := coefficients(i * n_polygnos_degree + j);
-			BEGIN
-				IF reset = '1' THEN
-					multiplic(i)(j) <= (reall => 0, imag => 0);
-					multiplic_temp := (reall => 0, imag => 0);
-				ELSIF rising_edge(clk) THEN 
-					multiplic(i)(j) <= multiplic_temp;
-					multiplic_temp := multiplication(confusion_matrix(i)(j), coefficient_selected);
-				END IF;
-			END PROCESS;
+			multiplic(i)(j) <=  multiplication(confusion_matrix(i)(j), coefficients(i * n_polygnos_degree + j));
 		END GENERATE generate_polygons_used;
 	END GENERATE generate_signals_used;
 

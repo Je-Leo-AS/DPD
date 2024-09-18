@@ -1,3 +1,6 @@
+  CONSTANT n_signals_used : INTEGER := 2;
+  CONSTANT n_polygnos_degree : INTEGER := 2;
+  
   CONSTANT n_bits_resolution : INTEGER := 8 + 1;
   CONSTANT n_bits_overflow : INTEGER := 8;
 
@@ -19,8 +22,8 @@
   TYPE complex_coefficients IS ARRAY (0 TO 3) OF complex_number;
 
   CONSTANT coefficients : complex_coefficients := (
-    (real => 1, imag => 1),
-    (real => 7, imag => -1),
-    (real => -3, imag => -1),
-    (real => 1, imag => 1)
+    (reall => 1, imag => 1),
+    (reall => 7, imag => -1),
+    (reall => -3, imag => -1),
+    (reall => 1, imag => 1)
   );
