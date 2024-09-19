@@ -1,6 +1,5 @@
   CONSTANT n_signals_used : INTEGER := 2;
   CONSTANT n_polygnos_degree : INTEGER := 2;
-  
   CONSTANT n_bits_resolution : INTEGER := 8 + 1;
   CONSTANT n_bits_overflow : INTEGER := 8;
 

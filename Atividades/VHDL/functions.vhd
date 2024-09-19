@@ -7,7 +7,7 @@ PACKAGE Math_Package IS
 	CONSTANT n_polygnos_degree : INTEGER := 2;
 
 	CONSTANT n_bits_resolution : INTEGER := 8 + 1;
-	CONSTANT n_bits_overflow : INTEGER := 10;
+	CONSTANT n_bits_overflow : INTEGER := 8;
 
 	CONSTANT max_value : INTEGER := 2 ** (n_bits_resolution - 1) - 1;
 	CONSTANT max_value_overflow : INTEGER := 2 ** (n_bits_resolution + n_bits_overflow - 1) - 1;
