@@ -80,9 +80,12 @@ PACKAGE BODY Math_Package IS
 
 	FUNCTION power(A : complex_number) RETURN complex_number IS
 		VARIABLE result : complex_number_overflow;
+		VARIABLE modulo_power : overflow_integer := max_value + 1;
+		VARIABLE modulo_square : overflow_integer;
 	BEGIN
-		result.reall := A.reall * A.reall;
-		result.imag := A.imag * A.imag;
+		modulo_square := ( A.reall * A.reall +  A.imag * A.imag ) / (2 ** n_bits_overflow);
+		result.reall := A.reall * modulo_square;
+		result.imag :=  A.imag  * modulo_square ;
 
 		RETURN cast_to_limited(result);
 	END FUNCTION;
