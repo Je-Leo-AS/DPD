@@ -41,32 +41,62 @@ force -freeze sim:/dpd/reset 0 0
 run 100 ps
 
 run 100 ps
-force -freeze sim:/dpd/UR 000100100 0
-force -freeze sim:/dpd/UI 010001011 0
+force -freeze sim:/dpd/UR 000100101 0
+force -freeze sim:/dpd/UI 010001001 0
 run 100 ps
-force -freeze sim:/dpd/UR 000000101 0
-force -freeze sim:/dpd/UI 010001010 0
+force -freeze sim:/dpd/UR 000001000 0
+force -freeze sim:/dpd/UI 010001000 0
 run 100 ps
-force -freeze sim:/dpd/UR 011101011 0
-force -freeze sim:/dpd/UI 010000011 0
+force -freeze sim:/dpd/UR 111101101 0
+force -freeze sim:/dpd/UI 010000001 0
 run 100 ps
-force -freeze sim:/dpd/UR 011010001 0
-force -freeze sim:/dpd/UI 001111001 0
+force -freeze sim:/dpd/UR 111010010 0
+force -freeze sim:/dpd/UI 001111000 0
 run 100 ps
-force -freeze sim:/dpd/UR 010111010 0
-force -freeze sim:/dpd/UI 001101001 0
+force -freeze sim:/dpd/UR 110111100 0
+force -freeze sim:/dpd/UI 001100111 0
 run 100 ps
-force -freeze sim:/dpd/UR 010100101 0
-force -freeze sim:/dpd/UI 001011000 0
+force -freeze sim:/dpd/UR 110100111 0
+force -freeze sim:/dpd/UI 001010111 0
 run 100 ps
-force -freeze sim:/dpd/UR 010010011 0
-force -freeze sim:/dpd/UI 001001000 0
+force -freeze sim:/dpd/UR 110010100 0
+force -freeze sim:/dpd/UI 001000101 0
 run 100 ps
-force -freeze sim:/dpd/UR 010000100 0
-force -freeze sim:/dpd/UI 000110111 0
+force -freeze sim:/dpd/UR 110000110 0
+force -freeze sim:/dpd/UI 000110101 0
 run 100 ps
-force -freeze sim:/dpd/UR 001111010 0
+force -freeze sim:/dpd/UR 101111100 0
+force -freeze sim:/dpd/UI 000100111 0
+run 100 ps
+force -freeze sim:/dpd/UR 101110100 0
+force -freeze sim:/dpd/UI 000100000 0
+run 100 ps
+force -freeze sim:/dpd/UR 101101111 0
+force -freeze sim:/dpd/UI 000011010 0
+run 100 ps
+force -freeze sim:/dpd/UR 101101111 0
+force -freeze sim:/dpd/UI 000011101 0
+run 100 ps
+force -freeze sim:/dpd/UR 101110000 0
+force -freeze sim:/dpd/UI 000100001 0
+run 100 ps
+force -freeze sim:/dpd/UR 101110001 0
 force -freeze sim:/dpd/UI 000101010 0
 run 100 ps
-force -freeze sim:/dpd/UR 001110010 0
-force -freeze sim:/dpd/UI 000100000 0
+force -freeze sim:/dpd/UR 101110101 0
+force -freeze sim:/dpd/UI 000110001 0
+run 100 ps
+force -freeze sim:/dpd/UR 101110110 0
+force -freeze sim:/dpd/UI 000111011 0
+run 100 ps
+force -freeze sim:/dpd/UR 101111000 0
+force -freeze sim:/dpd/UI 000111110 0
+run 100 ps
+force -freeze sim:/dpd/UR 101111001 0
+force -freeze sim:/dpd/UI 000111111 0
+run 100 ps
+force -freeze sim:/dpd/UR 101110110 0
+force -freeze sim:/dpd/UI 000111100 0
+run 100 ps
+force -freeze sim:/dpd/UR 101101111 0
+force -freeze sim:/dpd/UI 000110011 0

@@ -24,7 +24,7 @@ def mp_int(P, M, xn, bits):
                     A = np.real(xn[l-m])[0]
                     B = np.imag(xn[l-m])[0]
                     modulo_power = 2**bits 
-                    modulo_square = readeq(A ** 2 + B ** 2, bits)
+                    modulo_square = readeq(A ** 2, bits) + readeq(B ** 2, bits)
                     for _ in range(1, p):
                        modulo_power = readeq(modulo_power * modulo_square, bits)
                     real_part = readeq(A * modulo_power,bits)
@@ -44,8 +44,8 @@ def MultiplicadorMatrizes(coefficients, XX, precision):
             C = np.real(XX[i, j])
             D = np.imag(XX[i, j])
 
-            readequated_real = readeq(A * C - B * D, precision)
-            readequated_imag = readeq(A * D + B * C, precision)
+            readequated_real = readeq(A * C, precision) - readeq(B * D, precision)
+            readequated_imag = readeq(A * D, precision) + readeq(B * C, precision)
 
             max_value = max(max_value, readequated_real, readequated_imag)
 

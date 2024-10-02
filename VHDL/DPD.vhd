@@ -30,56 +30,69 @@ BEGIN
 			UR_out <= (OTHERS => '0');
 			UI_out <= (OTHERS => '0');
 		ELSIF rising_edge(clk) THEN
+			-- TODO cast com um atraso de clk
+			-- Primeiro clock realiza registro dos sinais de entrada e saida
 			U_signal_in <= (reall => to_integer(signed(UR)),
-				imag => to_integer(signed(UI)));
+					 imag => to_integer(signed(UI)));
 			UR_out <= STD_LOGIC_VECTOR(to_signed(U_signal_out.reall, UR_out'length));
 			UI_out <= STD_LOGIC_VECTOR(to_signed(U_signal_out.imag, UI_out'length));
 		END IF;
 	END PROCESS;
 
 	calcula_potencia_process : PROCESS (clk, reset)
-		VARIABLE power_matrix_temp : Array_signals_powers := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+	-- processo que registra uma matriz com as potências do polinomio de memoria na qual a ultima fileira apresenta todas as potências completas
+		VARIABLE power_matrix_temp : Array_signals_powers;
 	BEGIN
-		power_matrix <= power_matrix_temp;
 		IF reset = '1' THEN
+			power_matrix_temp := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 			power_matrix <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 		ELSIF rising_edge(clk) THEN
+			power_matrix <= power_matrix_temp;
+			-- Registra o matriz de potência 
 			FOR j IN n_polygnos_degree - 1 DOWNTO 1 LOOP
 				power_matrix_temp(j) := power_matrix_temp(j - 1);
 			END LOOP;
+			-- exclui a ultima fileira da matriz
 			power_matrix_temp(0)(0) := U_signal_in;
+			-- adiciona sinal de entrada
 			FOR j IN n_polygnos_degree - 2 DOWNTO 0 LOOP
 				power_matrix_temp(j)(j + 1) := power(power_matrix_temp(j)(j));
+				-- calcula a potencia do sinal dos sinais onde para cada j fileira e cauculado a potencia 2**(j+1) 
 			END LOOP;
 		END IF;
 	END PROCESS;
 
 	att_matrix_process : PROCESS (clk, reset)
-		VARIABLE confusion_matrix_temp : Array_signals_multip := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+		-- Processo que calcula a a matriz de confusão
+		VARIABLE confusion_matrix_temp : Array_signals_multip;
 	BEGIN
 		IF reset = '1' THEN
+			confusion_matrix_temp := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 			confusion_matrix <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 		ELSIF rising_edge(clk) THEN
 			confusion_matrix <= confusion_matrix_temp;
+			-- registra sinal da matriz de confusão
 			FOR j IN n_signals_used - 1 DOWNTO 1 LOOP
 				confusion_matrix_temp(j) := confusion_matrix_temp(j - 1);
+				-- exclui  ultimo sinal da matriz de confusão
 			END LOOP;
 			confusion_matrix_temp(0) := power_matrix(n_polygnos_degree - 1);
+			-- adiciona ultma linha da matriz de potência a primeira linha da matriz de confusão
 		END IF;
 	END PROCESS;
-	
+
 	generate_signals_used : FOR i IN confusion_matrix'RANGE GENERATE
 		generate_polygons_used : FOR j IN confusion_matrix(i)'RANGE GENERATE
-			multiplic(i)(j) <=  multiplication(confusion_matrix(i)(j), coefficients(i * n_polygnos_degree + j));
+			multiplic(i)(j) <= multiplication(confusion_matrix(i)(j), coefficients(i * n_polygnos_degree + j));
+			-- realiza a multiplicação de termo em blocos
 		END GENERATE generate_polygons_used;
 	END GENERATE generate_signals_used;
 
-	sum_process : PROCESS(clk, reset)
-	variable vsum : complex_number;
-    	BEGIN
+	sum_process : PROCESS (clk, reset)
+		VARIABLE vsum : complex_number;
+	BEGIN
 		sum_matrix_elements(multiplic, vsum);
+		-- realiza a soma de todos os valores da matriz
 		U_signal_out <= vsum;
-    	END PROCESS;
-
-
+	END PROCESS;
 END ARCHITECTURE;
