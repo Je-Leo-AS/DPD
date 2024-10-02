@@ -83,7 +83,7 @@ BEGIN
 
 	generate_signals_used : FOR i IN confusion_matrix'RANGE GENERATE
 		generate_polygons_used : FOR j IN confusion_matrix(i)'RANGE GENERATE
-			multiplic(i)(j) <= multiplication(confusion_matrix(i)(j), coefficients(i * n_polygnos_degree + j));
+			multiplic(i)(j) <= multiplication(confusion_matrix(i)(j), coefficients(j * n_polygnos_degree + i));
 			-- realiza a multiplicação de termo em blocos
 		END GENERATE generate_polygons_used;
 	END GENERATE generate_signals_used;

@@ -18,11 +18,11 @@
     imag : overflow_integer;
   END RECORD;
 
-  TYPE complex_coefficients IS ARRAY (0 TO 3) OF complex_number;
+  TYPE complex_coefficients IS ARRAY (0 TO 4) OF complex_number;
 
   CONSTANT coefficients : complex_coefficients := (
-    (reall => 1, imag => 1),
-    (reall => 7, imag => -1),
-    (reall => -3, imag => -1),
-    (reall => 1, imag => 1)
+    (reall => -90, imag => -54),
+    (reall => 478, imag => 62),
+    (reall => 176, imag => 10),
+    (reall => -80, imag => -30)
   );

@@ -36,10 +36,10 @@ PACKAGE Math_Package IS
 	TYPE Array_signals_powers IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree;
 	-- TYPE Array_signals_powers_overflow IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree_overflow;
 	CONSTANT coefficients : complex_coefficients := (
-	(reall => 1, imag => 1),
-		(reall => 8, imag => - 1),
-		(reall => - 3, imag => - 1),
-		(reall => 1, imag => 1)
+		(reall => -45, imag => -27),
+		(reall => 239, imag =>  31),
+		(reall =>  88, imag =>   5),
+		(reall => -40, imag => -15)
 	);
 	FUNCTION readeq(
 		input : integer
