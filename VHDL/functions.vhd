@@ -26,7 +26,7 @@ PACKAGE Math_Package IS
 	-- 	imag : overflow_integer;
 	-- END RECORD;
 
-	TYPE complex_coefficients IS ARRAY (0 TO 3) OF complex_number;
+	TYPE complex_coefficients IS ARRAY (0 TO n_signals_used + n_polygnos_degree - 1) OF complex_number;
 	TYPE Array_signals IS ARRAY (0 TO n_signals_used - 1) OF complex_number;
 	-- TYPE Array_signals_overflow IS ARRAY (0 TO n_signals_used - 1) OF complex_number_overflow;
 	TYPE Array_poly_degree IS ARRAY (0 TO n_polygnos_degree - 1) OF complex_number;
@@ -37,9 +37,9 @@ PACKAGE Math_Package IS
 	-- TYPE Array_signals_powers_overflow IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree_overflow;
 	CONSTANT coefficients : complex_coefficients := (
 		(reall => -45, imag => -27),
-		(reall => 239, imag =>  31),
-		(reall =>  88, imag =>   5),
-		(reall => -40, imag => -15)
+		(reall =>  88, imag =>   5),	
+		(reall => 239, imag =>  31),	
+		(reall => -40, imag => -15)		
 	);
 	FUNCTION readeq(
 		input : integer
@@ -66,15 +66,12 @@ PACKAGE BODY Math_Package IS
     -- variable int_as_slv : signed(n_bits_overflow + n_bits_resolution - 1 downto 0);
     variable int_as_slv : signed(n_bits_overflow + n_bits_resolution - 1 downto 0);
     constant n_shft_bits : integer := 8;
-BEGIN
-	-- TODO COMO VERFICAR NUMERO DE INPUT
+	BEGIN
 	int_as_slv := to_signed(input, int_as_slv'length);
 
-    -- Realizar a operação AND entre std_logic_vector e a máscara
-	-- int_as_slv := int_as_slv AND mask;
-
-    -- Converter o resultado de volta para integer
-	result := to_integer(int_as_slv(n_bits_overflow + n_bits_resolution - 1) & int_as_slv(n_bits_resolution + n_shft_bits - 2 downto n_shft_bits));
+    	-- Converter o resultado de volta para integer
+	result := to_integer(int_as_slv(n_bits_overflow + n_bits_resolution - 1) & 
+			     int_as_slv(n_bits_resolution + n_shft_bits - 2 downto n_shft_bits));
 
 	RETURN result;
 	END FUNCTION;
@@ -84,7 +81,6 @@ BEGIN
 	BEGIN
 		result.reall := readeq(A.reall * B.reall) - readeq(A.imag * B.imag);
 		result.imag := readeq(A.imag * B.reall) + readeq(A.reall * B.imag);
-
 		RETURN result;
 	END FUNCTION;
 
@@ -115,8 +111,8 @@ BEGIN
 				result.imag := result.imag + matrix(i)(j).imag;
 			END LOOP;
 		END LOOP;
-		result.reall := result.reall MOD 2**n_bits_overflow;
-		result.imag := result.imag MOD 2**n_bits_overflow;
+		result.reall := result.reall;
+		result.imag := result.imag;
 		signal_result := result;
 	END PROCEDURE;
 

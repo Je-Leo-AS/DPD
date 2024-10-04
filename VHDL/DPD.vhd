@@ -1,4 +1,4 @@
-LIBRARY IEEE;
+	LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
 LIBRARY work;
@@ -77,14 +77,14 @@ BEGIN
 				-- exclui  ultimo sinal da matriz de confusão
 			END LOOP;
 			confusion_matrix_temp(0) := power_matrix(n_polygnos_degree - 1);
-			-- adiciona ultma linha da matriz de potência a primeira linha da matriz de confusão
+			-- adiciona ultma linha da matriz de pot�ncia a primeira linha da matriz de confusão
 		END IF;
 	END PROCESS;
 
 	generate_signals_used : FOR i IN confusion_matrix'RANGE GENERATE
 		generate_polygons_used : FOR j IN confusion_matrix(i)'RANGE GENERATE
-			multiplic(i)(j) <= multiplication(confusion_matrix(i)(j), coefficients(j * n_polygnos_degree + i));
-			-- realiza a multiplicação de termo em blocos
+			multiplic(i)(j) <= multiplication(confusion_matrix(i)(j), coefficients(j + i * n_signals_used));
+			-- realiza a multiplica��o de termo em blocos
 		END GENERATE generate_polygons_used;
 	END GENERATE generate_signals_used;
 
