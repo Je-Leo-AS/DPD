@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.io import loadmat
 import sympy as sp
 
+# %%
 def mp(P, M, xn):
     L = xn.shape
     XX = np.zeros((L[0] - M, P * (M+1)), dtype=np.complex128)
@@ -11,9 +12,13 @@ def mp(P, M, xn):
             for m in range(0, M+1):
                 XX[l-M-1, ((p-1)*(M+1))+m] = (np.abs(xn[l-m])**(2*p-2)*(xn[l-m]))[0]
     return XX
-
-def readeq(val, precision):
+# %%
+def readeq_int(val, precision):
     return np.floor(val / (2 ** precision))
+
+def modulo_preservando_sinal(dividendo, divisor):
+    resto = dividendo % divisor
+    return resto if dividendo >= 0 else resto - divisor
 
 def mp_int(P, M, xn, bits):
     L = xn.shape
@@ -24,11 +29,11 @@ def mp_int(P, M, xn, bits):
                     A = np.real(xn[l-m])[0]
                     B = np.imag(xn[l-m])[0]
                     modulo_power = 2**bits 
-                    modulo_square = readeq(A ** 2, bits) + readeq(B ** 2, bits)
+                    modulo_square = readeq_int(A ** 2, bits) + readeq_int(B ** 2, bits)
                     for _ in range(1, p):
-                       modulo_power = readeq(modulo_power * modulo_square, bits)
-                    real_part = readeq(A * modulo_power,bits)
-                    imag_part = readeq(B * modulo_power,bits)
+                       modulo_power = readeq_int(modulo_power * modulo_square, bits)
+                    real_part = modulo_preservando_sinal(readeq_int(A * modulo_power,bits), 2**bits) 
+                    imag_part = modulo_preservando_sinal(readeq_int(B * modulo_power,bits), 2**bits) 
                     XX[l-M-1, ((p-1)*(M+1))+m] = complex(real_part,imag_part)        
     return XX
 
@@ -44,8 +49,8 @@ def MultiplicadorMatrizes(coefficients, XX, precision):
             C = np.real(XX[i, j])
             D = np.imag(XX[i, j])
 
-            readequated_real = readeq(A * C, precision) - readeq(B * D, precision)
-            readequated_imag = readeq(A * D, precision) + readeq(B * C, precision)
+            readequated_real = readeq_int(A * C, precision) - readeq_int(B * D, precision)
+            readequated_imag = readeq_int(A * D, precision) + readeq_int(B * C, precision)
 
             max_value = max(max_value, readequated_real, readequated_imag)
 

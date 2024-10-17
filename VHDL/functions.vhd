@@ -17,8 +17,8 @@ PACKAGE Math_Package IS
 	SUBTYPE limited_integer IS INTEGER RANGE -min_value TO max_value;
 	-- SUBTYPE overflow_integer IS INTEGER RANGE -min_value_overflow TO max_value_overflow;
 	TYPE complex_number IS RECORD
-		reall : limited_integer;
-		imag : limited_integer;
+		reall : INTEGER;
+		imag : INTEGER;
 	END RECORD;
 
 	-- TYPE complex_number_overflow IS RECORD
@@ -63,8 +63,7 @@ PACKAGE BODY Math_Package IS
 		input : integer
 	) RETURN integer IS
     VARIABLE result : integer;
-    -- variable int_as_slv : signed(n_bits_overflow + n_bits_resolution - 1 downto 0);
-    variable int_as_slv : signed(n_bits_overflow + n_bits_resolution - 1 downto 0);
+    VARIABLE int_as_slv : signed(n_bits_overflow + n_bits_resolution - 1 downto 0);
     constant n_shft_bits : integer := 8;
 	BEGIN
 	int_as_slv := to_signed(input, int_as_slv'length);

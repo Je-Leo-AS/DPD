@@ -12,3 +12,4 @@ Atividades/VHDL/functions.vhd.bak
 *.lof
 Quartus/
 # pycache/
+simulation_output.txt
