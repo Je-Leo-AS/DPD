@@ -1,6 +1,7 @@
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
+
 PACKAGE functions IS
 
 	CONSTANT n_signals_used : INTEGER := 2;
@@ -15,7 +16,7 @@ PACKAGE functions IS
 	CONSTANT min_value_overflow : INTEGER := 2 ** (n_bits_resolution + n_bits_overflow);
 
 	SUBTYPE limited_integer IS INTEGER RANGE -min_value TO max_value;
-	-- SUBTYPE overflow_integer IS INTEGER RANGE -min_value_overflow TO max_value_overflow;
+	
 	TYPE complex_number IS RECORD
 		reall : INTEGER;
 		imag : INTEGER;
@@ -23,13 +24,9 @@ PACKAGE functions IS
 
 	TYPE complex_coefficients IS ARRAY (0 TO n_signals_used + n_polygnos_degree - 1) OF complex_number;
 	TYPE Array_signals IS ARRAY (0 TO n_signals_used - 1) OF complex_number;
-	-- TYPE Array_signals_overflow IS ARRAY (0 TO n_signals_used - 1) OF complex_number_overflow;
 	TYPE Array_poly_degree IS ARRAY (0 TO n_polygnos_degree - 1) OF complex_number;
-	-- TYPE Array_poly_degree_overflow IS ARRAY (0 TO n_signals_used - 1) OF complex_number_overflow;
 	TYPE Array_signals_multip IS ARRAY (0 TO n_signals_used - 1) OF Array_poly_degree;
-	-- TYPE Array_signals_multip_overflow IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree_overflow;
 	TYPE Array_signals_powers IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree;
-	-- TYPE Array_signals_powers_overflow IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree_overflow;
 	CONSTANT coefficients : complex_coefficients := (
 		(reall => -45, imag => -27),
 		(reall =>  88, imag =>   5),	
@@ -80,6 +77,7 @@ PACKAGE BODY functions IS
 	END FUNCTION;
 
 	FUNCTION power(A : complex_number) RETURN complex_number IS
+	
 		VARIABLE result : complex_number;
 		VARIABLE modulo_square : integer := 0;
 		VARIABLE prod : integer :=0;
@@ -91,24 +89,6 @@ PACKAGE BODY functions IS
 		result.imag := readeq(A.imag * modulo_square);
 
 		RETURN result;
-	END FUNCTION;
-
-	FUNCTION sum_matrix_elements(matrix : Array_signals_multip) RETURN complex_number IS
-		VARIABLE result : complex_number;
-	BEGIN
-		result.reall := 0;
-		result.imag := 0;
-		FOR i IN matrix'RANGE LOOP
-			FOR j IN matrix(i)'RANGE LOOP
-				-- Soma as partes reais e imaginarias
-				result.reall := result.reall + matrix(i)(j).reall;
-				result.imag := result.imag + matrix(i)(j).imag;
-			END LOOP;
-		END LOOP;
-		result.reall := result.reall;
-		result.imag := result.imag;
-		RETURN result;
-
 	END FUNCTION;
 
 END functions;
