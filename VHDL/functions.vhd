@@ -1,7 +1,7 @@
 LIBRARY IEEE;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
-PACKAGE Math_Package IS
+PACKAGE functions IS
 
 	CONSTANT n_signals_used : INTEGER := 2;
 	CONSTANT n_polygnos_degree : INTEGER := 2;
@@ -20,11 +20,6 @@ PACKAGE Math_Package IS
 		reall : INTEGER;
 		imag : INTEGER;
 	END RECORD;
-
-	-- TYPE complex_number_overflow IS RECORD
-	-- 	reall : overflow_integer;
-	-- 	imag : overflow_integer;
-	-- END RECORD;
 
 	TYPE complex_coefficients IS ARRAY (0 TO n_signals_used + n_polygnos_degree - 1) OF complex_number;
 	TYPE Array_signals IS ARRAY (0 TO n_signals_used - 1) OF complex_number;
@@ -54,11 +49,13 @@ PACKAGE Math_Package IS
 		A : complex_number
 	) RETURN complex_number;
 
-	PROCEDURE sum_matrix_elements(matrix : IN Array_signals_multip; signal_result : OUT complex_number);
+	FUNCTION sum_matrix_elements(
+		matrix : Array_signals_multip
+		) RETURN complex_number;
 
-END Math_Package;
+END functions;
 
-PACKAGE BODY Math_Package IS
+PACKAGE BODY functions IS
 	FUNCTION readeq(
 		input : integer
 	) RETURN integer IS
@@ -71,7 +68,6 @@ PACKAGE BODY Math_Package IS
     	-- Converter o resultado de volta para integer
 	result := to_integer(int_as_slv(n_bits_overflow + n_bits_resolution - 1) & 
 			     int_as_slv(n_bits_resolution + n_shft_bits - 2 downto n_shft_bits));
-
 	RETURN result;
 	END FUNCTION;
 
@@ -97,10 +93,9 @@ PACKAGE BODY Math_Package IS
 		RETURN result;
 	END FUNCTION;
 
-	PROCEDURE sum_matrix_elements(matrix : IN Array_signals_multip; signal_result : OUT complex_number) IS
-		VARIABLE result : complex_number := (reall => 0, imag => 0);
+	FUNCTION sum_matrix_elements(matrix : Array_signals_multip) RETURN complex_number IS
+		VARIABLE result : complex_number;
 	BEGIN
-
 		result.reall := 0;
 		result.imag := 0;
 		FOR i IN matrix'RANGE LOOP
@@ -112,7 +107,8 @@ PACKAGE BODY Math_Package IS
 		END LOOP;
 		result.reall := result.reall;
 		result.imag := result.imag;
-		signal_result := result;
-	END PROCEDURE;
+		RETURN result;
 
-END Math_Package;
+	END FUNCTION;
+
+END functions;
