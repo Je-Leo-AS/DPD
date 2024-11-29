@@ -17,6 +17,11 @@ def mp(P, M, xn):
 def readeq_int(val, precision):
     return np.floor(val / (2 ** precision))
 
+def readeq_complex(val, precision):
+    real_part = np.real(val)
+    imag_part = np.imag(val)
+    return np.floor(real_part / (2 ** precision)) + 1j * np.floor(imag_part / (2 ** precision))
+
 def modulo_preservando_sinal(dividendo, divisor):
     resto = dividendo % divisor
     return resto if dividendo >= 0 else resto - divisor

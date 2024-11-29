@@ -13,3 +13,5 @@ pycache/
 simulation_output.txt
 Atividades/VHDL/modelSim
 Atividades/VHDL/functions.vhd.bak
+__pycache__
+.idea

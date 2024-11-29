@@ -2,7 +2,7 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
 LIBRARY work;
-USE work.functions_Package.ALL;
+USE work.functions.ALL;
 
 ENTITY DPD IS
 	PORT (
@@ -12,7 +12,7 @@ ENTITY DPD IS
 		UI : IN STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
 		UR_out : OUT STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
 		UI_out : OUT STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0));
-		
+
 END DPD;
 
 ARCHITECTURE hardware OF DPD IS
@@ -20,46 +20,33 @@ ARCHITECTURE hardware OF DPD IS
 	SIGNAL U_signal_in : complex_number := (reall => 0, imag => 0);
 	SIGNAL power_matrix : Array_signals_powers := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 	SIGNAL confusion_matrix : Array_signals_multip := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
-	SIGNAL multi, multiplic_temp  : Array_signals_multip := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+	SIGNAL multi, multiplic_temp : Array_signals_multip := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 
 BEGIN
 
-	update_signals_process : PROCESS (clk, reset)
-	BEGIN
-		IF reset = '1' THEN
-			U_signal_in <= (reall => 0, imag => 0);
-			UR_out <= (OTHERS => '0');
-			UI_out <= (OTHERS => '0');
-		ELSIF rising_edge(clk) THEN
-			-- Primeiro clock realiza registro dos sinais de entrada e saida
-			U_signal_in <= (reall => to_integer(signed(UR)),
-					 imag => to_integer(signed(UI)));
-			UR_out <= STD_LOGIC_VECTOR(to_signed(U_signal_out.reall, UR_out'length));
-			UI_out <= STD_LOGIC_VECTOR(to_signed(U_signal_out.imag, UI_out'length));
-		END IF;
-	END PROCESS;
-
 	calcula_potencia_process : PROCESS (clk, reset, U_signal_in)
-	VARIABLE power_matrix_temp : Array_signals_powers;
+		VARIABLE power_matrix_temp : Array_signals_powers;
 	BEGIN
 		IF reset = '1' THEN
 			-- Inicializa a matriz em zero apenas uma vez no reset
 			power_matrix_temp := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 		ELSIF rising_edge(clk) THEN
 			-- Atualiza a saída com o último elemento
-			power_matrix_temp(0)(0) := U_signal_in;			
+			U_signal_in <= (reall => to_integer(signed(UR)),
+				imag => to_integer(signed(UI)));
+			power_matrix_temp(0)(0) := U_signal_in;
 			-- Shift das fileiras para baixo, excluindo a última fileira
 			FOR j IN n_polygnos_degree - 1 DOWNTO 1 LOOP
 				power_matrix_temp(j) := power_matrix_temp(j - 1);
-				power_matrix_temp(j)(j) := power(power_matrix_temp(j)(j-1));
+				power_matrix_temp(j)(j) := power(power_matrix_temp(j)(j - 1));
 			END LOOP;
 		END IF;
 		power_matrix <= power_matrix_temp;
 	END PROCESS;
 
 	att_matrix_process : PROCESS (clk, reset, power_matrix)
-	-- Processo que calcula a a matriz de extração
-	VARIABLE confusion_matrix_temp : Array_signals_multip;
+		-- Processo que calcula a a matriz de extração
+		VARIABLE confusion_matrix_temp : Array_signals_multip;
 	BEGIN
 		IF reset = '1' THEN
 			confusion_matrix_temp := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
@@ -79,20 +66,20 @@ BEGIN
 			-- realiza a multiplicação de termo em blocos
 		END GENERATE generate_polygons_used;
 	END GENERATE generate_signals_used;
-	
+
 	multi_matrix_process : PROCESS (clk, reset, multiplic_temp)
-	-- Processo que calcula a a matriz de extração
+		-- Processo que calcula a a matriz de extração
 	BEGIN
 		IF reset = '1' THEN
 			multi <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 		ELSIF rising_edge(clk) THEN
-			multi <= multiplic_temp; 
+			multi <= multiplic_temp;
 		END IF;
 	END PROCESS;
 
 	sum_process : PROCESS (clk, reset, multi)
-		VARIABLE real_sum, imag_sum : integer := 0;
-	BEGIN	
+		VARIABLE real_sum, imag_sum : INTEGER := 0;
+	BEGIN
 		IF reset = '1' THEN
 			U_signal_out <= (reall => 0, imag => 0);
 		ELSIF rising_edge(clk) THEN
@@ -105,7 +92,8 @@ BEGIN
 					imag_sum := imag_sum + multi(i)(j).imag;
 				END LOOP;
 			END LOOP;
-			U_signal_out <= (reall => real_sum, imag => imag_sum);
+			UR_out <= STD_LOGIC_VECTOR(to_signed(real_sum, UR_out'length));
+			UI_out <= STD_LOGIC_VECTOR(to_signed(imag_sum, UI_out'length));
 		END IF;
 	END PROCESS;
 END ARCHITECTURE;

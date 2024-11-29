@@ -46,10 +46,6 @@ PACKAGE functions IS
 		A : complex_number
 	) RETURN complex_number;
 
-	FUNCTION sum_matrix_elements(
-		matrix : Array_signals_multip
-		) RETURN complex_number;
-
 END functions;
 
 PACKAGE BODY functions IS

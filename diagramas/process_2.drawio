@@ -1,0 +1,71 @@
+<DPDSystem>
+    <Entity name="DPD">
+        <Inputs>
+            <Input name="reset" type="STD_LOGIC" description="Reset signal for system initialization." />
+            <Input name="clk" type="STD_LOGIC" description="Clock signal for synchronization." />
+            <Input name="UR" type="STD_LOGIC_VECTOR" size="n_bits_resolution" description="Real part of the input signal." />
+            <Input name="UI" type="STD_LOGIC_VECTOR" size="n_bits_resolution" description="Imaginary part of the input signal." />
+        </Inputs>
+        <Outputs>
+            <Output name="UR_out" type="STD_LOGIC_VECTOR" size="n_bits_resolution" description="Processed real output signal." />
+            <Output name="UI_out" type="STD_LOGIC_VECTOR" size="n_bits_resolution" description="Processed imaginary output signal." />
+        </Outputs>
+    </Entity>
+    <Architecture name="hardware">
+        <Signals>
+            <Signal name="U_signal_out" type="complex_number" description="Output signal in complex form." />
+            <Signal name="U_signal_in" type="complex_number" description="Input signal in complex form." />
+            <Signal name="power_matrix" type="Array_signals_powers" description="Matrix for storing powers of signals." />
+            <Signal name="confusion_matrix" type="Array_signals_multip" description="Matrix for intermediate signal manipulation." />
+            <Signal name="multi" type="Array_signals_multip" description="Final multiplication results." />
+            <Signal name="multiplic_temp" type="Array_signals_multip" description="Temporary storage for multiplication." />
+        </Signals>
+        <Processes>
+            <Process name="update_signals_process" triggers="clk, reset">
+                <Description>Registers input signals and updates output signals.</Description>
+                <Operations>
+                    <Operation>If reset='1', initialize signals to zero.</Operation>
+                    <Operation>If rising_edge(clk), update U_signal_in and output signals UR_out, UI_out.</Operation>
+                </Operations>
+            </Process>
+            <Process name="calcula_potencia_process" triggers="clk, reset, U_signal_in">
+                <Description>Calculates power matrix from input signal.</Description>
+                <Operations>
+                    <Operation>If reset='1', initialize power_matrix to zero.</Operation>
+                    <Operation>If rising_edge(clk), update power matrix with shifted values and calculated powers.</Operation>
+                </Operations>
+            </Process>
+            <Process name="att_matrix_process" triggers="clk, reset, power_matrix">
+                <Description>Updates the confusion matrix with values from the power matrix.</Description>
+                <Operations>
+                    <Operation>If reset='1', initialize confusion_matrix to zero.</Operation>
+                    <Operation>If rising_edge(clk), shift values in confusion_matrix and update with new power matrix row.</Operation>
+                </Operations>
+            </Process>
+            <GenerateLoops name="generate_signals_used">
+                <Description>Multiplies elements of confusion_matrix with coefficients.</Description>
+                <Loop>
+                    <Range>confusion_matrix</Range>
+                    <NestedLoop>
+                        <Range>confusion_matrix(i)</Range>
+                        <Operation>Perform multiplication for each matrix element and coefficient.</Operation>
+                    </NestedLoop>
+                </Loop>
+            </GenerateLoops>
+            <Process name="multi_matrix_process" triggers="clk, reset, multiplic_temp">
+                <Description>Registers the multiplied matrix values.</Description>
+                <Operations>
+                    <Operation>If reset='1', initialize multi to zero.</Operation>
+                    <Operation>If rising_edge(clk), update multi with values from multiplic_temp.</Operation>
+                </Operations>
+            </Process>
+            <Process name="sum_process" triggers="clk, reset, multi">
+                <Description>Sums real and imaginary parts of the final matrix and produces output signal.</Description>
+                <Operations>
+                    <Operation>If reset='1', initialize U_signal_out to zero.</Operation>
+                    <Operation>If rising_edge(clk), sum all elements in multi and update U_signal_out.</Operation>
+                </Operations>
+            </Process>
+        </Processes>
+    </Architecture>
+</DPDSystem>
