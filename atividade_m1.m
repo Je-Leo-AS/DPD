@@ -32,7 +32,7 @@ function e = erro_mp(coef, x_in, y_out, ordem, memoria)
         end
         y_est(n) = soma;
     end
-    e = y_out - y_est;
+    e = y_out - y_est;xx
 end
 
 ## 4. Função objetivo escalar (MSE)
