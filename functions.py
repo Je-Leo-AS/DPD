@@ -11,7 +11,7 @@ def mp(P, M, xn):
     for l in range(M+1, L[0]):
         for p in range(1, P+1):
             for m in range(0, M+1):
-                XX[l-M-1, ((p-1)*(M+1))+m] = (np.abs(xn[l-m])**(2*p-2)*(xn[l-m]))[0]
+                XX[l-M-1, ((p-1)*(M+1))+m] = (np.abs(xn[l-m])**(2*p-2)*(xn[l-m]))
     return XX
 # %%
 def readeq_int(val, precision):
