@@ -5,7 +5,7 @@ USE IEEE.NUMERIC_STD.ALL;
 USE ieee.std_logic_textio.ALL;
 USE std.textio.ALL;
 LIBRARY work;
-USE work.functions_Package.ALL;
+USE work.functions.ALL;
 
 ENTITY tb IS
 END tb;

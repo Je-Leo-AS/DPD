@@ -24,27 +24,34 @@ ARCHITECTURE hardware OF DPD IS
 
 BEGIN
 
-	calcula_potencia_process : PROCESS (clk, reset, U_signal_in)
+	calcula_potencia_process : PROCESS (clk)
 		VARIABLE power_matrix_temp : Array_signals_powers;
 	BEGIN
-		IF reset = '1' THEN
-			-- Inicializa a matriz em zero apenas uma vez no reset
-			power_matrix_temp := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
-		ELSIF rising_edge(clk) THEN
-			-- Atualiza a saída com o último elemento
-			U_signal_in <= (reall => to_integer(signed(UR)),
-				imag => to_integer(signed(UI)));
-			power_matrix_temp(0)(0) := U_signal_in;
-			-- Shift das fileiras para baixo, excluindo a última fileira
-			FOR j IN n_polygnos_degree - 1 DOWNTO 1 LOOP
-				power_matrix_temp(j) := power_matrix_temp(j - 1);
-				power_matrix_temp(j)(j) := power(power_matrix_temp(j)(j - 1));
-			END LOOP;
+		IF rising_edge(clk) THEN
+			IF reset = '1' THEN
+				power_matrix <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+			ELSE
+				-- Atualiza entrada
+				U_signal_in <= (
+					reall => to_integer(signed(UR)),
+					imag => to_integer(signed(UI))
+				);
+
+				power_matrix_temp := power_matrix;
+
+				power_matrix_temp(0)(0) := U_signal_in;
+
+				FOR j IN n_polygnos_degree - 1 DOWNTO 1 LOOP
+					power_matrix_temp(j) := power_matrix_temp(j - 1);
+					power_matrix_temp(j)(j) := power(power_matrix_temp(j)(j - 1));
+				END LOOP;
+
+				power_matrix <= power_matrix_temp;
+			END IF;
 		END IF;
-		power_matrix <= power_matrix_temp;
 	END PROCESS;
 
-	att_matrix_process : PROCESS (clk, reset, power_matrix)
+	att_matrix_process : PROCESS (clk)
 		-- Processo que calcula a a matriz de extração
 		VARIABLE confusion_matrix_temp : Array_signals_multip;
 	BEGIN
@@ -77,7 +84,7 @@ BEGIN
 		END IF;
 	END PROCESS;
 
-	sum_process : PROCESS (clk, reset, multi)
+	sum_process : PROCESS (clk)
 		VARIABLE real_sum, imag_sum : INTEGER := 0;
 	BEGIN
 		IF reset = '1' THEN

@@ -1,0 +1,707 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+library work;
+use work.functions.all;
+entity DPD is
+  port (
+    reset: in STD_LOGIC;
+    clk: in STD_LOGIC;
+    UR: in STD_LOGIC_VECTOR (n_bits_resolution - 1 downto 0);
+    UI: in STD_LOGIC_VECTOR (n_bits_resolution - 1 downto 0);
+    UR_out: out STD_LOGIC_VECTOR (n_bits_resolution - 1 downto 0);
+    UI_out: out STD_LOGIC_VECTOR (n_bits_resolution - 1 downto 0)
+  );
+end DPD;
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+architecture rtl of dpd is
+  signal wrap_reset: std_logic;
+  signal wrap_clk: std_logic;
+  subtype typ_wrap_UR is std_logic_vector (8 downto 0);
+  signal wrap_UR: typ_wrap_UR;
+  subtype typ_wrap_UI is std_logic_vector (8 downto 0);
+  signal wrap_UI: typ_wrap_UI;
+  subtype typ_wrap_UR_out is std_logic_vector (8 downto 0);
+  signal wrap_UR_out: typ_wrap_UR_out;
+  subtype typ_wrap_UI_out is std_logic_vector (8 downto 0);
+  signal wrap_UI_out: typ_wrap_UI_out;
+  signal u_signal_in : std_logic_vector (63 downto 0);
+  signal power_matrix : std_logic_vector (255 downto 0);
+  signal confusion_matrix : std_logic_vector (255 downto 0);
+  signal multi : std_logic_vector (255 downto 0);
+  signal multiplic_temp : std_logic_vector (255 downto 0);
+  signal n11 : std_logic_vector (31 downto 0);
+  signal n12 : std_logic_vector (31 downto 0);
+  signal n13 : std_logic_vector (63 downto 0);
+  signal n14 : std_logic_vector (191 downto 0);
+  signal n15 : std_logic_vector (255 downto 0);
+  signal n16 : std_logic_vector (127 downto 0);
+  signal n17 : std_logic_vector (63 downto 0);
+  signal n19 : std_logic_vector (255 downto 0);
+  signal n28 : std_logic_vector (31 downto 0);
+  signal n29 : std_logic_vector (31 downto 0);
+  signal n30 : std_logic_vector (31 downto 0);
+  signal n39 : std_logic_vector (16 downto 0);
+  signal n41 : std_logic;
+  signal n42 : std_logic_vector (7 downto 0);
+  signal n43 : std_logic_vector (8 downto 0);
+  signal n44 : std_logic_vector (31 downto 0);
+  signal n48 : std_logic_vector (31 downto 0);
+  signal n49 : std_logic_vector (31 downto 0);
+  signal n50 : std_logic_vector (31 downto 0);
+  signal n57 : std_logic_vector (16 downto 0);
+  signal n59 : std_logic;
+  signal n60 : std_logic_vector (7 downto 0);
+  signal n61 : std_logic_vector (8 downto 0);
+  signal n62 : std_logic_vector (31 downto 0);
+  signal n64 : std_logic_vector (31 downto 0);
+  signal n66 : std_logic_vector (31 downto 0);
+  signal n67 : std_logic_vector (31 downto 0);
+  signal n74 : std_logic_vector (16 downto 0);
+  signal n76 : std_logic;
+  signal n77 : std_logic_vector (7 downto 0);
+  signal n78 : std_logic_vector (8 downto 0);
+  signal n79 : std_logic_vector (31 downto 0);
+  signal n84 : std_logic_vector (31 downto 0);
+  signal n85 : std_logic_vector (31 downto 0);
+  signal n92 : std_logic_vector (16 downto 0);
+  signal n94 : std_logic;
+  signal n95 : std_logic_vector (7 downto 0);
+  signal n96 : std_logic_vector (8 downto 0);
+  signal n97 : std_logic_vector (31 downto 0);
+  signal n99 : std_logic_vector (63 downto 0);
+  signal n100 : std_logic_vector (63 downto 0);
+  signal n101 : std_logic_vector (255 downto 0);
+  signal n102 : std_logic_vector (63 downto 0);
+  signal n104 : std_logic_vector (255 downto 0);
+  signal att_matrix_process_confusion_matrix_temp : std_logic_vector (255 downto 0);
+  signal n114 : std_logic_vector (127 downto 0);
+  signal n115 : std_logic_vector (127 downto 0);
+  signal n117 : std_logic_vector (255 downto 0);
+  signal n131 : std_logic_vector (31 downto 0);
+  signal n133 : std_logic_vector (31 downto 0);
+  signal n140 : std_logic_vector (16 downto 0);
+  signal n142 : std_logic;
+  signal n143 : std_logic_vector (7 downto 0);
+  signal n144 : std_logic_vector (8 downto 0);
+  signal n145 : std_logic_vector (31 downto 0);
+  signal n148 : std_logic_vector (31 downto 0);
+  signal n150 : std_logic_vector (31 downto 0);
+  signal n157 : std_logic_vector (16 downto 0);
+  signal n159 : std_logic;
+  signal n160 : std_logic_vector (7 downto 0);
+  signal n161 : std_logic_vector (8 downto 0);
+  signal n162 : std_logic_vector (31 downto 0);
+  signal n164 : std_logic_vector (31 downto 0);
+  signal n168 : std_logic_vector (31 downto 0);
+  signal n170 : std_logic_vector (31 downto 0);
+  signal n177 : std_logic_vector (16 downto 0);
+  signal n179 : std_logic;
+  signal n180 : std_logic_vector (7 downto 0);
+  signal n181 : std_logic_vector (8 downto 0);
+  signal n182 : std_logic_vector (31 downto 0);
+  signal n185 : std_logic_vector (31 downto 0);
+  signal n187 : std_logic_vector (31 downto 0);
+  signal n194 : std_logic_vector (16 downto 0);
+  signal n196 : std_logic;
+  signal n197 : std_logic_vector (7 downto 0);
+  signal n198 : std_logic_vector (8 downto 0);
+  signal n199 : std_logic_vector (31 downto 0);
+  signal n201 : std_logic_vector (31 downto 0);
+  signal n202 : std_logic_vector (63 downto 0);
+  signal n211 : std_logic_vector (31 downto 0);
+  signal n213 : std_logic_vector (31 downto 0);
+  signal n220 : std_logic_vector (16 downto 0);
+  signal n222 : std_logic;
+  signal n223 : std_logic_vector (7 downto 0);
+  signal n224 : std_logic_vector (8 downto 0);
+  signal n225 : std_logic_vector (31 downto 0);
+  signal n228 : std_logic_vector (31 downto 0);
+  signal n230 : std_logic_vector (31 downto 0);
+  signal n237 : std_logic_vector (16 downto 0);
+  signal n239 : std_logic;
+  signal n240 : std_logic_vector (7 downto 0);
+  signal n241 : std_logic_vector (8 downto 0);
+  signal n242 : std_logic_vector (31 downto 0);
+  signal n244 : std_logic_vector (31 downto 0);
+  signal n248 : std_logic_vector (31 downto 0);
+  signal n250 : std_logic_vector (31 downto 0);
+  signal n257 : std_logic_vector (16 downto 0);
+  signal n259 : std_logic;
+  signal n260 : std_logic_vector (7 downto 0);
+  signal n261 : std_logic_vector (8 downto 0);
+  signal n262 : std_logic_vector (31 downto 0);
+  signal n265 : std_logic_vector (31 downto 0);
+  signal n267 : std_logic_vector (31 downto 0);
+  signal n274 : std_logic_vector (16 downto 0);
+  signal n276 : std_logic;
+  signal n277 : std_logic_vector (7 downto 0);
+  signal n278 : std_logic_vector (8 downto 0);
+  signal n279 : std_logic_vector (31 downto 0);
+  signal n281 : std_logic_vector (31 downto 0);
+  signal n282 : std_logic_vector (63 downto 0);
+  signal n291 : std_logic_vector (31 downto 0);
+  signal n293 : std_logic_vector (31 downto 0);
+  signal n300 : std_logic_vector (16 downto 0);
+  signal n302 : std_logic;
+  signal n303 : std_logic_vector (7 downto 0);
+  signal n304 : std_logic_vector (8 downto 0);
+  signal n305 : std_logic_vector (31 downto 0);
+  signal n308 : std_logic_vector (31 downto 0);
+  signal n310 : std_logic_vector (31 downto 0);
+  signal n317 : std_logic_vector (16 downto 0);
+  signal n319 : std_logic;
+  signal n320 : std_logic_vector (7 downto 0);
+  signal n321 : std_logic_vector (8 downto 0);
+  signal n322 : std_logic_vector (31 downto 0);
+  signal n324 : std_logic_vector (31 downto 0);
+  signal n328 : std_logic_vector (31 downto 0);
+  signal n330 : std_logic_vector (31 downto 0);
+  signal n337 : std_logic_vector (16 downto 0);
+  signal n339 : std_logic;
+  signal n340 : std_logic_vector (7 downto 0);
+  signal n341 : std_logic_vector (8 downto 0);
+  signal n342 : std_logic_vector (31 downto 0);
+  signal n345 : std_logic_vector (31 downto 0);
+  signal n347 : std_logic_vector (31 downto 0);
+  signal n354 : std_logic_vector (16 downto 0);
+  signal n356 : std_logic;
+  signal n357 : std_logic_vector (7 downto 0);
+  signal n358 : std_logic_vector (8 downto 0);
+  signal n359 : std_logic_vector (31 downto 0);
+  signal n361 : std_logic_vector (31 downto 0);
+  signal n362 : std_logic_vector (63 downto 0);
+  signal n371 : std_logic_vector (31 downto 0);
+  signal n373 : std_logic_vector (31 downto 0);
+  signal n380 : std_logic_vector (16 downto 0);
+  signal n382 : std_logic;
+  signal n383 : std_logic_vector (7 downto 0);
+  signal n384 : std_logic_vector (8 downto 0);
+  signal n385 : std_logic_vector (31 downto 0);
+  signal n388 : std_logic_vector (31 downto 0);
+  signal n390 : std_logic_vector (31 downto 0);
+  signal n397 : std_logic_vector (16 downto 0);
+  signal n399 : std_logic;
+  signal n400 : std_logic_vector (7 downto 0);
+  signal n401 : std_logic_vector (8 downto 0);
+  signal n402 : std_logic_vector (31 downto 0);
+  signal n404 : std_logic_vector (31 downto 0);
+  signal n408 : std_logic_vector (31 downto 0);
+  signal n410 : std_logic_vector (31 downto 0);
+  signal n417 : std_logic_vector (16 downto 0);
+  signal n419 : std_logic;
+  signal n420 : std_logic_vector (7 downto 0);
+  signal n421 : std_logic_vector (8 downto 0);
+  signal n422 : std_logic_vector (31 downto 0);
+  signal n425 : std_logic_vector (31 downto 0);
+  signal n427 : std_logic_vector (31 downto 0);
+  signal n434 : std_logic_vector (16 downto 0);
+  signal n436 : std_logic;
+  signal n437 : std_logic_vector (7 downto 0);
+  signal n438 : std_logic_vector (8 downto 0);
+  signal n439 : std_logic_vector (31 downto 0);
+  signal n441 : std_logic_vector (31 downto 0);
+  signal n442 : std_logic_vector (63 downto 0);
+  signal n453 : std_logic_vector (31 downto 0);
+  signal n455 : std_logic_vector (31 downto 0);
+  signal n457 : std_logic_vector (31 downto 0);
+  signal n459 : std_logic_vector (31 downto 0);
+  signal n461 : std_logic_vector (31 downto 0);
+  signal n462 : std_logic_vector (31 downto 0);
+  signal n463 : std_logic_vector (31 downto 0);
+  signal n464 : std_logic_vector (31 downto 0);
+  signal n465 : std_logic_vector (31 downto 0);
+  signal n466 : std_logic_vector (31 downto 0);
+  signal n467 : std_logic_vector (31 downto 0);
+  signal n468 : std_logic_vector (31 downto 0);
+  signal n469 : std_logic_vector (31 downto 0);
+  signal n470 : std_logic_vector (31 downto 0);
+  signal n471 : std_logic_vector (31 downto 0);
+  signal n472 : std_logic_vector (31 downto 0);
+  signal n473 : std_logic_vector (8 downto 0);
+  signal n474 : std_logic_vector (8 downto 0);
+  signal n486 : std_logic_vector (255 downto 0);
+  signal n487 : std_logic;
+  signal n488 : std_logic_vector (8 downto 0);
+  signal n489 : std_logic_vector (8 downto 0);
+  signal n490 : std_logic;
+  signal n491 : std_logic_vector (8 downto 0);
+  signal n492 : std_logic_vector (8 downto 0);
+  signal n493 : std_logic_vector (63 downto 0) := "0000000000000000000000000000000000000000000000000000000000000000";
+  signal n494 : std_logic_vector (255 downto 0) := "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+  signal n495 : std_logic;
+  signal n496 : std_logic_vector (255 downto 0);
+  signal n497 : std_logic_vector (255 downto 0) := "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+  signal n498 : std_logic_vector (255 downto 0) := "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+  signal n499 : std_logic_vector (255 downto 0) := "1000000000000000000000000000000010000000000000000000000000000000100000000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000100000000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000";
+begin
+  wrap_reset <= reset;
+  wrap_clk <= clk;
+  wrap_ur <= typ_wrap_ur(ur);
+  wrap_ui <= typ_wrap_ui(ui);
+  ur_out <= std_logic_vector(wrap_ur_out);
+  ui_out <= std_logic_vector(wrap_ui_out);
+  wrap_UR_out <= n489;
+  wrap_UI_out <= n492;
+  -- DPD.vhd:20:16
+  u_signal_in <= n493; -- (isignal)
+  -- DPD.vhd:21:16
+  power_matrix <= n494; -- (isignal)
+  -- DPD.vhd:22:16
+  confusion_matrix <= n497; -- (isignal)
+  -- DPD.vhd:23:16
+  multi <= n498; -- (isignal)
+  -- DPD.vhd:23:23
+  multiplic_temp <= n486; -- (isignal)
+  -- DPD.vhd:36:50
+  n11 <= std_logic_vector (resize (signed (wrap_UR), 32));  --  sext
+  -- DPD.vhd:37:49
+  n12 <= std_logic_vector (resize (signed (wrap_UI), 32));  --  sext
+  -- DPD.vhd:35:48
+  n13 <= n12 & n11;
+  -- DPD.vhd:28:26
+  n14 <= power_matrix (191 downto 0);
+  -- DPD.vhd:28:26
+  n15 <= u_signal_in & n14;
+  -- DPD.vhd:45:82
+  n16 <= n15 (255 downto 128);
+  -- DPD.vhd:28:26
+  n17 <= power_matrix (191 downto 128);
+  -- DPD.vhd:28:26
+  n19 <= u_signal_in & n17 & n16;
+  -- functions.vhd:81:27
+  n28 <= n19 (95 downto 64);
+  -- functions.vhd:81:37
+  n29 <= n19 (95 downto 64);
+  -- functions.vhd:81:33
+  n30 <= std_logic_vector (resize (signed (n28) * signed (n29), 32));
+  -- functions.vhd:59:23
+  n39 <= n30 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n41 <= n39 (16);
+  -- functions.vhd:63:40
+  n42 <= n39 (15 downto 8);
+  -- functions.vhd:62:82
+  n43 <= n41 & n42;
+  -- functions.vhd:62:19
+  n44 <= std_logic_vector (resize (signed (n43), 32));  --  sext
+  -- functions.vhd:83:59
+  n48 <= n19 (127 downto 96);
+  -- functions.vhd:83:68
+  n49 <= n19 (127 downto 96);
+  -- functions.vhd:83:64
+  n50 <= std_logic_vector (resize (signed (n48) * signed (n49), 32));
+  -- functions.vhd:59:23
+  n57 <= n50 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n59 <= n57 (16);
+  -- functions.vhd:63:40
+  n60 <= n57 (15 downto 8);
+  -- functions.vhd:62:82
+  n61 <= n59 & n60;
+  -- functions.vhd:62:19
+  n62 <= std_logic_vector (resize (signed (n61), 32));  --  sext
+  -- functions.vhd:83:48
+  n64 <= std_logic_vector (unsigned (n44) + unsigned (n62));
+  -- functions.vhd:84:41
+  n66 <= n19 (95 downto 64);
+  -- functions.vhd:84:47
+  n67 <= std_logic_vector (resize (signed (n66) * signed (n64), 32));
+  -- functions.vhd:59:23
+  n74 <= n67 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n76 <= n74 (16);
+  -- functions.vhd:63:40
+  n77 <= n74 (15 downto 8);
+  -- functions.vhd:62:82
+  n78 <= n76 & n77;
+  -- functions.vhd:62:19
+  n79 <= std_logic_vector (resize (signed (n78), 32));  --  sext
+  -- functions.vhd:85:41
+  n84 <= n19 (127 downto 96);
+  -- functions.vhd:85:46
+  n85 <= std_logic_vector (resize (signed (n84) * signed (n64), 32));
+  -- functions.vhd:59:23
+  n92 <= n85 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n94 <= n92 (16);
+  -- functions.vhd:63:40
+  n95 <= n92 (15 downto 8);
+  -- functions.vhd:62:82
+  n96 <= n94 & n95;
+  -- functions.vhd:62:19
+  n97 <= std_logic_vector (resize (signed (n96), 32));  --  sext
+  -- functions.vhd:77:26
+  n99 <= n97 & n79;
+  -- DPD.vhd:28:26
+  n100 <= n15 (255 downto 192);
+  -- DPD.vhd:28:26
+  n101 <= u_signal_in & n17 & n100 & n99;
+  -- DPD.vhd:31:25
+  n102 <= n13 when wrap_reset = '0' else u_signal_in;
+  -- DPD.vhd:31:25
+  n104 <= n101 when wrap_reset = '0' else "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+  -- DPD.vhd:56:26
+  att_matrix_process_confusion_matrix_temp <= n499; -- (isignal)
+  -- DPD.vhd:64:82
+  n114 <= att_matrix_process_confusion_matrix_temp (255 downto 128);
+  -- DPD.vhd:66:65
+  n115 <= power_matrix (127 downto 0);
+  -- DPD.vhd:60:17
+  n117 <= n115 & n114;
+  -- functions.vhd:70:42
+  n131 <= confusion_matrix (223 downto 192);
+  -- functions.vhd:70:48
+  n133 <= std_logic_vector (resize (signed (n131) * signed'("11111111111111111111111111010011"), 32));
+  -- functions.vhd:59:23
+  n140 <= n133 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n142 <= n140 (16);
+  -- functions.vhd:63:40
+  n143 <= n140 (15 downto 8);
+  -- functions.vhd:62:82
+  n144 <= n142 & n143;
+  -- functions.vhd:62:19
+  n145 <= std_logic_vector (resize (signed (n144), 32));  --  sext
+  -- functions.vhd:70:70
+  n148 <= confusion_matrix (255 downto 224);
+  -- functions.vhd:70:75
+  n150 <= std_logic_vector (resize (signed (n148) * signed'("11111111111111111111111111100101"), 32));
+  -- functions.vhd:59:23
+  n157 <= n150 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n159 <= n157 (16);
+  -- functions.vhd:63:40
+  n160 <= n157 (15 downto 8);
+  -- functions.vhd:62:82
+  n161 <= n159 & n160;
+  -- functions.vhd:62:19
+  n162 <= std_logic_vector (resize (signed (n161), 32));  --  sext
+  -- functions.vhd:70:59
+  n164 <= std_logic_vector (unsigned (n145) - unsigned (n162));
+  -- functions.vhd:71:41
+  n168 <= confusion_matrix (255 downto 224);
+  -- functions.vhd:71:46
+  n170 <= std_logic_vector (resize (signed (n168) * signed'("11111111111111111111111111010011"), 32));
+  -- functions.vhd:59:23
+  n177 <= n170 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n179 <= n177 (16);
+  -- functions.vhd:63:40
+  n180 <= n177 (15 downto 8);
+  -- functions.vhd:62:82
+  n181 <= n179 & n180;
+  -- functions.vhd:62:19
+  n182 <= std_logic_vector (resize (signed (n181), 32));  --  sext
+  -- functions.vhd:71:68
+  n185 <= confusion_matrix (223 downto 192);
+  -- functions.vhd:71:74
+  n187 <= std_logic_vector (resize (signed (n185) * signed'("11111111111111111111111111100101"), 32));
+  -- functions.vhd:59:23
+  n194 <= n187 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n196 <= n194 (16);
+  -- functions.vhd:63:40
+  n197 <= n194 (15 downto 8);
+  -- functions.vhd:62:82
+  n198 <= n196 & n197;
+  -- functions.vhd:62:19
+  n199 <= std_logic_vector (resize (signed (n198), 32));  --  sext
+  -- functions.vhd:71:57
+  n201 <= std_logic_vector (unsigned (n182) + unsigned (n199));
+  -- functions.vhd:68:26
+  n202 <= n201 & n164;
+  -- functions.vhd:70:42
+  n211 <= confusion_matrix (159 downto 128);
+  -- functions.vhd:70:48
+  n213 <= std_logic_vector (resize (signed (n211) * signed'("00000000000000000000000001011000"), 32));
+  -- functions.vhd:59:23
+  n220 <= n213 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n222 <= n220 (16);
+  -- functions.vhd:63:40
+  n223 <= n220 (15 downto 8);
+  -- functions.vhd:62:82
+  n224 <= n222 & n223;
+  -- functions.vhd:62:19
+  n225 <= std_logic_vector (resize (signed (n224), 32));  --  sext
+  -- functions.vhd:70:70
+  n228 <= confusion_matrix (191 downto 160);
+  -- functions.vhd:70:75
+  n230 <= std_logic_vector (resize (signed (n228) * signed'("00000000000000000000000000000101"), 32));
+  -- functions.vhd:59:23
+  n237 <= n230 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n239 <= n237 (16);
+  -- functions.vhd:63:40
+  n240 <= n237 (15 downto 8);
+  -- functions.vhd:62:82
+  n241 <= n239 & n240;
+  -- functions.vhd:62:19
+  n242 <= std_logic_vector (resize (signed (n241), 32));  --  sext
+  -- functions.vhd:70:59
+  n244 <= std_logic_vector (unsigned (n225) - unsigned (n242));
+  -- functions.vhd:71:41
+  n248 <= confusion_matrix (191 downto 160);
+  -- functions.vhd:71:46
+  n250 <= std_logic_vector (resize (signed (n248) * signed'("00000000000000000000000001011000"), 32));
+  -- functions.vhd:59:23
+  n257 <= n250 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n259 <= n257 (16);
+  -- functions.vhd:63:40
+  n260 <= n257 (15 downto 8);
+  -- functions.vhd:62:82
+  n261 <= n259 & n260;
+  -- functions.vhd:62:19
+  n262 <= std_logic_vector (resize (signed (n261), 32));  --  sext
+  -- functions.vhd:71:68
+  n265 <= confusion_matrix (159 downto 128);
+  -- functions.vhd:71:74
+  n267 <= std_logic_vector (resize (signed (n265) * signed'("00000000000000000000000000000101"), 32));
+  -- functions.vhd:59:23
+  n274 <= n267 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n276 <= n274 (16);
+  -- functions.vhd:63:40
+  n277 <= n274 (15 downto 8);
+  -- functions.vhd:62:82
+  n278 <= n276 & n277;
+  -- functions.vhd:62:19
+  n279 <= std_logic_vector (resize (signed (n278), 32));  --  sext
+  -- functions.vhd:71:57
+  n281 <= std_logic_vector (unsigned (n262) + unsigned (n279));
+  -- functions.vhd:68:26
+  n282 <= n281 & n244;
+  -- functions.vhd:70:42
+  n291 <= confusion_matrix (95 downto 64);
+  -- functions.vhd:70:48
+  n293 <= std_logic_vector (resize (signed (n291) * signed'("00000000000000000000000011101111"), 32));
+  -- functions.vhd:59:23
+  n300 <= n293 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n302 <= n300 (16);
+  -- functions.vhd:63:40
+  n303 <= n300 (15 downto 8);
+  -- functions.vhd:62:82
+  n304 <= n302 & n303;
+  -- functions.vhd:62:19
+  n305 <= std_logic_vector (resize (signed (n304), 32));  --  sext
+  -- functions.vhd:70:70
+  n308 <= confusion_matrix (127 downto 96);
+  -- functions.vhd:70:75
+  n310 <= std_logic_vector (resize (signed (n308) * signed'("00000000000000000000000000011111"), 32));
+  -- functions.vhd:59:23
+  n317 <= n310 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n319 <= n317 (16);
+  -- functions.vhd:63:40
+  n320 <= n317 (15 downto 8);
+  -- functions.vhd:62:82
+  n321 <= n319 & n320;
+  -- functions.vhd:62:19
+  n322 <= std_logic_vector (resize (signed (n321), 32));  --  sext
+  -- functions.vhd:70:59
+  n324 <= std_logic_vector (unsigned (n305) - unsigned (n322));
+  -- functions.vhd:71:41
+  n328 <= confusion_matrix (127 downto 96);
+  -- functions.vhd:71:46
+  n330 <= std_logic_vector (resize (signed (n328) * signed'("00000000000000000000000011101111"), 32));
+  -- functions.vhd:59:23
+  n337 <= n330 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n339 <= n337 (16);
+  -- functions.vhd:63:40
+  n340 <= n337 (15 downto 8);
+  -- functions.vhd:62:82
+  n341 <= n339 & n340;
+  -- functions.vhd:62:19
+  n342 <= std_logic_vector (resize (signed (n341), 32));  --  sext
+  -- functions.vhd:71:68
+  n345 <= confusion_matrix (95 downto 64);
+  -- functions.vhd:71:74
+  n347 <= std_logic_vector (resize (signed (n345) * signed'("00000000000000000000000000011111"), 32));
+  -- functions.vhd:59:23
+  n354 <= n347 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n356 <= n354 (16);
+  -- functions.vhd:63:40
+  n357 <= n354 (15 downto 8);
+  -- functions.vhd:62:82
+  n358 <= n356 & n357;
+  -- functions.vhd:62:19
+  n359 <= std_logic_vector (resize (signed (n358), 32));  --  sext
+  -- functions.vhd:71:57
+  n361 <= std_logic_vector (unsigned (n342) + unsigned (n359));
+  -- functions.vhd:68:26
+  n362 <= n361 & n324;
+  -- functions.vhd:70:42
+  n371 <= confusion_matrix (31 downto 0);
+  -- functions.vhd:70:48
+  n373 <= std_logic_vector (resize (signed (n371) * signed'("11111111111111111111111111011000"), 32));
+  -- functions.vhd:59:23
+  n380 <= n373 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n382 <= n380 (16);
+  -- functions.vhd:63:40
+  n383 <= n380 (15 downto 8);
+  -- functions.vhd:62:82
+  n384 <= n382 & n383;
+  -- functions.vhd:62:19
+  n385 <= std_logic_vector (resize (signed (n384), 32));  --  sext
+  -- functions.vhd:70:70
+  n388 <= confusion_matrix (63 downto 32);
+  -- functions.vhd:70:75
+  n390 <= std_logic_vector (resize (signed (n388) * signed'("11111111111111111111111111110001"), 32));
+  -- functions.vhd:59:23
+  n397 <= n390 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n399 <= n397 (16);
+  -- functions.vhd:63:40
+  n400 <= n397 (15 downto 8);
+  -- functions.vhd:62:82
+  n401 <= n399 & n400;
+  -- functions.vhd:62:19
+  n402 <= std_logic_vector (resize (signed (n401), 32));  --  sext
+  -- functions.vhd:70:59
+  n404 <= std_logic_vector (unsigned (n385) - unsigned (n402));
+  -- functions.vhd:71:41
+  n408 <= confusion_matrix (63 downto 32);
+  -- functions.vhd:71:46
+  n410 <= std_logic_vector (resize (signed (n408) * signed'("11111111111111111111111111011000"), 32));
+  -- functions.vhd:59:23
+  n417 <= n410 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n419 <= n417 (16);
+  -- functions.vhd:63:40
+  n420 <= n417 (15 downto 8);
+  -- functions.vhd:62:82
+  n421 <= n419 & n420;
+  -- functions.vhd:62:19
+  n422 <= std_logic_vector (resize (signed (n421), 32));  --  sext
+  -- functions.vhd:71:68
+  n425 <= confusion_matrix (31 downto 0);
+  -- functions.vhd:71:74
+  n427 <= std_logic_vector (resize (signed (n425) * signed'("11111111111111111111111111110001"), 32));
+  -- functions.vhd:59:23
+  n434 <= n427 (16 downto 0);  --  trunc
+  -- functions.vhd:62:40
+  n436 <= n434 (16);
+  -- functions.vhd:63:40
+  n437 <= n434 (15 downto 8);
+  -- functions.vhd:62:82
+  n438 <= n436 & n437;
+  -- functions.vhd:62:19
+  n439 <= std_logic_vector (resize (signed (n438), 32));  --  sext
+  -- functions.vhd:71:57
+  n441 <= std_logic_vector (unsigned (n422) + unsigned (n439));
+  -- functions.vhd:68:26
+  n442 <= n441 & n404;
+  -- DPD.vhd:98:76
+  n453 <= multi (223 downto 192);
+  -- DPD.vhd:98:62
+  n455 <= std_logic_vector (unsigned'("00000000000000000000000000000000") + unsigned (n453));
+  -- DPD.vhd:99:76
+  n457 <= multi (255 downto 224);
+  -- DPD.vhd:99:62
+  n459 <= std_logic_vector (unsigned'("00000000000000000000000000000000") + unsigned (n457));
+  -- DPD.vhd:98:76
+  n461 <= multi (159 downto 128);
+  -- DPD.vhd:98:62
+  n462 <= std_logic_vector (unsigned (n455) + unsigned (n461));
+  -- DPD.vhd:99:76
+  n463 <= multi (191 downto 160);
+  -- DPD.vhd:99:62
+  n464 <= std_logic_vector (unsigned (n459) + unsigned (n463));
+  -- DPD.vhd:98:76
+  n465 <= multi (95 downto 64);
+  -- DPD.vhd:98:62
+  n466 <= std_logic_vector (unsigned (n462) + unsigned (n465));
+  -- DPD.vhd:99:76
+  n467 <= multi (127 downto 96);
+  -- DPD.vhd:99:62
+  n468 <= std_logic_vector (unsigned (n464) + unsigned (n467));
+  -- DPD.vhd:98:76
+  n469 <= multi (31 downto 0);
+  -- DPD.vhd:98:62
+  n470 <= std_logic_vector (unsigned (n466) + unsigned (n469));
+  -- DPD.vhd:99:76
+  n471 <= multi (63 downto 32);
+  -- DPD.vhd:99:62
+  n472 <= std_logic_vector (unsigned (n468) + unsigned (n471));
+  -- DPD.vhd:102:52
+  n473 <= n470 (8 downto 0);  --  trunc
+  -- DPD.vhd:103:52
+  n474 <= n472 (8 downto 0);  --  trunc
+  -- DPD.vhd:23:23
+  n486 <= n202 & n282 & n362 & n442;
+  -- DPD.vhd:13:17
+  n487 <= not wrap_reset;
+  -- DPD.vhd:92:17
+  n488 <= n489 when n487 = '0' else n473;
+  -- DPD.vhd:92:17
+  process (wrap_clk)
+  begin
+    if rising_edge (wrap_clk) then
+      n489 <= n488;
+    end if;
+  end process;
+  -- DPD.vhd:14:17
+  n490 <= not wrap_reset;
+  -- DPD.vhd:92:17
+  n491 <= n492 when n490 = '0' else n474;
+  -- DPD.vhd:92:17
+  process (wrap_clk)
+  begin
+    if rising_edge (wrap_clk) then
+      n492 <= n491;
+    end if;
+  end process;
+  -- DPD.vhd:30:17
+  process (wrap_clk)
+  begin
+    if rising_edge (wrap_clk) then
+      n493 <= n102;
+    end if;
+  end process;
+  -- DPD.vhd:30:17
+  process (wrap_clk)
+  begin
+    if rising_edge (wrap_clk) then
+      n494 <= n104;
+    end if;
+  end process;
+  -- DPD.vhd:22:16
+  n495 <= not wrap_reset;
+  -- DPD.vhd:60:17
+  n496 <= confusion_matrix when n495 = '0' else att_matrix_process_confusion_matrix_temp;
+  -- DPD.vhd:60:17
+  process (wrap_clk)
+  begin
+    if rising_edge (wrap_clk) then
+      n497 <= n496;
+    end if;
+  end process;
+  -- DPD.vhd:82:17
+  process (wrap_clk, wrap_reset)
+  begin
+    if wrap_reset = '1' then
+      n498 <= "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+    elsif rising_edge (wrap_clk) then
+      n498 <= multiplic_temp;
+    end if;
+  end process;
+  -- DPD.vhd:60:17
+  process (wrap_clk, wrap_reset)
+  begin
+    if wrap_reset = '1' then
+      n499 <= "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+    elsif rising_edge (wrap_clk) then
+      n499 <= n117;
+    end if;
+  end process;
+end rtl;
