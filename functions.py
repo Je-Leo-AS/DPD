@@ -29,11 +29,11 @@ def modulo_preservando_sinal(dividendo, divisor):
 def mp_int(P, M, xn, bits):
     L = xn.shape
     XX = np.zeros((L[0] - M, P * (M+1)), dtype=np.complex128)
-    for l in range(M+1, L[0]):
+    for l in range(0, L[0]):
         for p in range(1, P+1):
             for m in range(0, M+1):
-                    A = np.real(xn[l-m])[0]
-                    B = np.imag(xn[l-m])[0]
+                    A = np.real(xn[l-m])
+                    B = np.imag(xn[l-m])
                     modulo_power = 2**bits 
                     modulo_square = readeq_int(A ** 2, bits) + readeq_int(B ** 2, bits)
                     for _ in range(1, p):
@@ -50,8 +50,8 @@ def MultiplicadorMatrizes(coefficients, XX, precision):
     for i in range(XX.shape[0]):
         for j in range(XX.shape[1]):
             
-            A = np.real(coefficients[j,0])
-            B = np.imag(coefficients[j,0])
+            A = np.real(coefficients[j])
+            B = np.imag(coefficients[j])
             C = np.real(XX[i, j])
             D = np.imag(XX[i, j])
 
