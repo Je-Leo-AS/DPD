@@ -28,11 +28,11 @@ $GHDL -e $STD tb
 echo "=============================="
 echo " Rodando simulação"
 echo "=============================="
-$GHDL -r $STD tb --vcd=output.vcd --stop-time=500ns
+$GHDL -r $STD tb --vcd=output.vcd --stop-time=20us
 
 echo "=============================="
 echo " Abrindo formas de onda"
 echo "=============================="
-$GTKWAVE output.vcd &
+# $GTKWAVE output.vcd &
 
 echo "Simulação concluída! Arquivo de saída: output.vcd"

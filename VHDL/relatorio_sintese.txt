@@ -924,6 +924,6 @@ Found and reported 0 problems.
       528   $_XNOR_
      1348   $_XOR_
 
-End of script. Logfile hash: 9d2843ef79, CPU: user 1.07s system 0.03s, MEM: 63.99 MB peak
+End of script. Logfile hash: 9d2843ef79, CPU: user 0.83s system 0.03s, MEM: 64.25 MB peak
 Yosys 0.63+87 (git sha1 2f1cdc2df, clang++ 18.1.8 -fPIC -O3)
-Time spent: 29% 1x abc (0 sec), 19% 23x opt_expr (0 sec), ...
+Time spent: 34% 1x abc (0 sec), 15% 23x opt_expr (0 sec), ...

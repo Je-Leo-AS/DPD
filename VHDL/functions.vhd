@@ -22,17 +22,17 @@ PACKAGE functions IS
 		imag : INTEGER;
 	END RECORD;
 
-	TYPE complex_coefficients IS ARRAY (0 TO n_signals_used + n_polygnos_degree - 1) OF complex_number;
 	TYPE Array_signals IS ARRAY (0 TO n_signals_used - 1) OF complex_number;
 	TYPE Array_poly_degree IS ARRAY (0 TO n_polygnos_degree - 1) OF complex_number;
 	TYPE Array_signals_multip IS ARRAY (0 TO n_signals_used - 1) OF Array_poly_degree;
 	TYPE Array_signals_powers IS ARRAY (0 TO n_polygnos_degree - 1) OF Array_poly_degree;
+  	TYPE complex_coefficients IS ARRAY (0 TO n_signals_used - 1, 0 TO n_polygnos_degree - 1) OF complex_number;
 	CONSTANT coefficients : complex_coefficients := (
-		(reall => -45, imag => -27),
-		(reall =>  88, imag =>   5),	
-		(reall => 239, imag =>  31),	
-		(reall => -40, imag => -15)		
+		((reall => -45, imag => -27), (reall => 239, imag => 31)),
+		((reall => 88, imag => 5), (reall => -40, imag => -15))
 	);
+
+
 	FUNCTION readeq(
 		input : integer
 	) RETURN integer;
