@@ -63,16 +63,15 @@ Cleaned up 0 empty switches.
 
 2.2.12. Executing OPT_EXPR pass (perform const folding).
 Optimizing module DPD.
-<suppressed ~3 debug messages>
 
 2.3. Executing OPT_EXPR pass (perform const folding).
 Optimizing module DPD.
-<suppressed ~6 debug messages>
+<suppressed ~122 debug messages>
 
 2.4. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \DPD..
-Removed 3 unused cells and 20 unused wires.
-<suppressed ~6 debug messages>
+Removed 0 unused cells and 96 unused wires.
+<suppressed ~33 debug messages>
 
 2.5. Executing CHECK pass (checking for obvious problems).
 Checking module DPD...
@@ -85,7 +84,7 @@ Optimizing module DPD.
 
 2.6.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 47 cells of `\DPD'.
+Computing hashes of 36 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -95,7 +94,7 @@ Running muxtree optimizer on module \DPD..
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
 Removed 0 multiplexer ports.
-<suppressed ~10 debug messages>
+<suppressed ~8 debug messages>
 
 2.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
   Optimizing cells in module \DPD.
@@ -103,7 +102,7 @@ Performed a total of 0 changes.
 
 2.6.5. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 47 cells of `\DPD'.
+Computing hashes of 36 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -143,7 +142,7 @@ Optimizing module DPD.
 
 2.8.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 47 cells of `\DPD'.
+Computing hashes of 36 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -153,7 +152,7 @@ Running muxtree optimizer on module \DPD..
   Evaluating internal representation of mux trees.
   Analyzing evaluation results.
 Removed 0 multiplexer ports.
-<suppressed ~10 debug messages>
+<suppressed ~8 debug messages>
 
 2.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
   Optimizing cells in module \DPD.
@@ -161,86 +160,20 @@ Performed a total of 0 changes.
 
 2.8.5. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 47 cells of `\DPD'.
+Computing hashes of 36 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
 2.8.6. Executing OPT_DFF pass (perform DFF optimizations).
-Adding EN signal on :497 ($dff) from module DPD (D = \att_matrix_process.confusion_matrix_temp, Q = \confusion_matrix).
-Adding EN signal on :489 ($dff) from module DPD (D = $auto$ghdl.cc:846:import_module$38 [8:0], Q = \UR_out).
-Adding EN signal on :492 ($dff) from module DPD (D = $auto$ghdl.cc:846:import_module$39 [8:0], Q = \UI_out).
-Adding EN signal on :493 ($dff) from module DPD (D = { \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI [8] \UI \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR [8] \UR }, Q = \u_signal_in).
-Adding SRST signal on :494 ($dff) from module DPD (D = { \u_signal_in \u_signal_in $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16] $auto$ghdl.cc:846:import_module$5 [16:8] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16] $auto$ghdl.cc:846:import_module$4 [16:8] }, Q = { \power_matrix [255:192] \power_matrix [127:0] }, rval = 192'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000).
-Adding EN signal on :494 ($dff) from module DPD (D = 64'0000000000000000000000000000000000000000000000000000000000000000, Q = \power_matrix [191:128]).
-Setting constant 0-bit at position 0 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 1 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 2 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 3 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 4 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 5 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 6 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 7 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 8 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 9 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 10 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 11 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 12 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 13 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 14 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 15 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 16 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 17 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 18 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 19 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 20 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 21 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 22 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 23 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 24 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 25 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 26 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 27 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 28 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 29 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 30 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 31 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 32 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 33 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 34 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 35 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 36 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 37 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 38 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 39 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 40 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 41 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 42 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 43 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 44 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 45 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 46 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 47 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 48 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 49 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 50 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 51 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 52 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 53 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 54 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 55 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 56 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 57 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 58 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 59 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 60 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 61 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 62 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
-Setting constant 0-bit at position 63 on $auto$ff.cc:337:slice$59 ($dffe) from module DPD.
+Adding SRST signal on :680 ($dff) from module DPD (D = { \x_in \delay_line [191:64] }, Q = \delay_line, rval = 192'000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000).
+Adding SRST signal on :679 ($dff) from module DPD (D = { \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI [10] \UI \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR [10] \UR }, Q = \x_in, rval = 64'0000000000000000000000000000000000000000000000000000000000000000).
+Adding SRST signal on :678 ($dff) from module DPD (D = $auto$ghdl.cc:846:import_module$122 [10:0], Q = \UI_out, rval = 11'00000000000).
+Adding SRST signal on :677 ($dff) from module DPD (D = $auto$ghdl.cc:846:import_module$121 [10:0], Q = \UR_out, rval = 11'00000000000).
 
 2.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \DPD..
-Removed 5 unused cells and 5 unused wires.
-<suppressed ~6 debug messages>
+Removed 4 unused cells and 4 unused wires.
+<suppressed ~5 debug messages>
 
 2.8.8. Executing OPT_EXPR pass (perform const folding).
 Optimizing module DPD.
@@ -259,7 +192,7 @@ Performed a total of 0 changes.
 
 2.8.12. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 42 cells of `\DPD'.
+Computing hashes of 32 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -274,233 +207,198 @@ Optimizing module DPD.
 2.8.16. Finished fast OPT passes. (There is nothing left to do.)
 
 2.9. Executing WREDUCE pass (reducing word size of cells).
-Removed top 64 bits (of 192) from FF cell DPD.$auto$ff.cc:337:slice$57 ($sdff).
-Removed top 23 bits (of 64) from FF cell DPD.$auto$ff.cc:337:slice$56 ($dffe).
-Removed top 15 bits (of 32) from port Y of cell DPD.:30 ($mul).
-Converting cell DPD.:50 ($mul) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:50 ($mul).
-Removed top 23 bits (of 32) from port B of cell DPD.:50 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:50 ($mul).
-Converting cell DPD.:64 ($add) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:64 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:64 ($add).
-Removed top 22 bits (of 32) from port Y of cell DPD.:64 ($add).
-Converting cell DPD.:67 ($mul) from unsigned to signed.
-Removed top 22 bits (of 32) from port B of cell DPD.:67 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:67 ($mul).
-Converting cell DPD.:85 ($mul) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:85 ($mul).
-Removed top 22 bits (of 32) from port B of cell DPD.:85 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:85 ($mul).
-Converting cell DPD.:133 ($mul) from unsigned to signed.
-Removed top 25 bits (of 32) from port B of cell DPD.:133 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:133 ($mul).
-Converting cell DPD.:150 ($mul) from unsigned to signed.
-Removed top 26 bits (of 32) from port B of cell DPD.:150 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:150 ($mul).
-Converting cell DPD.:164 ($sub) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:164 ($sub).
-Removed top 23 bits (of 32) from port B of cell DPD.:164 ($sub).
-Removed top 22 bits (of 32) from port Y of cell DPD.:164 ($sub).
-Converting cell DPD.:170 ($mul) from unsigned to signed.
-Removed top 25 bits (of 32) from port B of cell DPD.:170 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:170 ($mul).
-Converting cell DPD.:187 ($mul) from unsigned to signed.
-Removed top 26 bits (of 32) from port B of cell DPD.:187 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:187 ($mul).
-Converting cell DPD.:201 ($add) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:201 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:201 ($add).
-Removed top 22 bits (of 32) from port Y of cell DPD.:201 ($add).
-Removed top 24 bits (of 29) from port B of cell DPD.:213 ($mul).
-Removed top 15 bits (of 29) from port Y of cell DPD.:213 ($mul).
-Removed top 28 bits (of 32) from port B of cell DPD.:230 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:230 ($mul).
-Converting cell DPD.:244 ($sub) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:244 ($sub).
-Removed top 23 bits (of 32) from port B of cell DPD.:244 ($sub).
-Removed top 22 bits (of 32) from port Y of cell DPD.:244 ($sub).
-Removed top 24 bits (of 29) from port B of cell DPD.:250 ($mul).
-Removed top 15 bits (of 29) from port Y of cell DPD.:250 ($mul).
-Removed top 28 bits (of 32) from port B of cell DPD.:267 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:267 ($mul).
-Converting cell DPD.:281 ($add) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:281 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:281 ($add).
-Removed top 22 bits (of 32) from port Y of cell DPD.:281 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:293 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:293 ($mul).
-Removed top 26 bits (of 32) from port B of cell DPD.:310 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:310 ($mul).
-Converting cell DPD.:324 ($sub) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:324 ($sub).
-Removed top 23 bits (of 32) from port B of cell DPD.:324 ($sub).
-Removed top 22 bits (of 32) from port Y of cell DPD.:324 ($sub).
-Removed top 23 bits (of 32) from port B of cell DPD.:330 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:330 ($mul).
-Removed top 26 bits (of 32) from port B of cell DPD.:347 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:347 ($mul).
-Converting cell DPD.:361 ($add) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:361 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:361 ($add).
-Removed top 22 bits (of 32) from port Y of cell DPD.:361 ($add).
-Removed top 25 bits (of 29) from port B of cell DPD.:373 ($mul).
-Removed top 15 bits (of 29) from port Y of cell DPD.:373 ($mul).
-Converting cell DPD.:390 ($mul) from unsigned to signed.
-Removed top 27 bits (of 32) from port B of cell DPD.:390 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:390 ($mul).
-Converting cell DPD.:404 ($sub) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:404 ($sub).
-Removed top 23 bits (of 32) from port B of cell DPD.:404 ($sub).
-Removed top 22 bits (of 32) from port Y of cell DPD.:404 ($sub).
-Removed top 25 bits (of 29) from port B of cell DPD.:410 ($mul).
-Removed top 15 bits (of 29) from port Y of cell DPD.:410 ($mul).
-Converting cell DPD.:427 ($mul) from unsigned to signed.
-Removed top 27 bits (of 32) from port B of cell DPD.:427 ($mul).
-Removed top 15 bits (of 32) from port Y of cell DPD.:427 ($mul).
-Converting cell DPD.:441 ($add) from unsigned to signed.
-Removed top 23 bits (of 32) from port A of cell DPD.:441 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:441 ($add).
-Removed top 22 bits (of 32) from port Y of cell DPD.:441 ($add).
-Removed top 23 bits (of 32) from port Y of cell DPD.:470 ($add).
-Removed top 23 bits (of 32) from port A of cell DPD.:470 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:470 ($add).
-Removed top 23 bits (of 32) from port Y of cell DPD.:472 ($add).
-Removed top 23 bits (of 32) from port A of cell DPD.:472 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:472 ($add).
-Removed top 22 bits (of 256) from FF cell DPD.:498 ($adff).
-Removed top 23 bits (of 128) from FF cell DPD.$auto$ff.cc:337:slice$57 ($sdff).
-Removed top 23 bits (of 32) from port Y of cell DPD.:466 ($add).
-Removed top 23 bits (of 32) from port A of cell DPD.:466 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:466 ($add).
-Removed top 23 bits (of 32) from port Y of cell DPD.:468 ($add).
-Removed top 23 bits (of 32) from port A of cell DPD.:468 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:468 ($add).
-Removed top 23 bits (of 32) from port Y of cell DPD.:462 ($add).
-Removed top 23 bits (of 32) from port A of cell DPD.:462 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:462 ($add).
-Removed top 23 bits (of 32) from port Y of cell DPD.:464 ($add).
-Removed top 23 bits (of 32) from port A of cell DPD.:464 ($add).
-Removed top 23 bits (of 32) from port B of cell DPD.:464 ($add).
-Removed top 1 bits (of 234) from FF cell DPD.:498 ($adff).
-Removed top 1 bits (of 10) from port Y of cell DPD.:201 ($add).
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$29.
-Removed top 23 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$38.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$27.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$26.
-Removed top 23 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$39.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$24.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$23.
-Removed top 23 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$37.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$21.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$20.
-Removed top 23 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$36.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$18.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$17.
-Removed top 23 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$35.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$15.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$14.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$12.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$11.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$9.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$8.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$30.
-Removed top 23 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$34.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$5.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$4.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$2.
-Removed top 15 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$1.
-Removed top 23 bits (of 256) from wire DPD.multiplic_temp.
+Removed top 21 bits (of 64) from FF cell DPD.$auto$ff.cc:337:slice$130 ($sdff).
+Removed top 21 bits (of 192) from FF cell DPD.$auto$ff.cc:337:slice$129 ($sdff).
+Converting cell DPD.:610 ($add) from unsigned to signed.
+Removed top 21 bits (of 32) from port A of cell DPD.:610 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:610 ($add).
+Removed top 20 bits (of 32) from port Y of cell DPD.:610 ($add).
+Converting cell DPD.:614 ($add) from unsigned to signed.
+Removed top 20 bits (of 32) from port A of cell DPD.:614 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:614 ($add).
+Removed top 19 bits (of 32) from port Y of cell DPD.:614 ($add).
+Converting cell DPD.:618 ($add) from unsigned to signed.
+Removed top 19 bits (of 32) from port A of cell DPD.:618 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:618 ($add).
+Removed top 18 bits (of 32) from port Y of cell DPD.:618 ($add).
+Converting cell DPD.:622 ($add) from unsigned to signed.
+Removed top 18 bits (of 32) from port A of cell DPD.:622 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:622 ($add).
+Removed top 17 bits (of 32) from port Y of cell DPD.:622 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:660 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:660 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:660 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:662 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:662 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:662 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:656 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:656 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:656 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:658 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:658 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:658 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:652 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:652 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:652 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:654 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:654 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:654 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:648 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:648 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:648 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:650 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:650 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:650 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:644 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:644 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:644 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:646 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:646 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:646 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:640 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:640 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:640 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:642 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:642 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:642 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:636 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:636 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:636 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:638 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:638 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:638 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:632 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:632 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:632 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:634 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:634 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:634 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:628 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:628 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:628 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:630 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:630 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:630 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:624 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:624 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:624 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:626 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:626 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:626 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:620 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:620 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:620 ($add).
+Removed top 4 bits (of 15) from port Y of cell DPD.:622 ($add).
+Removed top 3 bits (of 14) from port A of cell DPD.:622 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:616 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:616 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:616 ($add).
+Removed top 3 bits (of 14) from port Y of cell DPD.:618 ($add).
+Removed top 2 bits (of 13) from port A of cell DPD.:618 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:612 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:612 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:612 ($add).
+Removed top 2 bits (of 13) from port Y of cell DPD.:614 ($add).
+Removed top 1 bits (of 12) from port A of cell DPD.:614 ($add).
+Removed top 21 bits (of 32) from port Y of cell DPD.:608 ($add).
+Removed top 21 bits (of 32) from port A of cell DPD.:608 ($add).
+Removed top 21 bits (of 32) from port B of cell DPD.:608 ($add).
+Removed top 1 bits (of 12) from port Y of cell DPD.:610 ($add).
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$103.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$104.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$105.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$106.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$107.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$108.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$109.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$110.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$111.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$112.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$113.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$114.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$115.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$116.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$117.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$118.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$119.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$120.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$121.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$122.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$102.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$101.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$95.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$96.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$97.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$98.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$100.
+Removed top 21 bits (of 32) from wire DPD.$auto$ghdl.cc:846:import_module$99.
 
 2.10. Executing PEEPOPT pass (run peephole optimizers).
 
 2.11. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \DPD..
-Removed 0 unused cells and 27 unused wires.
+Removed 0 unused cells and 28 unused wires.
 <suppressed ~1 debug messages>
 
 2.12. Executing ALUMACC pass (create $alu and $macc cells).
 Extracting $alu and $macc cells in module DPD:
-  creating $macc model for :472 ($add).
-  creating $macc model for :470 ($add).
-  creating $macc model for :468 ($add).
-  creating $macc model for :466 ($add).
-  creating $macc model for :464 ($add).
-  creating $macc model for :462 ($add).
-  creating $macc model for :441 ($add).
-  creating $macc model for :427 ($mul).
-  creating $macc model for :410 ($mul).
-  creating $macc model for :404 ($sub).
-  creating $macc model for :390 ($mul).
-  creating $macc model for :373 ($mul).
-  creating $macc model for :361 ($add).
-  creating $macc model for :347 ($mul).
-  creating $macc model for :330 ($mul).
-  creating $macc model for :324 ($sub).
-  creating $macc model for :310 ($mul).
-  creating $macc model for :293 ($mul).
-  creating $macc model for :281 ($add).
-  creating $macc model for :267 ($mul).
-  creating $macc model for :250 ($mul).
-  creating $macc model for :244 ($sub).
-  creating $macc model for :230 ($mul).
-  creating $macc model for :213 ($mul).
-  creating $macc model for :201 ($add).
-  creating $macc model for :187 ($mul).
-  creating $macc model for :170 ($mul).
-  creating $macc model for :164 ($sub).
-  creating $macc model for :150 ($mul).
-  creating $macc model for :133 ($mul).
-  creating $macc model for :85 ($mul).
-  creating $macc model for :67 ($mul).
-  creating $macc model for :64 ($add).
-  creating $macc model for :50 ($mul).
-  creating $macc model for :30 ($mul).
-  merging $macc model for :462 into :466.
-  merging $macc model for :464 into :468.
-  merging $macc model for :466 into :470.
-  merging $macc model for :468 into :472.
-  creating $alu model for $macc :164.
-  creating $alu model for $macc :201.
-  creating $alu model for $macc :244.
-  creating $alu model for $macc :281.
-  creating $alu model for $macc :324.
-  creating $alu model for $macc :361.
-  creating $alu model for $macc :404.
-  creating $alu model for $macc :441.
-  creating $alu model for $macc :64.
-  creating $macc cell for :213: $auto$alumacc.cc:382:replace_macc$87
-  creating $macc cell for :250: $auto$alumacc.cc:382:replace_macc$88
-  creating $macc cell for :267: $auto$alumacc.cc:382:replace_macc$89
-  creating $macc cell for :187: $auto$alumacc.cc:382:replace_macc$90
-  creating $macc cell for :293: $auto$alumacc.cc:382:replace_macc$91
-  creating $macc cell for :310: $auto$alumacc.cc:382:replace_macc$92
-  creating $macc cell for :170: $auto$alumacc.cc:382:replace_macc$93
-  creating $macc cell for :330: $auto$alumacc.cc:382:replace_macc$94
-  creating $macc cell for :347: $auto$alumacc.cc:382:replace_macc$95
-  creating $macc cell for :230: $auto$alumacc.cc:382:replace_macc$96
-  creating $macc cell for :373: $auto$alumacc.cc:382:replace_macc$97
-  creating $macc cell for :390: $auto$alumacc.cc:382:replace_macc$98
-  creating $macc cell for :150: $auto$alumacc.cc:382:replace_macc$99
-  creating $macc cell for :410: $auto$alumacc.cc:382:replace_macc$100
-  creating $macc cell for :427: $auto$alumacc.cc:382:replace_macc$101
-  creating $macc cell for :133: $auto$alumacc.cc:382:replace_macc$102
-  creating $macc cell for :67: $auto$alumacc.cc:382:replace_macc$103
-  creating $macc cell for :85: $auto$alumacc.cc:382:replace_macc$104
-  creating $macc cell for :50: $auto$alumacc.cc:382:replace_macc$105
-  creating $macc cell for :30: $auto$alumacc.cc:382:replace_macc$106
-  creating $macc cell for :470: $auto$alumacc.cc:382:replace_macc$107
-  creating $macc cell for :472: $auto$alumacc.cc:382:replace_macc$108
-  creating $alu cell for :64: $auto$alumacc.cc:512:replace_alu$109
-  creating $alu cell for :441: $auto$alumacc.cc:512:replace_alu$112
-  creating $alu cell for :404: $auto$alumacc.cc:512:replace_alu$115
-  creating $alu cell for :361: $auto$alumacc.cc:512:replace_alu$118
-  creating $alu cell for :324: $auto$alumacc.cc:512:replace_alu$121
-  creating $alu cell for :281: $auto$alumacc.cc:512:replace_alu$124
-  creating $alu cell for :244: $auto$alumacc.cc:512:replace_alu$127
-  creating $alu cell for :201: $auto$alumacc.cc:512:replace_alu$130
-  creating $alu cell for :164: $auto$alumacc.cc:512:replace_alu$133
-  created 9 $alu and 22 $macc cells.
+  creating $macc model for :634 ($add).
+  creating $macc model for :656 ($add).
+  creating $macc model for :644 ($add).
+  creating $macc model for :638 ($add).
+  creating $macc model for :658 ($add).
+  creating $macc model for :626 ($add).
+  creating $macc model for :628 ($add).
+  creating $macc model for :660 ($add).
+  creating $macc model for :616 ($add).
+  creating $macc model for :646 ($add).
+  creating $macc model for :662 ($add).
+  creating $macc model for :632 ($add).
+  creating $macc model for :640 ($add).
+  creating $macc model for :654 ($add).
+  creating $macc model for :648 ($add).
+  creating $macc model for :620 ($add).
+  creating $macc model for :618 ($add).
+  creating $macc model for :636 ($add).
+  creating $macc model for :650 ($add).
+  creating $macc model for :608 ($add).
+  creating $macc model for :624 ($add).
+  creating $macc model for :610 ($add).
+  creating $macc model for :642 ($add).
+  creating $macc model for :612 ($add).
+  creating $macc model for :652 ($add).
+  creating $macc model for :614 ($add).
+  creating $macc model for :622 ($add).
+  creating $macc model for :630 ($add).
+  merging $macc model for :626 into :630.
+  merging $macc model for :622 into :630.
+  merging $macc model for :618 into :630.
+  merging $macc model for :614 into :630.
+  merging $macc model for :610 into :630.
+  merging $macc model for :648 into :652.
+  merging $macc model for :644 into :652.
+  merging $macc model for :640 into :652.
+  merging $macc model for :636 into :652.
+  merging $macc model for :632 into :652.
+  merging $macc model for :628 into :652.
+  merging $macc model for :624 into :652.
+  merging $macc model for :620 into :652.
+  merging $macc model for :616 into :652.
+  merging $macc model for :612 into :652.
+  merging $macc model for :608 into :652.
+  merging $macc model for :638 into :642.
+  merging $macc model for :634 into :642.
+  merging $macc model for :630 into :642.
+  merging $macc model for :646 into :650.
+  merging $macc model for :642 into :650.
+  merging $macc model for :650 into :654.
+  merging $macc model for :658 into :662.
+  merging $macc model for :654 into :662.
+  merging $macc model for :656 into :660.
+  merging $macc model for :652 into :660.
+  creating $macc cell for :660: $auto$alumacc.cc:382:replace_macc$161
+  creating $macc cell for :662: $auto$alumacc.cc:382:replace_macc$162
+  created 0 $alu and 2 $macc cells.
 
 2.13. Executing SHARE pass (SAT-based resource sharing).
 
@@ -511,7 +409,7 @@ Optimizing module DPD.
 
 2.14.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 42 cells of `\DPD'.
+Computing hashes of 32 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -527,7 +425,7 @@ Performed a total of 0 changes.
 
 2.14.5. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 42 cells of `\DPD'.
+Computing hashes of 32 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -535,8 +433,8 @@ Removed a total of 0 cells.
 
 2.14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \DPD..
-Removed 4 unused cells and 4 unused wires.
-<suppressed ~5 debug messages>
+Removed 26 unused cells and 26 unused wires.
+<suppressed ~27 debug messages>
 
 2.14.8. Executing OPT_EXPR pass (perform const folding).
 Optimizing module DPD.
@@ -555,7 +453,7 @@ Performed a total of 0 changes.
 
 2.14.12. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 38 cells of `\DPD'.
+Computing hashes of 6 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -603,11 +501,10 @@ Finding unused cells or wires in module \DPD..
 
 2.17.1. Executing OPT_EXPR pass (perform const folding).
 Optimizing module DPD.
-<suppressed ~19 debug messages>
 
 2.17.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 38 cells of `\DPD'.
+Computing hashes of 6 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -627,7 +524,7 @@ Optimizing module DPD.
 
 2.19.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 38 cells of `\DPD'.
+Computing hashes of 6 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -643,7 +540,7 @@ Performed a total of 0 changes.
 
 2.19.5. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 38 cells of `\DPD'.
+Computing hashes of 6 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
 Removed a total of 0 cells.
 
@@ -692,105 +589,78 @@ Generating RTLIL representation for module `$input_port'.
 Successfully finished Verilog frontend.
 
 2.20.2. Continuing TECHMAP pass.
-Using template $paramod$e91b162b5e66ac5731bf38c3cce71e8fd8ae1a69\_90_alu for cells of type $alu.
-Using template $paramod$a7ecfa730f7b429cdd2d19291637694b0937162d\_90_alu for cells of type $alu.
 Using extmapper maccmap for cells of type $macc_v2.
-  add \multi [232:224] (9 bits, unsigned)
-  add \multi [40:32] (9 bits, unsigned)
-  add \multi [104:96] (9 bits, unsigned)
-  add \multi [168:160] (9 bits, unsigned)
-  add \multi [200:192] (9 bits, unsigned)
-  add \multi [8:0] (9 bits, unsigned)
-  add \multi [72:64] (9 bits, unsigned)
-  add \multi [136:128] (9 bits, unsigned)
-  add \u_signal_in [31:0] * \u_signal_in [31:0] (32x32 bits, signed)
-  add \u_signal_in [40:32] * \u_signal_in [40:32] (9x9 bits, signed)
-  add $auto$ghdl.cc:846:import_module$3 [9:0] * \u_signal_in [40:32] (10x9 bits, signed)
-  add \u_signal_in [31:0] * $auto$ghdl.cc:846:import_module$3 [9:0] (32x10 bits, signed)
-  add \confusion_matrix [223:192] * 7'1010011 (32x7 bits, signed)
-  add \confusion_matrix [31:0] * 5'10001 (32x5 bits, signed)
-  add \confusion_matrix [63:32] * 4'1011 (32x4 bits, signed)
-  add \confusion_matrix [255:224] * 6'100101 (32x6 bits, signed)
-  add \confusion_matrix [63:32] * 5'10001 (32x5 bits, signed)
-  add \confusion_matrix [31:0] * 4'1011 (32x4 bits, signed)
-  add \confusion_matrix [191:160] * 4'0101 (32x4 bits, signed)
-  add \confusion_matrix [95:64] * 6'011111 (32x6 bits, signed)
-  add \confusion_matrix [127:96] * 9'011101111 (32x9 bits, signed)
-  add \confusion_matrix [255:224] * 7'1010011 (32x7 bits, signed)
-  add \confusion_matrix [127:96] * 6'011111 (32x6 bits, signed)
-  add \confusion_matrix [95:64] * 9'011101111 (32x9 bits, signed)
-  add \confusion_matrix [223:192] * 6'100101 (32x6 bits, signed)
-  add \confusion_matrix [159:128] * 4'0101 (32x4 bits, signed)
-  add \confusion_matrix [191:160] * 5'01011 (32x5 bits, signed)
-  add \confusion_matrix [159:128] * 5'01011 (32x5 bits, signed)
+  add \delay_line [170:160] (11 bits, signed)
+  add \delay_line [42:32] (11 bits, unsigned)
+  add \delay_line [42:32] (11 bits, unsigned)
+  add \delay_line [42:32] (11 bits, unsigned)
+  add \delay_line [42:32] (11 bits, unsigned)
+  add \delay_line [42:32] (11 bits, unsigned)
+  add \delay_line [106:96] (11 bits, unsigned)
+  add \delay_line [106:96] (11 bits, unsigned)
+  add \delay_line [106:96] (11 bits, unsigned)
+  add \delay_line [106:96] (11 bits, unsigned)
+  add \delay_line [106:96] (11 bits, unsigned)
+  add \delay_line [170:160] (11 bits, signed)
+  add \delay_line [170:160] (11 bits, signed)
+  add \delay_line [170:160] (11 bits, signed)
+  add \delay_line [170:160] (11 bits, signed)
+  add \delay_line [138:128] (11 bits, unsigned)
+  add \delay_line [10:0] (11 bits, unsigned)
+  add \delay_line [10:0] (11 bits, unsigned)
+  add \delay_line [10:0] (11 bits, unsigned)
+  add \delay_line [10:0] (11 bits, unsigned)
+  add \delay_line [10:0] (11 bits, unsigned)
+  add \delay_line [74:64] (11 bits, unsigned)
+  add \delay_line [74:64] (11 bits, unsigned)
+  add \delay_line [74:64] (11 bits, unsigned)
+  add \delay_line [74:64] (11 bits, unsigned)
+  add \delay_line [74:64] (11 bits, unsigned)
+  add \delay_line [138:128] (11 bits, unsigned)
+  add \delay_line [138:128] (11 bits, unsigned)
+  add \delay_line [138:128] (11 bits, unsigned)
+  add \delay_line [138:128] (11 bits, unsigned)
 Using extmapper simplemap for cells of type $sdff.
-Using extmapper simplemap for cells of type $dffe.
-Using extmapper simplemap for cells of type $adff.
-Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000001110 for cells of type $fa.
-Using template $paramod$091610cd349a68bd5539cffd7126f0d76e9bca00\_90_alu for cells of type $alu.
-Using extmapper simplemap for cells of type $and.
-Using extmapper simplemap for cells of type $not.
-Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010001 for cells of type $fa.
-Using template $paramod$3bb72ad0665cdca279bbc49ed6a39f403f16497f\_90_alu for cells of type $alu.
 Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000001001 for cells of type $fa.
-Using template $paramod$d2fa05d38998afabc6d4f34471305d0af4b8b2df\_90_alu for cells of type $alu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000001011 for cells of type $fa.
+Using template $paramod$ec32b97001540459632a2df9accd677d3703ea0f\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $or.
 Using extmapper simplemap for cells of type $xor.
-Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000001010 for cells of type $fa.
-Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000001010 for cells of type $lcu.
+Using extmapper simplemap for cells of type $and.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000001011 for cells of type $lcu.
 Using extmapper simplemap for cells of type $pos.
 Using extmapper simplemap for cells of type $mux.
-Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000001001 for cells of type $lcu.
-Using extmapper simplemap for cells of type $or.
-Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000001110 for cells of type $lcu.
-Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000010001 for cells of type $lcu.
+Using extmapper simplemap for cells of type $not.
 No more expansions possible.
-<suppressed ~3611 debug messages>
+<suppressed ~390 debug messages>
 
 2.21. Executing OPT pass (performing simple optimizations).
 
 2.21.1. Executing OPT_EXPR pass (perform const folding).
 Optimizing module DPD.
-<suppressed ~8877 debug messages>
+<suppressed ~178 debug messages>
 
 2.21.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 8956 cells of `\DPD'.
+Computing hashes of 730 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
-Computing hashes of 8237 cells of `\DPD'.
+Computing hashes of 688 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
-Computing hashes of 7850 cells of `\DPD'.
+Computing hashes of 646 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
-Computing hashes of 7595 cells of `\DPD'.
+Computing hashes of 625 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
-Computing hashes of 7390 cells of `\DPD'.
+Computing hashes of 604 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
-Computing hashes of 7249 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-Computing hashes of 7140 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-Computing hashes of 7081 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-Computing hashes of 7032 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-Computing hashes of 7016 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-Computing hashes of 7006 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-Computing hashes of 6999 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-Computing hashes of 6997 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-Computing hashes of 6994 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-<suppressed ~5886 debug messages>
-Removed a total of 1962 cells.
+<suppressed ~378 debug messages>
+Removed a total of 126 cells.
 
 2.21.3. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.21.4. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \DPD..
-Removed 820 unused cells and 2933 unused wires.
-<suppressed ~821 debug messages>
+Removed 48 unused cells and 174 unused wires.
+<suppressed ~49 debug messages>
 
 2.21.5. Finished fast OPT passes.
 
@@ -799,7 +669,7 @@ Removed 820 unused cells and 2933 unused wires.
 2.22.1. Extracting gate netlist of module `\DPD' to `<abc-temp-dir>/input.blif'..
 
 2.22.1.1. Executed ABC.
-Extracted 5886 gates and 6048 wires to a netlist network with 162 inputs and 108 outputs.
+Extracted 446 gates and 512 wires to a netlist network with 66 inputs and 22 outputs.
 Running ABC script: <abc-temp-dir>/abc.script
 ABC: UC Berkeley, ABC 1.01 (compiled Mar  7 2026 03:15:59)
 ABC: abc 01> empty
@@ -814,19 +684,18 @@ ABC:
 ABC: YOSYS_ABC_DONE 
 
 2.22.1.2. Re-integrating ABC results.
-ABC RESULTS:               AND cells:      212
-ABC RESULTS:            ANDNOT cells:     1973
-ABC RESULTS:               MUX cells:       35
-ABC RESULTS:              NAND cells:      107
-ABC RESULTS:               NOR cells:      328
-ABC RESULTS:               NOT cells:      260
-ABC RESULTS:                OR cells:      418
-ABC RESULTS:             ORNOT cells:      338
-ABC RESULTS:              XNOR cells:      529
-ABC RESULTS:               XOR cells:     1352
-ABC RESULTS:        internal signals:     5778
-ABC RESULTS:           input signals:      162
-ABC RESULTS:          output signals:      108
+ABC RESULTS:               AND cells:       14
+ABC RESULTS:            ANDNOT cells:      152
+ABC RESULTS:              NAND cells:       24
+ABC RESULTS:               NOR cells:       21
+ABC RESULTS:               NOT cells:       14
+ABC RESULTS:                OR cells:       31
+ABC RESULTS:             ORNOT cells:       22
+ABC RESULTS:              XNOR cells:       84
+ABC RESULTS:               XOR cells:       98
+ABC RESULTS:        internal signals:      424
+ABC RESULTS:           input signals:       66
+ABC RESULTS:          output signals:       22
 Removing temp directory.
 Removing global temp directory.
 
@@ -834,25 +703,19 @@ Removing global temp directory.
 
 2.23.1. Executing OPT_EXPR pass (perform const folding).
 Optimizing module DPD.
-<suppressed ~1 debug messages>
 
 2.23.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\DPD'.
-Computing hashes of 5840 cells of `\DPD'.
+Computing hashes of 570 cells of `\DPD'.
 Finding duplicate cells in `\DPD'.
-Computing hashes of 5813 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-Computing hashes of 5811 cells of `\DPD'.
-Finding duplicate cells in `\DPD'.
-<suppressed ~87 debug messages>
-Removed a total of 29 cells.
+Removed a total of 0 cells.
 
 2.23.3. Executing OPT_DFF pass (perform DFF optimizations).
 
 2.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \DPD..
-Removed 1 unused cells and 1754 unused wires.
-<suppressed ~2 debug messages>
+Removed 0 unused cells and 162 unused wires.
+<suppressed ~1 debug messages>
 
 2.23.5. Finished fast OPT passes.
 
@@ -872,26 +735,23 @@ Removed 0 unused modules.
 
         +----------Local Count, excluding submodules.
         | 
-     5434 wires
-     6861 wire bits
-       12 public wires
-     1359 public wire bits
+      457 wires
+     1810 wire bits
+        9 public wires
+     1262 public wire bits
         6 ports
-       38 port bits
-     5810 cells
-     1967   $_ANDNOT_
-      205   $_AND_
-      108   $_DFFE_PN_
-      144   $_DFF_PP0_
-       35   $_MUX_
-      104   $_NAND_
-      328   $_NOR_
-      259   $_NOT_
-      332   $_ORNOT_
-      416   $_OR_
-       36   $_SDFF_PP0_
-      528   $_XNOR_
-     1348   $_XOR_
+       46 port bits
+      570 cells
+      152   $_ANDNOT_
+       14   $_AND_
+       24   $_NAND_
+       21   $_NOR_
+       14   $_NOT_
+       22   $_ORNOT_
+       31   $_OR_
+      110   $_SDFF_PP0_
+       84   $_XNOR_
+       98   $_XOR_
 
 2.26. Executing CHECK pass (checking for obvious problems).
 Checking module DPD...
@@ -903,27 +763,24 @@ Found and reported 0 problems.
 
         +----------Local Count, excluding submodules.
         | 
-     5434 wires
-     6861 wire bits
-       12 public wires
-     1359 public wire bits
+      457 wires
+     1810 wire bits
+        9 public wires
+     1262 public wire bits
         6 ports
-       38 port bits
-     5810 cells
-     1967   $_ANDNOT_
-      205   $_AND_
-      108   $_DFFE_PN_
-      144   $_DFF_PP0_
-       35   $_MUX_
-      104   $_NAND_
-      328   $_NOR_
-      259   $_NOT_
-      332   $_ORNOT_
-      416   $_OR_
-       36   $_SDFF_PP0_
-      528   $_XNOR_
-     1348   $_XOR_
+       46 port bits
+      570 cells
+      152   $_ANDNOT_
+       14   $_AND_
+       24   $_NAND_
+       21   $_NOR_
+       14   $_NOT_
+       22   $_ORNOT_
+       31   $_OR_
+      110   $_SDFF_PP0_
+       84   $_XNOR_
+       98   $_XOR_
 
-End of script. Logfile hash: 9d2843ef79, CPU: user 0.83s system 0.03s, MEM: 64.25 MB peak
+End of script. Logfile hash: b1d7d75e74, CPU: user 0.14s system 0.01s, MEM: 29.29 MB peak
 Yosys 0.63+87 (git sha1 2f1cdc2df, clang++ 18.1.8 -fPIC -O3)
-Time spent: 34% 1x abc (0 sec), 15% 23x opt_expr (0 sec), ...
+Time spent: 27% 1x abc (0 sec), 14% 1x ghdl (0 sec), ...

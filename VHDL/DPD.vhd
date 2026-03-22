@@ -1,106 +1,109 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
-USE IEEE.NUMERIC_STD.ALL;
-LIBRARY work;
+USE IEEE.numeric_std.ALL;
 USE work.functions.ALL;
 
 ENTITY DPD IS
-	PORT (
-		reset : IN STD_LOGIC;
-		clk : IN STD_LOGIC;
-		UR : IN STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
-		UI : IN STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
-		UR_out : OUT STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
-		UI_out : OUT STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0));
+PORT (
+    clk   : IN STD_LOGIC;
+    reset : IN STD_LOGIC;
 
-END DPD;
+    UR    : IN STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
+    UI    : IN STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
 
-ARCHITECTURE hardware OF DPD IS
-	SIGNAL U_signal_out : complex_number := (reall => 0, imag => 0);
-	SIGNAL U_signal_in : complex_number := (reall => 0, imag => 0);
-	SIGNAL power_matrix : Array_signals_powers := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
-	SIGNAL confusion_matrix : Array_signals_multip := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
-	SIGNAL multi, multiplic_temp : Array_signals_multip := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+    UR_out : OUT STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
+    UI_out : OUT STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0)
+);
+END ENTITY;
+
+ARCHITECTURE rtl OF DPD IS
+
+    TYPE term_matrix_t IS ARRAY (0 TO n_signals_used - 1,
+                                 0 TO n_polygnos_degree - 1)
+                                 OF complex_number;
+
+    SIGNAL x_in       : complex_number;
+    SIGNAL delay_line : delay_line_t := (OTHERS => (0,0));
+    SIGNAL terms      : term_matrix_t := (OTHERS => (OTHERS => (0,0)));
 
 BEGIN
 
-	calcula_potencia_process : PROCESS (clk)
-		VARIABLE power_matrix_temp : Array_signals_powers;
-	BEGIN
-		IF rising_edge(clk) THEN
-			IF reset = '1' THEN
-				power_matrix <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
-			ELSE
-				-- Atualiza entrada
-				U_signal_in <= (
-					reall => to_integer(signed(UR)),
-					imag => to_integer(signed(UI))
-				);
+----------------------------------------------------------------------
+-- INPUT
+----------------------------------------------------------------------
+process(clk)
+begin
+    if rising_edge(clk) then
+        if reset = '1' then
+            x_in <= (0,0);
+        else
+            x_in <= (
+                reall => to_integer(signed(UR)),
+                imag  => to_integer(signed(UI))
+            );
+        end if;
+    end if;
+end process;
 
-				power_matrix_temp := power_matrix;
+----------------------------------------------------------------------
+-- DELAY LINE
+----------------------------------------------------------------------
+process(clk)
+begin
+    if rising_edge(clk) then
+        if reset = '1' then
+            delay_line <= (OTHERS => (0,0));
+        else
+            delay_line(0) <= x_in;
 
-				power_matrix_temp(0)(0) := U_signal_in;
+            for i in 1 to n_signals_used-1 loop
+                delay_line(i) <= delay_line(i-1);
+            end loop;
+        end if;
+    end if;
+end process;
 
-				FOR j IN n_polygnos_degree - 1 DOWNTO 1 LOOP
-					power_matrix_temp(j) := power_matrix_temp(j - 1);
-					power_matrix_temp(j)(j) := power(power_matrix_temp(j)(j - 1));
-				END LOOP;
+----------------------------------------------------------------------
+-- TERMS (FIXADO: SEM "*")
+----------------------------------------------------------------------
+gen_i: for i in 0 to n_signals_used-1 generate
+    gen_j: for j in 0 to n_polygnos_degree-1 generate
 
-				power_matrix <= power_matrix_temp;
-			END IF;
-		END IF;
-	END PROCESS;
+        terms(i, j) <= multiplication(
+            delay_line(i),
+            (reall => 1, imag => 0)
+        );
 
-	att_matrix_process : PROCESS (clk)
-		-- Processo que calcula a a matriz de extração
-		VARIABLE confusion_matrix_temp : Array_signals_multip;
-	BEGIN
-		IF reset = '1' THEN
-			confusion_matrix_temp := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
-		ELSIF rising_edge(clk) THEN
-			confusion_matrix <= confusion_matrix_temp;
-			-- registra sinal da matriz de confusÃ£o
-			FOR j IN n_signals_used - 1 DOWNTO 1 LOOP
-				confusion_matrix_temp(j) := confusion_matrix_temp(j - 1);
-			END LOOP;
-			confusion_matrix_temp(0) := power_matrix(n_polygnos_degree - 1);
-			-- adiciona ultma linha da matriz de potência a primeira linha da matriz de confusÃ£o
-		END IF;
-	END PROCESS;
-	generate_signals_used : FOR i IN confusion_matrix'RANGE GENERATE
-		generate_polygons_used : FOR j IN confusion_matrix(i)'RANGE GENERATE
-			multiplic_temp(i)(j) <= multiplication(confusion_matrix(i)(j), coefficients(j, i));
-			-- realiza a multiplicação de termo em blocos
-		END GENERATE generate_polygons_used;
-	END GENERATE generate_signals_used;
+    end generate;
+end generate;
 
-	multi_matrix_process : PROCESS (clk, reset, multiplic_temp)
-		-- Processo que calcula a a matriz de extração
-	BEGIN
-		IF reset = '1' THEN
-			multi <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
-		ELSIF rising_edge(clk) THEN
-			multi <= multiplic_temp;
-		END IF;
-	END PROCESS;
+----------------------------------------------------------------------
+-- SUM
+----------------------------------------------------------------------
+process(clk)
+    variable rsum, isum : integer := 0;
+begin
+    if rising_edge(clk) then
+        if reset = '1' then
+            UR_out <= (others => '0');
+            UI_out <= (others => '0');
+        else
 
-	sum_process : PROCESS (clk)
-		VARIABLE real_sum, imag_sum : INTEGER := 0;
-	BEGIN
-		IF reset = '1' THEN
-			U_signal_out <= (reall => 0, imag => 0);
-		ELSIF rising_edge(clk) THEN
-			real_sum := 0;
-			imag_sum := 0;
-			FOR i IN multi'RANGE LOOP
-				FOR j IN multi(i)'RANGE LOOP
-					-- Soma as partes reais e imaginarias
-					real_sum := real_sum + multi(i)(j).reall;
-					imag_sum := imag_sum + multi(i)(j).imag;
-				END LOOP;
-			END LOOP;
-			UR_out <= STD_LOGIC_VECTOR(to_signed(real_sum, UR_out'length));
-			UI_out <= STD_LOGIC_VECTOR(to_signed(imag_sum, UI_out'length));
-		END IF;
-	END PROCESS;
+            rsum := 0;
+            isum := 0;
+
+            for i in 0 to n_signals_used-1 loop
+                for j in 0 to n_polygnos_degree-1 loop
+                    rsum := rsum + terms(i, j).reall;
+                    isum := isum + terms(i, j).imag;
+                end loop;
+            end loop;
+
+            UR_out <= std_logic_vector(to_signed(rsum, UR_out'length));
+            UI_out <= std_logic_vector(to_signed(isum, UI_out'length));
+
+        end if;
+    end if;
+end process;
+
 END ARCHITECTURE;
