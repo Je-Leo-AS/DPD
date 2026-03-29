@@ -18,13 +18,16 @@ END ENTITY;
 
 ARCHITECTURE rtl OF DPD IS
 
-    TYPE term_matrix_t IS ARRAY (0 TO n_signals_used - 1,
-                                 0 TO n_polygnos_degree - 1)
-                                 OF complex_number;
+    TYPE term_matrix_t IS ARRAY (
+        0 TO n_signals_used - 1,
+        0 TO n_polygnos_degree - 1
+    ) OF complex_number;
 
     SIGNAL x_in       : complex_number;
-    SIGNAL delay_line : delay_line_t := (OTHERS => (0,0));
-    SIGNAL terms      : term_matrix_t := (OTHERS => (OTHERS => (0,0)));
+    SIGNAL delay_line : delay_line_t := (OTHERS => ZERO_COMPLEX);
+    TYPE mag_array_t IS ARRAY (0 TO n_signals_used-1) OF data_t;
+    SIGNAL mag2       : mag_array_t;
+    SIGNAL terms      : term_matrix_t := (OTHERS => (OTHERS => ZERO_COMPLEX));
 
 BEGIN
 
@@ -35,11 +38,11 @@ process(clk)
 begin
     if rising_edge(clk) then
         if reset = '1' then
-            x_in <= (0,0);
+            x_in <= ZERO_COMPLEX;
         else
             x_in <= (
-                reall => to_integer(signed(UR)),
-                imag  => to_integer(signed(UI))
+                reall => signed(UR),
+                imag  => signed(UI)
             );
         end if;
     end if;
@@ -52,7 +55,7 @@ process(clk)
 begin
     if rising_edge(clk) then
         if reset = '1' then
-            delay_line <= (OTHERS => (0,0));
+            delay_line <= (OTHERS => ZERO_COMPLEX);
         else
             delay_line(0) <= x_in;
 
@@ -64,45 +67,98 @@ begin
 end process;
 
 ----------------------------------------------------------------------
--- TERMS (FIXADO: SEM "*")
-----------------------------------------------------------------------
-gen_i: for i in 0 to n_signals_used-1 generate
-    gen_j: for j in 0 to n_polygnos_degree-1 generate
-
-        terms(i, j) <= multiplication(
-            delay_line(i),
-            (reall => 1, imag => 0)
-        );
-
-    end generate;
-end generate;
-
-----------------------------------------------------------------------
--- SUM
+-- |x|^2
 ----------------------------------------------------------------------
 process(clk)
-    variable rsum, isum : integer := 0;
 begin
     if rising_edge(clk) then
-        if reset = '1' then
-            UR_out <= (others => '0');
-            UI_out <= (others => '0');
-        else
+        for i in 0 to n_signals_used-1 loop
+            mag2(i) <= shift_right(
+                delay_line(i).reall * delay_line(i).reall +
+                delay_line(i).imag  * delay_line(i).imag,
+                n_bits_resolution/2
+            );
+        end loop;
+    end if;
+end process;
 
-            rsum := 0;
-            isum := 0;
+----------------------------------------------------------------------
+-- NONLINEAR TERMS
+----------------------------------------------------------------------
+process(clk)
+begin
+    if rising_edge(clk) then
 
-            for i in 0 to n_signals_used-1 loop
-                for j in 0 to n_polygnos_degree-1 loop
-                    rsum := rsum + terms(i, j).reall;
-                    isum := isum + terms(i, j).imag;
-                end loop;
+        for i in 0 to n_signals_used-1 loop
+
+            -- p = 0 (linear)
+            terms(i,0) <= delay_line(i);
+
+            -- p > 0
+            for j in 1 to n_polygnos_degree-1 loop
+
+                terms(i,j).reall <= shift_right(
+                    terms(i,j-1).reall * mag2(i),
+                    n_bits_resolution/2
+                );
+
+                terms(i,j).imag <= shift_right(
+                    terms(i,j-1).imag * mag2(i),
+                    n_bits_resolution/2
+                );
+
             end loop;
+        end loop;
 
-            UR_out <= std_logic_vector(to_signed(rsum, UR_out'length));
-            UI_out <= std_logic_vector(to_signed(isum, UI_out'length));
+    end if;
+end process;
 
-        end if;
+----------------------------------------------------------------------
+-- MULTIPLY BY COEFFICIENTS + SUM
+----------------------------------------------------------------------
+process(clk)
+    variable acc_re : acc_t;
+    variable acc_im : acc_t;
+
+    variable mult_re, mult_im : acc_t;
+
+begin
+    if rising_edge(clk) then
+
+        acc_re := (others => '0');
+        acc_im := (others => '0');
+
+        for i in 0 to n_signals_used-1 loop
+            for j in 0 to n_polygnos_degree-1 loop
+
+                -- multiplicação complexa manual
+                mult_re := resize(
+                    shift_right(
+                        coefficients(i,j).reall * terms(i,j).reall -
+                        coefficients(i,j).imag  * terms(i,j).imag,
+                        n_bits_resolution/2
+                    ),
+                    acc_re'length
+                );
+
+                mult_im := resize(
+                    shift_right(
+                        coefficients(i,j).reall * terms(i,j).imag +
+                        coefficients(i,j).imag  * terms(i,j).reall,
+                        n_bits_resolution/2
+                    ),
+                    acc_im'length
+                );
+
+                acc_re := acc_re + mult_re;
+                acc_im := acc_im + mult_im;
+
+            end loop;
+        end loop;
+
+        UR_out <= std_logic_vector(resize(acc_re, n_bits_resolution));
+        UI_out <= std_logic_vector(resize(acc_im, n_bits_resolution));
+
     end if;
 end process;
 

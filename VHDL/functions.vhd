@@ -7,39 +7,50 @@ PACKAGE functions IS
     --------------------------------------------------------------------
     -- CONSTANTS
     --------------------------------------------------------------------
-    CONSTANT n_signals_used    : INTEGER := 3;
-    CONSTANT n_polygnos_degree : INTEGER := 5;
-    CONSTANT n_bits_resolution : INTEGER := 11;
+    CONSTANT n_signals_used    : INTEGER := 3;  -- M
+    CONSTANT n_polygnos_degree : INTEGER := 5;  -- P
+    CONSTANT n_bits_resolution : INTEGER := 10 + 1;
     CONSTANT n_bits_overflow   : INTEGER := 8;
 
     --------------------------------------------------------------------
     -- TYPES
     --------------------------------------------------------------------
+    SUBTYPE data_t IS SIGNED(n_bits_resolution-1 DOWNTO 0);
+
+    SUBTYPE acc_t IS SIGNED(
+        2*n_bits_resolution + n_bits_overflow DOWNTO 0
+    );
+
     TYPE complex_number IS RECORD
-        reall : INTEGER;
-        imag  : INTEGER;
+        reall : data_t;
+        imag  : data_t;
     END RECORD;
 
     TYPE delay_line_t IS ARRAY (0 TO n_signals_used - 1)
                                 OF complex_number;
 
-    TYPE complex_coefficients IS ARRAY (0 TO n_signals_used - 1,
-                                        0 TO n_polygnos_degree - 1)
-                                        OF complex_number;
+    TYPE complex_coefficients IS ARRAY (
+        0 TO n_signals_used - 1,
+        0 TO n_polygnos_degree - 1
+    ) OF complex_number;
 
     --------------------------------------------------------------------
     -- COEFFICIENTS
     --------------------------------------------------------------------
     CONSTANT coefficients : complex_coefficients := (
-        ((32, -4), (994, 13), (133, -6), (142, -157), (1627, -284)),
-        ((-939, 81), (35, 928), (-6732, 1731), (3202, 36), (-1197, -2317)),
-        ((11292, -2545), (-5043, -1085), (2289, 2517), (-5790, 2352), (3539, 1838))
+        ((reall => to_signed(49, n_bits_resolution), imag => to_signed(2, n_bits_resolution)), (reall => to_signed(-769, n_bits_resolution), imag => to_signed(70, n_bits_resolution)), (reall => to_signed(1031, n_bits_resolution), imag => to_signed(38, n_bits_resolution)), (reall => to_signed(-225, n_bits_resolution), imag => to_signed(-451, n_bits_resolution)), (reall => to_signed(-290, n_bits_resolution), imag => to_signed(326, n_bits_resolution))),
+        ((reall => to_signed(908, n_bits_resolution), imag => to_signed(-1, n_bits_resolution)), (reall => to_signed(1173, n_bits_resolution), imag => to_signed(-255, n_bits_resolution)), (reall => to_signed(-2668, n_bits_resolution), imag => to_signed(995, n_bits_resolution)), (reall => to_signed(2427, n_bits_resolution), imag => to_signed(-1130, n_bits_resolution)), (reall => to_signed(-282, n_bits_resolution), imag => to_signed(885, n_bits_resolution))),
+        ((reall => to_signed(16, n_bits_resolution), imag => to_signed(4, n_bits_resolution)), (reall => to_signed(63, n_bits_resolution), imag => to_signed(-71, n_bits_resolution)), (reall => to_signed(322, n_bits_resolution), imag => to_signed(348, n_bits_resolution)), (reall => to_signed(-909, n_bits_resolution), imag => to_signed(-674, n_bits_resolution)), (reall => to_signed(604, n_bits_resolution), imag => to_signed(478, n_bits_resolution)))
     );
 
+    constant ZERO_COMPLEX : complex_number := (
+        reall => to_signed(0, n_bits_resolution),
+        imag  => to_signed(0, n_bits_resolution)
+    );
     --------------------------------------------------------------------
     -- FUNCTIONS
     --------------------------------------------------------------------
-    FUNCTION readeq(input : INTEGER) RETURN INTEGER;
+    FUNCTION scale(x : acc_t) RETURN data_t;
 
     FUNCTION multiplication(
         A : complex_number;
@@ -48,61 +59,87 @@ PACKAGE functions IS
 
     FUNCTION cmul(
         A : complex_number;
-        B : complex_number
+        scalar : data_t
     ) RETURN complex_number;
 
     FUNCTION magnitude_square(
         A : complex_number
-    ) RETURN INTEGER;
+    ) RETURN data_t;
 
 END PACKAGE;
 
-----------------------------------------------------------------------
+
 PACKAGE BODY functions IS
 
     --------------------------------------------------------------------
-    -- SAFE CAST
+    -- SCALING (ESSENCIAL)
     --------------------------------------------------------------------
-    FUNCTION readeq(input : INTEGER) RETURN INTEGER IS
-        VARIABLE slv : SIGNED(31 DOWNTO 0);
+    FUNCTION scale(x : acc_t) RETURN data_t IS
+        VARIABLE tmp : acc_t;
     BEGIN
-        slv := TO_SIGNED(input, slv'LENGTH);
-        RETURN TO_INTEGER(slv);
+        -- 🔥 scaling automático
+        tmp := shift_right(x, n_bits_overflow);
+
+        RETURN resize(tmp, n_bits_resolution);
     END FUNCTION;
 
     --------------------------------------------------------------------
-    -- COMPLEX MULTIPLICATION (REAL + IMAG)
+    -- COMPLEX MULTIPLICATION
     --------------------------------------------------------------------
-    FUNCTION multiplication(A : complex_number; B : complex_number)
-        RETURN complex_number IS
+    FUNCTION multiplication(
+        A : complex_number;
+        B : complex_number
+    ) RETURN complex_number IS
 
         VARIABLE r : complex_number;
+        VARIABLE ar, ai, br, bi : acc_t;
+
     BEGIN
-        r.reall := readeq(A.reall * B.reall - A.imag * B.imag);
-        r.imag  := readeq(A.imag * B.reall + A.reall * B.imag);
+        ar := resize(A.reall, acc_t'length);
+        ai := resize(A.imag,  acc_t'length);
+        br := resize(B.reall, acc_t'length);
+        bi := resize(B.imag,  acc_t'length);
+
+        r.reall := scale(ar * br - ai * bi);
+        r.imag  := scale(ai * br + ar * bi);
+
         RETURN r;
     END FUNCTION;
 
     --------------------------------------------------------------------
-    -- SCALAR MULTIPLICATION (INTEGER * COMPLEX)
+    -- SCALAR * COMPLEX
     --------------------------------------------------------------------
-    FUNCTION cmul(A : complex_number; B : complex_number)
-        RETURN complex_number IS
+    FUNCTION cmul(
+        A : complex_number;
+        scalar : data_t
+    ) RETURN complex_number IS
 
         VARIABLE r : complex_number;
+        VARIABLE s : acc_t;
+
     BEGIN
-        r.reall := readeq(A.reall * B.reall);
-        r.imag  := readeq(A.imag * B.imag);
+        s := resize(scalar, acc_t'length);
+
+        r.reall := scale(resize(A.reall, acc_t'length) * s);
+        r.imag  := scale(resize(A.imag,  acc_t'length) * s);
+
         RETURN r;
     END FUNCTION;
 
     --------------------------------------------------------------------
-    -- POWER BASE
+    -- |x|²
     --------------------------------------------------------------------
-    FUNCTION magnitude_square(A : complex_number)
-        RETURN INTEGER IS
+    FUNCTION magnitude_square(
+        A : complex_number
+    ) RETURN data_t IS
+
+        VARIABLE r2, i2 : acc_t;
+
     BEGIN
-        RETURN readeq(A.reall * A.reall + A.imag * A.imag);
+        r2 := resize(A.reall, acc_t'length) * resize(A.reall, acc_t'length);
+        i2 := resize(A.imag,  acc_t'length) * resize(A.imag,  acc_t'length);
+
+        RETURN scale(r2 + i2);
     END FUNCTION;
 
 END PACKAGE BODY;

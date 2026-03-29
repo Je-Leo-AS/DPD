@@ -1,0 +1,175 @@
+clear all; close all; clc;
+tic
+n_tap=1;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+load('output_two_NN_proposed_Tsetembro21_r1_to_15_M2.mat','model_validation_out');
+out_com_PD1=model_validation_out(1:end,3);
+clear in;
+clear out;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+load('saida_previous_complex_R4a6_2000ite_M2.mat','pred_f2');
+%load('saida_previous_complex_R1a3_2000ite_M2.mat','pred_f2');
+out_com_PD2=pred_f2(4,1:end).';
+clear in;
+clear out;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%load('output_validation_volterra_p7_m1_one_carrier.mat');
+load('saida_proposto_R1a6_2000ite_M2_2015_v2','pred_2in'); %TLP data
+out_com_PD3=pred_2in (4,1:end).';
+clear in;
+clear out;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear in;
+clear out;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% load('measured_input_val.mat');
+% in1=out(n_tap+29551:38250);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+load('two_carriers_MTT_2011.mat');
+in=[in_validation(3:end)];
+out=[out_validation(3:end)];
+% clear in;
+% in=in1;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ini=300;
+N=8192;
+fin=ini+N-1;%32767
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+w=blackman(N); % with windowing, PSD decreases by approx. 5dB
+%w=rectwin(N);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+in=in(ini:fin,:);
+out=out(ini:fin,:);
+out_com_PD1=out_com_PD1(ini:fin,:)-out;
+out_com_PD2=out_com_PD2(ini:fin,:)-out;
+out_com_PD3=out_com_PD3(ini:fin,:)-out;
+out_com_PD4=out_com_PD3;
+out_com_PD5=out_com_PD4;
+
+StimData= w.*in;
+RespData=w.*out;
+SimData=w.*out_com_PD1;
+SimData2=w.*out_com_PD2;
+SimData3=w.*out_com_PD3;
+SimData4=w.*out_com_PD4;
+SimData5=w.*out_com_PD5;
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%average output power before windowing%%%%%%%%%%%%%%%%%%
+Rnorm=50;
+p_out_inst=abs(out_com_PD3).^2/(2*Rnorm);
+p_out_media=mean(p_out_inst)
+p_out_media_dB=10*log10(p_out_media)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%average output power after windowing%%%%%%%%%%%%%%%%%%
+Rnorm=50;
+p_out_inst=abs(SimData3).^2/(2*Rnorm);
+p_out_media=mean(p_out_inst)
+p_out_media_dB=10*log10(p_out_media)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Attenuation=24; %%measured attenuation is 24dB
+Rnorm=50;
+avg=50;
+fcenter=900e6;
+fs=61.44e6;
+resolution=fs/N;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+dim=length(in);
+N=dim;
+sample=fs/dim;
+freq0=[0:1:(dim-1)]*sample;
+freq=freq0+fcenter-fs/2;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+StimData_0=StimData;
+StimData_0_freq=fftshift(fft(StimData_0,N)/N);
+StimData_0_freq_pot=(abs(StimData_0_freq).^2/(Rnorm*2));
+StimData_0_freq_pot_dB=10*log10(StimData_0_freq_pot/resolution);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RespData_0=RespData;
+RespData_0_freq=fftshift(fft(RespData_0,N)/N);
+RespData_0_freq_pot=(abs(RespData_0_freq).^2/(Rnorm*2));
+RespData_0_freq_pot_dB=10*log10(RespData_0_freq_pot/resolution);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RespData1_0=SimData;
+RespData1_0_freq=fftshift(fft(RespData1_0,N)/N);
+RespData1_0_freq_pot=(abs(RespData1_0_freq).^2/(Rnorm*2));
+RespData1_0_freq_pot_dB=10*log10(RespData1_0_freq_pot/resolution);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RespData2_0=SimData2;
+RespData2_0_freq=fftshift(fft(RespData2_0,N)/N);
+RespData2_0_freq_pot=(abs(RespData2_0_freq).^2/(Rnorm*2));
+RespData2_0_freq_pot_dB=10*log10(RespData2_0_freq_pot/resolution);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RespData3_0=SimData3;
+RespData3_0_freq=fftshift(fft(RespData3_0,N)/N);
+RespData3_0_freq_pot=(abs(RespData3_0_freq).^2/(Rnorm*2));
+RespData3_0_freq_pot_dB=10*log10(RespData3_0_freq_pot/resolution);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RespData4_0=SimData4;
+RespData4_0_freq=fftshift(fft(RespData4_0,N)/N);
+RespData4_0_freq_pot=(abs(RespData4_0_freq).^2/(Rnorm*2));
+RespData4_0_freq_pot_dB=10*log10(RespData4_0_freq_pot/resolution);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+RespData5_0=SimData5;
+RespData5_0_freq=fftshift(fft(RespData5_0,N)/N);
+RespData5_0_freq_pot=(abs(RespData5_0_freq).^2/(Rnorm*2));
+RespData5_0_freq_pot_dB=10*log10(RespData5_0_freq_pot/resolution);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+l1=floor(length(StimData_0_freq_pot_dB)/avg)
+for i=1:l1
+    inizio=(i-1)*avg+1;
+    fine=i*avg;
+    StimData_0_freq_pot_dB_avg(i)=sum(StimData_0_freq_pot_dB(inizio:fine))/avg;
+    RespData_0_freq_pot_dB_avg(i)=sum(RespData_0_freq_pot_dB(inizio:fine))/avg;
+    RespData1_0_freq_pot_dB_avg(i)=sum(RespData1_0_freq_pot_dB(inizio:fine))/avg;
+    RespData2_0_freq_pot_dB_avg(i)=sum(RespData2_0_freq_pot_dB(inizio:fine))/avg;
+    RespData3_0_freq_pot_dB_avg(i)=sum(RespData3_0_freq_pot_dB(inizio:fine))/avg;
+    RespData4_0_freq_pot_dB_avg(i)=sum(RespData4_0_freq_pot_dB(inizio:fine))/avg;
+    RespData5_0_freq_pot_dB_avg(i)=sum(RespData5_0_freq_pot_dB(inizio:fine))/avg;
+end
+%freq_avg=freq(1:avg:dim-avg);
+freq_avg=freq(1:avg:dim-avg+1).*1e-6;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% figure;
+% plot(freq_avg,,'-k',freq_avg,Attenuation+30+RespData_0_freq_pot_dB_avg,'-r',freq_avg,Attenuation+30+RespData1_0_freq_pot_dB_avg,'g.-',freq_avg,Attenuation+30+RespData2_0_freq_pot_dB_avg,'b-s',freq_avg,Attenuation+30+RespData3_0_freq_pot_dB_avg,'m--',freq_avg,Attenuation+30+RespData4_0_freq_pot_dB_avg,'c-x',freq_avg,Attenuation+30+RespData5_0_freq_pot_dB_avg,'c-x')
+% set(gca,'fontname','times','fontsize',10);
+% legend('input signal','measured output signal','eror for DD model','error for MP model','error for 3box', 'error for Wiener', 'error for memoryless')
+% %set(gca,'fontname','times','fontsize',16);
+% xlabel('Frequency (MHz)');
+% ylabel('Power Spectral Density (dBm/Hz)')
+% %title('Power Spectral Density - WCDMA ');
+% %axis([8.8e8 9.2e8 -85 30]);
+% grid on;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+out1=Attenuation+30+7.2+StimData_0_freq_pot_dB_avg;
+out2=Attenuation+30+RespData_0_freq_pot_dB_avg;
+out3=Attenuation+30+RespData1_0_freq_pot_dB_avg;
+out4=Attenuation+30+RespData2_0_freq_pot_dB_avg;
+out5=Attenuation+30+RespData3_0_freq_pot_dB_avg;
+out6=Attenuation+30+RespData4_0_freq_pot_dB_avg;
+out7=Attenuation+30+RespData5_0_freq_pot_dB_avg;
+Y_matrix1=[ out2.' out3.' out4.' out5.']; %out6.'];% out7.'];
+X1=[freq_avg.' freq_avg.' freq_avg.' freq_avg.'];% freq_avg.' ];% freq_avg.'];
+size(X1)
+size(Y_matrix1)
+create_PSD_IMOC2011(X1, Y_matrix1);
+
