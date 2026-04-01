@@ -32,7 +32,7 @@ run_step() {
 echo "=============================="
 echo " Limpando compilações antigas"
 echo "=============================="
-rm -f *.cf
+rm -f *.cf work-obj*.cf
 echo -e "${GREEN}✓ Limpeza concluída${NC}\n"
 
 echo "=============================="
@@ -50,12 +50,12 @@ run_step "Elaborando tb" $GHDL -e $STD tb
 echo "=============================="
 echo " Rodando simulação"
 echo "=============================="
-run_step "Simulando tb" $GHDL -r $STD tb --vcd=output.vcd --stop-time=20us
+run_step "Simulando tb" $GHDL -r $STD tb --vcd=output.vcd
 
 echo "=============================="
 echo " Abrindo formas de onda"
 echo "=============================="
-# $GTKWAVE output.vcd &
+$GTKWAVE output.vcd &
 
 echo -e "${GREEN}=============================="
 echo " Simulação concluída!"

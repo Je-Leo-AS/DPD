@@ -8,7 +8,7 @@
 
 -- Running command `
     # Importa VHDL via GHDL
-    ghdl --std=08 functions.vhd DPD.vhd -e DPD
+    ghdl --std=10 functions.vhd DPD.vhd -e DPD
 
     # Síntese genérica
     synth -top DPD

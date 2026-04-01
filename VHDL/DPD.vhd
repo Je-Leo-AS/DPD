@@ -1,165 +1,170 @@
 LIBRARY IEEE;
-USE IEEE.std_logic_1164.ALL;
-USE IEEE.numeric_std.ALL;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.NUMERIC_STD.ALL;
 USE work.functions.ALL;
 
 ENTITY DPD IS
-PORT (
-    clk   : IN STD_LOGIC;
-    reset : IN STD_LOGIC;
-
-    UR    : IN STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
-    UI    : IN STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
-
-    UR_out : OUT STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0);
-    UI_out : OUT STD_LOGIC_VECTOR(n_bits_resolution - 1 DOWNTO 0)
-);
+    PORT (
+        clk    : IN  STD_LOGIC;
+        reset  : IN  STD_LOGIC;
+        UR     : IN  STD_LOGIC_VECTOR(n_bits_resolution-1 DOWNTO 0);
+        UI     : IN  STD_LOGIC_VECTOR(n_bits_resolution-1 DOWNTO 0);
+        UR_out : OUT STD_LOGIC_VECTOR(n_bits_resolution-1 DOWNTO 0);
+        UI_out : OUT STD_LOGIC_VECTOR(n_bits_resolution-1 DOWNTO 0)
+    );
 END ENTITY;
 
 ARCHITECTURE rtl OF DPD IS
 
-    TYPE term_matrix_t IS ARRAY (
-        0 TO n_signals_used - 1,
-        0 TO n_polygnos_degree - 1
-    ) OF complex_number;
-
-    SIGNAL x_in       : complex_number;
-    SIGNAL delay_line : delay_line_t := (OTHERS => ZERO_COMPLEX);
-    TYPE mag_array_t IS ARRAY (0 TO n_signals_used-1) OF data_t;
-    SIGNAL mag2       : mag_array_t;
-    SIGNAL terms      : term_matrix_t := (OTHERS => (OTHERS => ZERO_COMPLEX));
+    SIGNAL delay_line : delay_line_t  := (OTHERS => (reall => 0, imag => 0));
+    SIGNAL mag2       : mag_array_t   := (OTHERS => 0);
+    SIGNAL XX         : power_matrix_t := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+    SIGNAL multiplied : power_matrix_t := (OTHERS => (OTHERS => (reall => 0, imag => 0)));
 
 BEGIN
 
-----------------------------------------------------------------------
--- INPUT
-----------------------------------------------------------------------
-process(clk)
-begin
-    if rising_edge(clk) then
-        if reset = '1' then
-            x_in <= ZERO_COMPLEX;
-        else
-            x_in <= (
-                reall => signed(UR),
-                imag  => signed(UI)
-            );
-        end if;
-    end if;
-end process;
+    --------------------------------------------------------------------
+    -- 1. Delay line: x[n], x[n-1], x[n-2], ...
+    --------------------------------------------------------------------
+    delay_process : PROCESS(clk)
+        VARIABLE din        : complex_number;
+        VARIABLE temp_delay : delay_line_t;
+    BEGIN
+        IF rising_edge(clk) THEN
+            IF reset = '1' THEN
+                delay_line <= (OTHERS => (reall => 0, imag => 0));
+            ELSE
+                din.reall := clip_data(to_integer(signed(UR)));
+                din.imag  := clip_data(to_integer(signed(UI)));
 
-----------------------------------------------------------------------
--- DELAY LINE
-----------------------------------------------------------------------
-process(clk)
-begin
-    if rising_edge(clk) then
-        if reset = '1' then
-            delay_line <= (OTHERS => ZERO_COMPLEX);
-        else
-            delay_line(0) <= x_in;
+                temp_delay := delay_line;
+                temp_delay(0) := din;
 
-            for i in 1 to n_signals_used-1 loop
-                delay_line(i) <= delay_line(i-1);
-            end loop;
-        end if;
-    end if;
-end process;
+                FOR m IN 1 TO n_signals_used-1 LOOP
+                    temp_delay(m) := delay_line(m-1);
+                END LOOP;
 
-----------------------------------------------------------------------
--- |x|^2
-----------------------------------------------------------------------
-process(clk)
-begin
-    if rising_edge(clk) then
-        for i in 0 to n_signals_used-1 loop
-            mag2(i) <= shift_right(
-                delay_line(i).reall * delay_line(i).reall +
-                delay_line(i).imag  * delay_line(i).imag,
-                n_bits_resolution/2
-            );
-        end loop;
-    end if;
-end process;
+                delay_line <= temp_delay;
+            END IF;
+        END IF;
+    END PROCESS;
 
-----------------------------------------------------------------------
--- NONLINEAR TERMS
-----------------------------------------------------------------------
-process(clk)
-begin
-    if rising_edge(clk) then
+    --------------------------------------------------------------------
+    -- 2. Cálculo de |x[n-m]|² para cada atraso
+    --------------------------------------------------------------------
+    mag2_process : PROCESS(clk)
+        VARIABLE temp_mag2 : mag_array_t;
+    BEGIN
+        IF rising_edge(clk) THEN
+            IF reset = '1' THEN
+                mag2 <= (OTHERS => 0);
+            ELSE
+                FOR m IN 0 TO n_signals_used-1 LOOP
+                    temp_mag2(m) := calc_mag2(delay_line(m));
+                END LOOP;
+                mag2 <= temp_mag2;
+            END IF;
+        END IF;
+    END PROCESS;
 
-        for i in 0 to n_signals_used-1 loop
+    --------------------------------------------------------------------
+    -- 3. Geração da matriz XX no estilo mp_int
+    --
+    -- XX(m,0) = x[n-m]
+    -- XX(m,1) = x[n-m] * |x[n-m]|²
+    -- XX(m,2) = x[n-m] * |x[n-m]|⁴
+    -- ...
+    --
+    -- Se p exceder poly_degree_per_delay(m), o termo é zerado.
+    --------------------------------------------------------------------
+    power_process : PROCESS(clk)
+        VARIABLE temp_xx : power_matrix_t;
+        VARIABLE rr, ii  : INTEGER;
+    BEGIN
+        IF rising_edge(clk) THEN
+            IF reset = '1' THEN
+                XX <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+            ELSE
+                FOR m IN 0 TO n_signals_used-1 LOOP
 
-            -- p = 0 (linear)
-            terms(i,0) <= delay_line(i);
+                    -- termo linear sempre existe se grau >= 1
+                    IF poly_degree_per_delay(m) >= 1 THEN
+                        temp_xx(m,0) := delay_line(m);
+                    ELSE
+                        temp_xx(m,0) := zero_complex;
+                    END IF;
 
-            -- p > 0
-            for j in 1 to n_polygnos_degree-1 loop
+                    -- termos de ordem superior
+                    FOR p IN 1 TO max_poly_degree-1 LOOP
+                        IF p < poly_degree_per_delay(m) THEN
+                            rr := readeq(temp_xx(m,p-1).reall * mag2(m));
+                            ii := readeq(temp_xx(m,p-1).imag  * mag2(m));
 
-                terms(i,j).reall <= shift_right(
-                    terms(i,j-1).reall * mag2(i),
-                    n_bits_resolution/2
-                );
+                            temp_xx(m,p).reall := clip_data(rr);
+                            temp_xx(m,p).imag  := clip_data(ii);
+                        ELSE
+                            temp_xx(m,p) := zero_complex;
+                        END IF;
+                    END LOOP;
 
-                terms(i,j).imag <= shift_right(
-                    terms(i,j-1).imag * mag2(i),
-                    n_bits_resolution/2
-                );
+                END LOOP;
 
-            end loop;
-        end loop;
+                XX <= temp_xx;
+            END IF;
+        END IF;
+    END PROCESS;
 
-    end if;
-end process;
+    --------------------------------------------------------------------
+    -- 4. Multiplicação complexa por coeficientes
+    -- equivalente ao MultiplicadorMatrizes
+    --------------------------------------------------------------------
+    mult_process : PROCESS(clk)
+        VARIABLE temp_mult : power_matrix_t;
+    BEGIN
+        IF rising_edge(clk) THEN
+            IF reset = '1' THEN
+                multiplied <= (OTHERS => (OTHERS => (reall => 0, imag => 0)));
+            ELSE
+                FOR m IN 0 TO n_signals_used-1 LOOP
+                    FOR p IN 0 TO max_poly_degree-1 LOOP
+                        IF p < poly_degree_per_delay(m) THEN
+                            temp_mult(m,p) := cmul(coefficients(m,p), XX(m,p));
+                        ELSE
+                            temp_mult(m,p) := zero_complex;
+                        END IF;
+                    END LOOP;
+                END LOOP;
 
-----------------------------------------------------------------------
--- MULTIPLY BY COEFFICIENTS + SUM
-----------------------------------------------------------------------
-process(clk)
-    variable acc_re : acc_t;
-    variable acc_im : acc_t;
+                multiplied <= temp_mult;
+            END IF;
+        END IF;
+    END PROCESS;
 
-    variable mult_re, mult_im : acc_t;
+    --------------------------------------------------------------------
+    -- 5. Soma final de todos os termos
+    --------------------------------------------------------------------
+    sum_process : PROCESS(clk)
+        VARIABLE acc_re, acc_im : INTEGER;
+    BEGIN
+        IF rising_edge(clk) THEN
+            IF reset = '1' THEN
+                UR_out <= (OTHERS => '0');
+                UI_out <= (OTHERS => '0');
+            ELSE
+                acc_re := 0;
+                acc_im := 0;
 
-begin
-    if rising_edge(clk) then
+                FOR m IN 0 TO n_signals_used-1 LOOP
+                    FOR p IN 0 TO max_poly_degree-1 LOOP
+                        acc_re := acc_re + multiplied(m,p).reall;
+                        acc_im := acc_im + multiplied(m,p).imag;
+                    END LOOP;
+                END LOOP;
 
-        acc_re := (others => '0');
-        acc_im := (others => '0');
-
-        for i in 0 to n_signals_used-1 loop
-            for j in 0 to n_polygnos_degree-1 loop
-
-                -- multiplicação complexa manual
-                mult_re := resize(
-                    shift_right(
-                        coefficients(i,j).reall * terms(i,j).reall -
-                        coefficients(i,j).imag  * terms(i,j).imag,
-                        n_bits_resolution/2
-                    ),
-                    acc_re'length
-                );
-
-                mult_im := resize(
-                    shift_right(
-                        coefficients(i,j).reall * terms(i,j).imag +
-                        coefficients(i,j).imag  * terms(i,j).reall,
-                        n_bits_resolution/2
-                    ),
-                    acc_im'length
-                );
-
-                acc_re := acc_re + mult_re;
-                acc_im := acc_im + mult_im;
-
-            end loop;
-        end loop;
-
-        UR_out <= std_logic_vector(resize(acc_re, n_bits_resolution));
-        UI_out <= std_logic_vector(resize(acc_im, n_bits_resolution));
-
-    end if;
-end process;
+                UR_out <= STD_LOGIC_VECTOR(to_signed(clip_data(acc_re), n_bits_resolution));
+                UI_out <= STD_LOGIC_VECTOR(to_signed(clip_data(acc_im), n_bits_resolution));
+            END IF;
+        END IF;
+    END PROCESS;
 
 END ARCHITECTURE;

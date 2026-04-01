@@ -5,141 +5,114 @@ USE IEEE.NUMERIC_STD.ALL;
 PACKAGE functions IS
 
     --------------------------------------------------------------------
-    -- CONSTANTS
+    -- Configuração do modelo
     --------------------------------------------------------------------
-    CONSTANT n_signals_used    : INTEGER := 3;  -- M
-    CONSTANT n_polygnos_degree : INTEGER := 5;  -- P
-    CONSTANT n_bits_resolution : INTEGER := 10 + 1;
-    CONSTANT n_bits_overflow   : INTEGER := 8;
+    CONSTANT n_signals_used    : INTEGER := 2;   -- M + 1
+    CONSTANT max_poly_degree   : INTEGER := 2;   -- grau máximo entre os atrasos
+    CONSTANT n_bits_resolution : INTEGER := 11;  -- largura de entrada/saída
+    CONSTANT n_bits_overflow   : INTEGER := 10;  -- p_bits do Python
+
+    TYPE degree_array_t IS ARRAY (0 TO n_signals_used-1) OF INTEGER;
+    CONSTANT poly_degree_per_delay : degree_array_t := (2, 2);
 
     --------------------------------------------------------------------
-    -- TYPES
+    -- Faixa de saturação
     --------------------------------------------------------------------
-    SUBTYPE data_t IS SIGNED(n_bits_resolution-1 DOWNTO 0);
+    CONSTANT max_data : INTEGER := 2**(n_bits_resolution-1) - 1;
+    CONSTANT min_data : INTEGER := -2**(n_bits_resolution-1);
 
-    SUBTYPE acc_t IS SIGNED(
-        2*n_bits_resolution + n_bits_overflow DOWNTO 0
-    );
+    SUBTYPE data_t IS INTEGER RANGE min_data TO max_data;
 
+    --------------------------------------------------------------------
+    -- Tipos
+    --------------------------------------------------------------------
     TYPE complex_number IS RECORD
         reall : data_t;
         imag  : data_t;
     END RECORD;
 
-    TYPE delay_line_t IS ARRAY (0 TO n_signals_used - 1)
-                                OF complex_number;
+    TYPE delay_line_t IS ARRAY (0 TO n_signals_used-1) OF complex_number;
+    TYPE mag_array_t  IS ARRAY (0 TO n_signals_used-1) OF INTEGER;
 
-    TYPE complex_coefficients IS ARRAY (
-        0 TO n_signals_used - 1,
-        0 TO n_polygnos_degree - 1
+    -- XX(m,p) = termo do atraso m e ordem p
+    TYPE power_matrix_t IS ARRAY (
+        0 TO n_signals_used-1,
+        0 TO max_poly_degree-1
+    ) OF complex_number;
+
+    TYPE coef_array_t IS ARRAY (
+        0 TO n_signals_used-1,
+        0 TO max_poly_degree-1
     ) OF complex_number;
 
     --------------------------------------------------------------------
-    -- COEFFICIENTS
+    -- Coeficientes
+    -- Ajuste conforme seu caso real.
     --------------------------------------------------------------------
-    CONSTANT coefficients : complex_coefficients := (
-        ((reall => to_signed(49, n_bits_resolution), imag => to_signed(2, n_bits_resolution)), (reall => to_signed(-769, n_bits_resolution), imag => to_signed(70, n_bits_resolution)), (reall => to_signed(1031, n_bits_resolution), imag => to_signed(38, n_bits_resolution)), (reall => to_signed(-225, n_bits_resolution), imag => to_signed(-451, n_bits_resolution)), (reall => to_signed(-290, n_bits_resolution), imag => to_signed(326, n_bits_resolution))),
-        ((reall => to_signed(908, n_bits_resolution), imag => to_signed(-1, n_bits_resolution)), (reall => to_signed(1173, n_bits_resolution), imag => to_signed(-255, n_bits_resolution)), (reall => to_signed(-2668, n_bits_resolution), imag => to_signed(995, n_bits_resolution)), (reall => to_signed(2427, n_bits_resolution), imag => to_signed(-1130, n_bits_resolution)), (reall => to_signed(-282, n_bits_resolution), imag => to_signed(885, n_bits_resolution))),
-        ((reall => to_signed(16, n_bits_resolution), imag => to_signed(4, n_bits_resolution)), (reall => to_signed(63, n_bits_resolution), imag => to_signed(-71, n_bits_resolution)), (reall => to_signed(322, n_bits_resolution), imag => to_signed(348, n_bits_resolution)), (reall => to_signed(-909, n_bits_resolution), imag => to_signed(-674, n_bits_resolution)), (reall => to_signed(604, n_bits_resolution), imag => to_signed(478, n_bits_resolution)))
+    CONSTANT coefficients : coef_array_t := (
+        ((reall => 1017, imag => -52), (reall => 177, imag => 201)),
+        ((reall => -28, imag => 11), (reall => -39, imag => 1))
     );
 
-    constant ZERO_COMPLEX : complex_number := (
-        reall => to_signed(0, n_bits_resolution),
-        imag  => to_signed(0, n_bits_resolution)
-    );
     --------------------------------------------------------------------
-    -- FUNCTIONS
+    -- Funções auxiliares
     --------------------------------------------------------------------
-    FUNCTION scale(x : acc_t) RETURN data_t;
-
-    FUNCTION multiplication(
-        A : complex_number;
-        B : complex_number
-    ) RETURN complex_number;
-
-    FUNCTION cmul(
-        A : complex_number;
-        scalar : data_t
-    ) RETURN complex_number;
-
-    FUNCTION magnitude_square(
-        A : complex_number
-    ) RETURN data_t;
+    FUNCTION clip_data(x : INTEGER) RETURN data_t;
+    FUNCTION readeq(x : INTEGER) RETURN INTEGER;
+    FUNCTION calc_mag2(a : complex_number) RETURN INTEGER;
+    FUNCTION cmul(a, b : complex_number) RETURN complex_number;
+    FUNCTION zero_complex RETURN complex_number;
 
 END PACKAGE;
 
 
 PACKAGE BODY functions IS
 
-    --------------------------------------------------------------------
-    -- SCALING (ESSENCIAL)
-    --------------------------------------------------------------------
-    FUNCTION scale(x : acc_t) RETURN data_t IS
-        VARIABLE tmp : acc_t;
+    FUNCTION clip_data(x : INTEGER) RETURN data_t IS
     BEGIN
-        -- 🔥 scaling automático
-        tmp := shift_right(x, n_bits_overflow);
-
-        RETURN resize(tmp, n_bits_resolution);
+        IF x > max_data THEN
+            RETURN max_data;
+        ELSIF x < min_data THEN
+            RETURN min_data;
+        ELSE
+            RETURN x;
+        END IF;
     END FUNCTION;
 
-    --------------------------------------------------------------------
-    -- COMPLEX MULTIPLICATION
-    --------------------------------------------------------------------
-    FUNCTION multiplication(
-        A : complex_number;
-        B : complex_number
-    ) RETURN complex_number IS
-
-        VARIABLE r : complex_number;
-        VARIABLE ar, ai, br, bi : acc_t;
-
+    FUNCTION readeq(x : INTEGER) RETURN INTEGER IS
     BEGIN
-        ar := resize(A.reall, acc_t'length);
-        ai := resize(A.imag,  acc_t'length);
-        br := resize(B.reall, acc_t'length);
-        bi := resize(B.imag,  acc_t'length);
-
-        r.reall := scale(ar * br - ai * bi);
-        r.imag  := scale(ai * br + ar * bi);
-
-        RETURN r;
+        -- Reescala do ponto fixo:
+        -- equivalente ao shift right por n_bits_overflow
+        RETURN x / (2 ** n_bits_overflow);
     END FUNCTION;
 
-    --------------------------------------------------------------------
-    -- SCALAR * COMPLEX
-    --------------------------------------------------------------------
-    FUNCTION cmul(
-        A : complex_number;
-        scalar : data_t
-    ) RETURN complex_number IS
-
-        VARIABLE r : complex_number;
-        VARIABLE s : acc_t;
-
+    FUNCTION calc_mag2(a : complex_number) RETURN INTEGER IS
+        VARIABLE r2, i2 : INTEGER;
     BEGIN
-        s := resize(scalar, acc_t'length);
-
-        r.reall := scale(resize(A.reall, acc_t'length) * s);
-        r.imag  := scale(resize(A.imag,  acc_t'length) * s);
-
-        RETURN r;
+        r2 := readeq(a.reall * a.reall);
+        i2 := readeq(a.imag  * a.imag);
+        RETURN r2 + i2;
     END FUNCTION;
 
-    --------------------------------------------------------------------
-    -- |x|²
-    --------------------------------------------------------------------
-    FUNCTION magnitude_square(
-        A : complex_number
-    ) RETURN data_t IS
-
-        VARIABLE r2, i2 : acc_t;
-
+    FUNCTION cmul(a, b : complex_number) RETURN complex_number IS
+        VARIABLE outv : complex_number;
+        VARIABLE rr, ii : INTEGER;
     BEGIN
-        r2 := resize(A.reall, acc_t'length) * resize(A.reall, acc_t'length);
-        i2 := resize(A.imag,  acc_t'length) * resize(A.imag,  acc_t'length);
+        rr := readeq(a.reall * b.reall) - readeq(a.imag * b.imag);
+        ii := readeq(a.reall * b.imag) + readeq(a.imag * b.reall);
 
-        RETURN scale(r2 + i2);
+        outv.reall := rr;
+        outv.imag  := ii;
+
+        RETURN outv;
+    END FUNCTION;
+
+    FUNCTION zero_complex RETURN complex_number IS
+        VARIABLE z : complex_number;
+    BEGIN
+        z.reall := 0;
+        z.imag  := 0;
+        RETURN z;
     END FUNCTION;
 
 END PACKAGE BODY;
