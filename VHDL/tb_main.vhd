@@ -3,6 +3,8 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE IEEE.NUMERIC_STD.ALL;
 USE ieee.std_logic_textio.ALL;
+LIBRARY std;
+USE std.env.all;
 USE std.textio.ALL;
 LIBRARY work;
 USE work.functions.ALL;
@@ -18078,7 +18080,8 @@ BEGIN
     WAIT FOR clk_period;
 
 
-      wait;
+      report "Fim da simulacao" severity note;
+      finish;
    end process;
-    
+   
 END;
