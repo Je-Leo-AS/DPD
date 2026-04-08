@@ -1,6 +1,6 @@
   CONSTANT n_signals_used : INTEGER := 3;
   CONSTANT max_poly_degree : INTEGER := 5;
-  CONSTANT n_bits_resolution : INTEGER := 11;
+  CONSTANT n_bits_resolution : INTEGER := 10 + 1; -- +1 para o bit de sinal
   CONSTANT n_bits_overflow   : INTEGER := 10;
 
   TYPE degree_array_t IS ARRAY (0 TO n_signals_used - 1) OF INTEGER;

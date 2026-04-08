@@ -5,18 +5,21 @@ USE IEEE.NUMERIC_STD.ALL;
 PACKAGE functions IS
 
     --------------------------------------------------------------------
-    -- Configuração do modelo
+    -- Configura??o do modelo truncado
     --------------------------------------------------------------------
-    CONSTANT n_signals_used : INTEGER := 3;
-    CONSTANT max_poly_degree : INTEGER := 5;
+    CONSTANT n_signals_used    : INTEGER := 3;
+    CONSTANT n_total_terms     : INTEGER := 9;
     CONSTANT n_bits_resolution : INTEGER := 11;
     CONSTANT n_bits_overflow   : INTEGER := 10;
 
     TYPE degree_array_t IS ARRAY (0 TO n_signals_used-1) OF INTEGER;
-    CONSTANT poly_degree_per_delay : degree_array_t := (5, 5, 5);
+    TYPE offset_array_t IS ARRAY (0 TO n_signals_used-1) OF INTEGER;
+
+    CONSTANT poly_degree_per_delay : degree_array_t := (5, 3, 1);
+    CONSTANT coef_offset_per_delay : offset_array_t := (0, 5, 8);
 
     --------------------------------------------------------------------
-    -- Faixa de saturação
+    -- Faixa de satura??o
     --------------------------------------------------------------------
     CONSTANT max_data : INTEGER := 2**(n_bits_resolution-1) - 1;
     CONSTANT min_data : INTEGER := -2**(n_bits_resolution-1);
@@ -31,32 +34,31 @@ PACKAGE functions IS
         imag  : data_t;
     END RECORD;
 
-    TYPE delay_line_t IS ARRAY (0 TO n_signals_used-1) OF complex_number;
-    TYPE mag_array_t  IS ARRAY (0 TO n_signals_used-1) OF INTEGER;
-
-    -- XX(m,p) = termo do atraso m e ordem p
-    TYPE power_matrix_t IS ARRAY (
-        0 TO n_signals_used-1,
-        0 TO max_poly_degree-1
-    ) OF complex_number;
-
-    TYPE coef_array_t IS ARRAY (
-        0 TO n_signals_used-1,
-        0 TO max_poly_degree-1
-    ) OF complex_number;
+    TYPE delay_line_t   IS ARRAY (0 TO n_signals_used-1) OF complex_number;
+    TYPE mag_array_t    IS ARRAY (0 TO n_signals_used-1) OF INTEGER;
+    TYPE power_vector_t IS ARRAY (0 TO n_total_terms-1) OF complex_number;
+    TYPE coef_array_t   IS ARRAY (0 TO n_total_terms-1) OF complex_number;
 
     --------------------------------------------------------------------
-    -- Coeficientes
-    -- Ajuste conforme seu caso real.
+    -- Coeficientes na mesma ordem do Python compacto:
+    -- m=0: p=1..5
+    -- m=1: p=1..3
+    -- m=2: p=1
     --------------------------------------------------------------------
     CONSTANT coefficients : coef_array_t := (
-        ((reall => 1020, imag => -15), (reall => 570, imag => -81), (reall => -583, imag => 252), (reall => -114, imag => 215), (reall => 735, imag => 178)),
-        ((reall => -116, imag => 8), (reall => -327, imag => 55), (reall => -53, imag => -84), (reall => 103, imag => -103), (reall => 315, imag => 12)),
-        ((reall => 87, imag => -4), (reall => -31, imag => 10), (reall => 369, imag => -21), (reall => -404, imag => -3), (reall => 36, imag => 111))
+        (reall => 1022, imag => -21),
+        (reall => 591,  imag => -18),
+        (reall => -849, imag => 139),
+        (reall => 157,  imag => 117),
+        (reall => 737,  imag => 289),
+        (reall => -123, imag => 15),
+        (reall => -318, imag => 9),
+        (reall => 268,  imag => 1),
+        (reall => 93,   imag => -3)
     );
 
     --------------------------------------------------------------------
-    -- Funções auxiliares
+    -- Fun??es auxiliares
     --------------------------------------------------------------------
     FUNCTION clip_data(x : INTEGER) RETURN data_t;
     FUNCTION readeq(x : INTEGER) RETURN INTEGER;
@@ -65,7 +67,6 @@ PACKAGE functions IS
     FUNCTION zero_complex RETURN complex_number;
 
 END PACKAGE;
-
 
 PACKAGE BODY functions IS
 
@@ -82,8 +83,7 @@ PACKAGE BODY functions IS
 
     FUNCTION readeq(x : INTEGER) RETURN INTEGER IS
     BEGIN
-        -- Reescala do ponto fixo:
-        -- equivalente ao shift right por n_bits_overflow
+        -- Igual ao Python: truncamento por divis?o inteira do VHDL
         RETURN x / (2 ** n_bits_overflow);
     END FUNCTION;
 
@@ -96,14 +96,24 @@ PACKAGE BODY functions IS
     END FUNCTION;
 
     FUNCTION cmul(a, b : complex_number) RETURN complex_number IS
-        VARIABLE outv : complex_number;
-        VARIABLE rr, ii : INTEGER;
+        VARIABLE outv       : complex_number;
+        VARIABLE t1, t2     : INTEGER;
+        VARIABLE t3, t4     : INTEGER;
+        VARIABLE rr, ii     : INTEGER;
     BEGIN
-        rr := readeq(a.reall * b.reall) - readeq(a.imag * b.imag);
-        ii := readeq(a.reall * b.imag) + readeq(a.imag * b.reall);
+        -- Igual ao Python:
+        -- readeq(A*C) - readeq(B*D)
+        -- readeq(A*D) + readeq(B*C)
+        t1 := readeq(a.reall * b.reall);
+        t2 := readeq(a.imag  * b.imag);
+        t3 := readeq(a.reall * b.imag);
+        t4 := readeq(a.imag  * b.reall);
 
-        outv.reall := rr;
-        outv.imag  := ii;
+        rr := t1 - t2;
+        ii := t3 + t4;
+
+        outv.reall := clip_data(rr);
+        outv.imag  := clip_data(ii);
 
         RETURN outv;
     END FUNCTION;

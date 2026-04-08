@@ -55,7 +55,7 @@ run_step "Simulando tb" $GHDL -r $STD tb --vcd=output.vcd
 echo "=============================="
 echo " Abrindo formas de onda"
 echo "=============================="
-$GTKWAVE output.vcd &
+# $GTKWAVE output.vcd &
 
 echo -e "${GREEN}=============================="
 echo " Simulação concluída!"
