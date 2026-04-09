@@ -5,7 +5,7 @@ USE IEEE.NUMERIC_STD.ALL;
 PACKAGE functions IS
 
     --------------------------------------------------------------------
-    -- Configura??o do modelo truncado
+    -- Configuração do modelo truncado
     --------------------------------------------------------------------
     CONSTANT n_signals_used    : INTEGER := 3;
     CONSTANT n_total_terms     : INTEGER := 9;
@@ -18,8 +18,12 @@ PACKAGE functions IS
     CONSTANT poly_degree_per_delay : degree_array_t := (5, 3, 1);
     CONSTANT coef_offset_per_delay : offset_array_t := (0, 5, 8);
 
+    FUNCTION max_degree_fn(a : degree_array_t) RETURN INTEGER;
+
+    CONSTANT max_poly_degree : INTEGER := 5;
+
     --------------------------------------------------------------------
-    -- Faixa de satura??o
+    -- Faixa de saturação
     --------------------------------------------------------------------
     CONSTANT max_data : INTEGER := 2**(n_bits_resolution-1) - 1;
     CONSTANT min_data : INTEGER := -2**(n_bits_resolution-1);
@@ -34,16 +38,16 @@ PACKAGE functions IS
         imag  : data_t;
     END RECORD;
 
-    TYPE delay_line_t   IS ARRAY (0 TO n_signals_used-1) OF complex_number;
-    TYPE mag_array_t    IS ARRAY (0 TO n_signals_used-1) OF INTEGER;
-    TYPE power_vector_t IS ARRAY (0 TO n_total_terms-1) OF complex_number;
-    TYPE coef_array_t   IS ARRAY (0 TO n_total_terms-1) OF complex_number;
+    TYPE delay_line_t     IS ARRAY (0 TO n_signals_used-1) OF complex_number;
+    TYPE mag_array_t      IS ARRAY (0 TO n_signals_used-1) OF INTEGER;
+    TYPE power_vector_t   IS ARRAY (0 TO n_total_terms-1) OF complex_number;
+    TYPE coef_array_t     IS ARRAY (0 TO n_total_terms-1) OF complex_number;
+
+    TYPE term_pipe_t IS ARRAY (0 TO max_poly_degree-1) OF delay_line_t;
+    TYPE mag_pipe_t  IS ARRAY (0 TO max_poly_degree-1) OF mag_array_t;
 
     --------------------------------------------------------------------
-    -- Coeficientes na mesma ordem do Python compacto:
-    -- m=0: p=1..5
-    -- m=1: p=1..3
-    -- m=2: p=1
+    -- Coeficientes
     --------------------------------------------------------------------
     CONSTANT coefficients : coef_array_t := (
         (reall => 1022, imag => -21),
@@ -58,7 +62,7 @@ PACKAGE functions IS
     );
 
     --------------------------------------------------------------------
-    -- Fun??es auxiliares
+    -- Funções auxiliares
     --------------------------------------------------------------------
     FUNCTION clip_data(x : INTEGER) RETURN data_t;
     FUNCTION readeq(x : INTEGER) RETURN INTEGER;
@@ -69,6 +73,17 @@ PACKAGE functions IS
 END PACKAGE;
 
 PACKAGE BODY functions IS
+
+    FUNCTION max_degree_fn(a : degree_array_t) RETURN INTEGER IS
+        VARIABLE m : INTEGER := 0;
+    BEGIN
+        FOR i IN a'RANGE LOOP
+            IF a(i) > m THEN
+                m := a(i);
+            END IF;
+        END LOOP;
+        RETURN m;
+    END FUNCTION;
 
     FUNCTION clip_data(x : INTEGER) RETURN data_t IS
     BEGIN
@@ -83,7 +98,6 @@ PACKAGE BODY functions IS
 
     FUNCTION readeq(x : INTEGER) RETURN INTEGER IS
     BEGIN
-        -- Igual ao Python: truncamento por divis?o inteira do VHDL
         RETURN x / (2 ** n_bits_overflow);
     END FUNCTION;
 
@@ -101,9 +115,6 @@ PACKAGE BODY functions IS
         VARIABLE t3, t4     : INTEGER;
         VARIABLE rr, ii     : INTEGER;
     BEGIN
-        -- Igual ao Python:
-        -- readeq(A*C) - readeq(B*D)
-        -- readeq(A*D) + readeq(B*C)
         t1 := readeq(a.reall * b.reall);
         t2 := readeq(a.imag  * b.imag);
         t3 := readeq(a.reall * b.imag);
