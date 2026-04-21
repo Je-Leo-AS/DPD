@@ -16,16 +16,49 @@ END ENTITY;
 
 ARCHITECTURE rtl OF DPD IS
 
+    --------------------------------------------------------------------
+    -- Tipos locais
+    --------------------------------------------------------------------
+    TYPE term_pipe_local_t IS ARRAY (0 TO max_poly_degree - 1, 0 TO n_signals_used - 1) OF complex_number;
+    TYPE mag_pipe_local_t  IS ARRAY (0 TO max_poly_degree - 1, 0 TO n_signals_used - 1) OF INTEGER;
+
+    -- align_pipe(delay_extra, ordem, atraso)
+    TYPE align_pipe_local_t IS ARRAY (
+        0 TO max_poly_degree - 1,
+        0 TO max_poly_degree - 1,
+        0 TO n_signals_used - 1
+    ) OF complex_number;
+
+    --------------------------------------------------------------------
+    -- Sinais principais
+    --------------------------------------------------------------------
     SIGNAL delay_line      : delay_line_t   := (OTHERS => zero_complex);
 
     SIGNAL XX              : power_vector_t := (OTHERS => zero_complex);
     SIGNAL multiplied      : power_vector_t := (OTHERS => zero_complex);
     SIGNAL multiplied_next : power_vector_t := (OTHERS => zero_complex);
 
+    --------------------------------------------------------------------
+    -- Estágio base/msq
+    --------------------------------------------------------------------
     SIGNAL base_vec      : delay_line_t := (OTHERS => zero_complex);
     SIGNAL msq_vec       : mag_array_t  := (OTHERS => 0);
     SIGNAL base_vec_next : delay_line_t := (OTHERS => zero_complex);
     SIGNAL msq_vec_next  : mag_array_t  := (OTHERS => 0);
+
+    --------------------------------------------------------------------
+    -- Pipeline por ordem
+    --------------------------------------------------------------------
+    SIGNAL term_pipe      : term_pipe_local_t := (OTHERS => (OTHERS => zero_complex));
+    SIGNAL msq_pipe       : mag_pipe_local_t  := (OTHERS => (OTHERS => 0));
+    SIGNAL term_pipe_next : term_pipe_local_t := (OTHERS => (OTHERS => zero_complex));
+    SIGNAL msq_pipe_next  : mag_pipe_local_t  := (OTHERS => (OTHERS => 0));
+
+    --------------------------------------------------------------------
+    -- Alinhamento temporal das ordens
+    --------------------------------------------------------------------
+    SIGNAL align_pipe      : align_pipe_local_t := (OTHERS => (OTHERS => (OTHERS => zero_complex)));
+    SIGNAL align_pipe_next : align_pipe_local_t := (OTHERS => (OTHERS => (OTHERS => zero_complex)));
 
 BEGIN
 
@@ -46,8 +79,8 @@ BEGIN
                 temp_delay := delay_line;
                 temp_delay(0) := din;
 
-                FOR m IN 1 TO n_signals_used-1 LOOP
-                    temp_delay(m) := delay_line(m-1);
+                FOR m IN 1 TO n_signals_used - 1 LOOP
+                    temp_delay(m) := delay_line(m - 1);
                 END LOOP;
 
                 delay_line <= temp_delay;
@@ -85,13 +118,91 @@ BEGIN
     END PROCESS;
 
     --------------------------------------------------------------------
-    -- 3. Geração de XX usando base_vec e msq_vec
+    -- 3. Pipeline por ordem
+    -- estágio 0: base
     --------------------------------------------------------------------
-    power_process : PROCESS(clk)
+    gen_term_stage0 : FOR m IN 0 TO n_signals_used - 1 GENERATE
+    BEGIN
+        term_pipe_next(0, m) <= base_vec(m);
+        msq_pipe_next(0, m)  <= msq_vec(m);
+    END GENERATE;
+
+    --------------------------------------------------------------------
+    -- 3b. Estágios seguintes
+    -- cada estágio faz apenas uma multiplicação dependente
+    --------------------------------------------------------------------
+    gen_term_stages : FOR s IN 1 TO max_poly_degree - 1 GENERATE
+        gen_term_delay : FOR m IN 0 TO n_signals_used - 1 GENERATE
+        BEGIN
+            term_pipe_next(s, m).reall <= clip_data(
+                readeq(term_pipe(s - 1, m).reall * msq_pipe(s - 1, m))
+            );
+
+            term_pipe_next(s, m).imag <= clip_data(
+                readeq(term_pipe(s - 1, m).imag * msq_pipe(s - 1, m))
+            );
+
+            msq_pipe_next(s, m) <= msq_pipe(s - 1, m);
+        END GENERATE;
+    END GENERATE;
+
+    --------------------------------------------------------------------
+    -- 3c. Registro do pipeline por ordem
+    --------------------------------------------------------------------
+    terms_pipe_process : PROCESS(clk)
+    BEGIN
+        IF rising_edge(clk) THEN
+            IF reset = '1' THEN
+                term_pipe <= (OTHERS => (OTHERS => zero_complex));
+                msq_pipe  <= (OTHERS => (OTHERS => 0));
+            ELSE
+                term_pipe <= term_pipe_next;
+                msq_pipe  <= msq_pipe_next;
+            END IF;
+        END IF;
+    END PROCESS;
+
+    --------------------------------------------------------------------
+    -- 4. Alinhamento temporal das ordens
+    -- ordem p recebe atraso extra = max_poly_degree - 1 - p
+    --------------------------------------------------------------------
+    gen_align_in : FOR p IN 0 TO max_poly_degree - 1 GENERATE
+        gen_align_in_delay : FOR m IN 0 TO n_signals_used - 1 GENERATE
+        BEGIN
+            align_pipe_next(0, p, m) <= term_pipe(p, m);
+        END GENERATE;
+    END GENERATE;
+
+    gen_align_shift : FOR d IN 1 TO max_poly_degree - 1 GENERATE
+        gen_align_order : FOR p IN 0 TO max_poly_degree - 1 GENERATE
+            gen_align_delay : FOR m IN 0 TO n_signals_used - 1 GENERATE
+            BEGIN
+                align_pipe_next(d, p, m) <= align_pipe(d - 1, p, m);
+            END GENERATE;
+        END GENERATE;
+    END GENERATE;
+
+    --------------------------------------------------------------------
+    -- 4b. Registro do alinhamento
+    --------------------------------------------------------------------
+    align_process : PROCESS(clk)
+    BEGIN
+        IF rising_edge(clk) THEN
+            IF reset = '1' THEN
+                align_pipe <= (OTHERS => (OTHERS => (OTHERS => zero_complex)));
+            ELSE
+                align_pipe <= align_pipe_next;
+            END IF;
+        END IF;
+    END PROCESS;
+
+    --------------------------------------------------------------------
+    -- 5. Empacotamento linear dos termos alinhados em XX
+    --------------------------------------------------------------------
+    pack_xx_process : PROCESS(clk)
         VARIABLE temp_xx : power_vector_t;
         VARIABLE idx     : INTEGER;
-        VARIABLE rr, ii  : INTEGER;
-        VARIABLE base    : complex_number;
+        VARIABLE dsel    : INTEGER;
     BEGIN
         IF rising_edge(clk) THEN
             IF reset = '1' THEN
@@ -101,25 +212,11 @@ BEGIN
                 idx := 0;
 
                 FOR m IN 0 TO n_signals_used - 1 LOOP
-
-                    base := base_vec(m);
-
                     FOR p IN 0 TO poly_degree_per_delay(m) - 1 LOOP
-                        IF p = 0 THEN
-                            temp_xx(idx) := base;
-                        ELSE
-                            rr := readeq(base.reall * msq_vec(m));
-                            ii := readeq(base.imag  * msq_vec(m));
-
-                            base.reall := clip_data(rr);
-                            base.imag  := clip_data(ii);
-
-                            temp_xx(idx) := base;
-                        END IF;
-
+                        dsel := max_poly_degree - 1 - p;
+                        temp_xx(idx) := align_pipe(dsel, p, m);
                         idx := idx + 1;
                     END LOOP;
-
                 END LOOP;
 
                 XX <= temp_xx;
@@ -128,9 +225,7 @@ BEGIN
     END PROCESS;
 
     --------------------------------------------------------------------
-    -- 4. Multiplicação compacta igual ao Python MultiplicadorMatrizes
-    -- Usa XX REGISTRADO do ciclo anterior.
-    -- Parte combinacional paralela
+    -- 6. Multiplicação paralela pelos coeficientes
     --------------------------------------------------------------------
     gen_mult : FOR k IN 0 TO n_total_terms - 1 GENERATE
     BEGIN
@@ -138,7 +233,7 @@ BEGIN
     END GENERATE;
 
     --------------------------------------------------------------------
-    -- 4b. Registro da multiplicação
+    -- 6b. Registro da multiplicação
     --------------------------------------------------------------------
     mult_process : PROCESS(clk)
     BEGIN
@@ -152,8 +247,7 @@ BEGIN
     END PROCESS;
 
     --------------------------------------------------------------------
-    -- 5. Soma final igual ao Python:
-    -- soma todos os termos e clipa só no final.
+    -- 7. Soma final
     --------------------------------------------------------------------
     sum_process : PROCESS(clk)
         VARIABLE acc_re, acc_im : INTEGER;
