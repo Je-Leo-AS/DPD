@@ -16,29 +16,16 @@ END ENTITY;
 
 ARCHITECTURE rtl OF DPD IS
 
-    --------------------------------------------------------------------
-    -- Estágio 1: delay line
-    --------------------------------------------------------------------
-    SIGNAL delay_line : delay_line_t := (OTHERS => zero_complex);
+    SIGNAL delay_line      : delay_line_t   := (OTHERS => zero_complex);
 
-    --------------------------------------------------------------------
-    -- Estágio 2: base + |x|²
-    --------------------------------------------------------------------
-    SIGNAL base_s2 : delay_line_t := (OTHERS => zero_complex);
-    SIGNAL mag2_s2 : mag_array_t  := (OTHERS => 0);
+    SIGNAL XX              : power_vector_t := (OTHERS => zero_complex);
+    SIGNAL multiplied      : power_vector_t := (OTHERS => zero_complex);
+    SIGNAL multiplied_next : power_vector_t := (OTHERS => zero_complex);
 
-    --------------------------------------------------------------------
-    -- Pipeline genérico por ordem
-    -- term_pipe(0) = x
-    -- term_pipe(1) = x|x|²
-    -- term_pipe(2) = x|x|⁴
-    -- ...
-    --------------------------------------------------------------------
-    SIGNAL term_pipe : term_pipe_t := (OTHERS => (OTHERS => zero_complex));
-    SIGNAL mag_pipe  : mag_pipe_t  := (OTHERS => (OTHERS => 0));
-
-    SIGNAL XX         : power_vector_t := (OTHERS => zero_complex);
-    SIGNAL multiplied : power_vector_t := (OTHERS => zero_complex);
+    SIGNAL base_vec      : delay_line_t := (OTHERS => zero_complex);
+    SIGNAL msq_vec       : mag_array_t  := (OTHERS => 0);
+    SIGNAL base_vec_next : delay_line_t := (OTHERS => zero_complex);
+    SIGNAL msq_vec_next  : mag_array_t  := (OTHERS => 0);
 
 BEGIN
 
@@ -69,94 +56,70 @@ BEGIN
     END PROCESS;
 
     --------------------------------------------------------------------
-    -- 2. Quadrados + msq
+    -- 2. Geração combinacional paralela de base_vec_next e msq_vec_next
     --------------------------------------------------------------------
-    mag2_process : PROCESS(clk)
-        VARIABLE temp_base : delay_line_t;
-        VARIABLE temp_mag2 : mag_array_t;
-        VARIABLE A, B      : INTEGER;
+    gen_prep_power : FOR m IN 0 TO n_signals_used - 1 GENERATE
+    BEGIN
+        base_vec_next(m).reall <= clip_data(delay_line(m).reall);
+        base_vec_next(m).imag  <= clip_data(delay_line(m).imag);
+
+        msq_vec_next(m) <=
+            readeq(clip_data(delay_line(m).reall) * clip_data(delay_line(m).reall)) +
+            readeq(clip_data(delay_line(m).imag)  * clip_data(delay_line(m).imag));
+    END GENERATE;
+
+    --------------------------------------------------------------------
+    -- 2b. Registro de base_vec e msq_vec
+    --------------------------------------------------------------------
+    prep_power_process : PROCESS(clk)
     BEGIN
         IF rising_edge(clk) THEN
             IF reset = '1' THEN
-                base_s2 <= (OTHERS => zero_complex);
-                mag2_s2 <= (OTHERS => 0);
+                base_vec <= (OTHERS => zero_complex);
+                msq_vec  <= (OTHERS => 0);
             ELSE
-                FOR m IN 0 TO n_signals_used-1 LOOP
-                    A := clip_data(delay_line(m).reall);
-                    B := clip_data(delay_line(m).imag);
-
-                    temp_base(m).reall := A;
-                    temp_base(m).imag  := B;
-                    temp_mag2(m)       := readeq(A*A) + readeq(B*B);
-                END LOOP;
-
-                base_s2 <= temp_base;
-                mag2_s2 <= temp_mag2;
+                base_vec <= base_vec_next;
+                msq_vec  <= msq_vec_next;
             END IF;
         END IF;
     END PROCESS;
 
     --------------------------------------------------------------------
-    -- 3. Pipeline genérico das ordens
+    -- 3. Geração de XX usando base_vec e msq_vec
     --------------------------------------------------------------------
-    pipe_process : PROCESS(clk)
-        VARIABLE temp_term : term_pipe_t;
-        VARIABLE temp_mag  : mag_pipe_t;
-        VARIABLE rr, ii    : INTEGER;
-    BEGIN
-        IF rising_edge(clk) THEN
-            IF reset = '1' THEN
-                term_pipe <= (OTHERS => (OTHERS => zero_complex));
-                mag_pipe  <= (OTHERS => (OTHERS => 0));
-            ELSE
-                ----------------------------------------------------------------
-                -- ordem 1: x
-                ----------------------------------------------------------------
-                FOR m IN 0 TO n_signals_used-1 LOOP
-                    temp_term(0)(m) := base_s2(m);
-                    temp_mag(0)(m)  := mag2_s2(m);
-                END LOOP;
-
-                ----------------------------------------------------------------
-                -- ordens 2..max_poly_degree
-                ----------------------------------------------------------------
-                FOR s IN 1 TO max_poly_degree-1 LOOP
-                    FOR m IN 0 TO n_signals_used-1 LOOP
-                        rr := readeq(term_pipe(s-1)(m).reall * mag_pipe(s-1)(m));
-                        ii := readeq(term_pipe(s-1)(m).imag  * mag_pipe(s-1)(m));
-
-                        temp_term(s)(m).reall := clip_data(rr);
-                        temp_term(s)(m).imag  := clip_data(ii);
-
-                        temp_mag(s)(m) := mag_pipe(s-1)(m);
-                    END LOOP;
-                END LOOP;
-
-                term_pipe <= temp_term;
-                mag_pipe  <= temp_mag;
-            END IF;
-        END IF;
-    END PROCESS;
-
-    --------------------------------------------------------------------
-    -- 4. Empacota XX conforme poly_degree_per_delay e coef_offset_per_delay
-    --------------------------------------------------------------------
-    pack_process : PROCESS(clk)
+    power_process : PROCESS(clk)
         VARIABLE temp_xx : power_vector_t;
         VARIABLE idx     : INTEGER;
+        VARIABLE rr, ii  : INTEGER;
+        VARIABLE base    : complex_number;
     BEGIN
         IF rising_edge(clk) THEN
             IF reset = '1' THEN
                 XX <= (OTHERS => zero_complex);
             ELSE
                 temp_xx := (OTHERS => zero_complex);
+                idx := 0;
 
-                FOR m IN 0 TO n_signals_used-1 LOOP
-                    idx := coef_offset_per_delay(m);
+                FOR m IN 0 TO n_signals_used - 1 LOOP
 
-                    FOR p IN 0 TO poly_degree_per_delay(m)-1 LOOP
-                        temp_xx(idx + p) := term_pipe(p)(m);
+                    base := base_vec(m);
+
+                    FOR p IN 0 TO poly_degree_per_delay(m) - 1 LOOP
+                        IF p = 0 THEN
+                            temp_xx(idx) := base;
+                        ELSE
+                            rr := readeq(base.reall * msq_vec(m));
+                            ii := readeq(base.imag  * msq_vec(m));
+
+                            base.reall := clip_data(rr);
+                            base.imag  := clip_data(ii);
+
+                            temp_xx(idx) := base;
+                        END IF;
+
+                        idx := idx + 1;
                     END LOOP;
+
                 END LOOP;
 
                 XX <= temp_xx;
@@ -165,26 +128,32 @@ BEGIN
     END PROCESS;
 
     --------------------------------------------------------------------
-    -- 5. Multiplicação pelos coeficientes
+    -- 4. Multiplicação compacta igual ao Python MultiplicadorMatrizes
+    -- Usa XX REGISTRADO do ciclo anterior.
+    -- Parte combinacional paralela
+    --------------------------------------------------------------------
+    gen_mult : FOR k IN 0 TO n_total_terms - 1 GENERATE
+    BEGIN
+        multiplied_next(k) <= cmul(coefficients(k), XX(k));
+    END GENERATE;
+
+    --------------------------------------------------------------------
+    -- 4b. Registro da multiplicação
     --------------------------------------------------------------------
     mult_process : PROCESS(clk)
-        VARIABLE temp_mult : power_vector_t;
     BEGIN
         IF rising_edge(clk) THEN
             IF reset = '1' THEN
                 multiplied <= (OTHERS => zero_complex);
             ELSE
-                FOR k IN 0 TO n_total_terms-1 LOOP
-                    temp_mult(k) := cmul(coefficients(k), XX(k));
-                END LOOP;
-
-                multiplied <= temp_mult;
+                multiplied <= multiplied_next;
             END IF;
         END IF;
     END PROCESS;
 
     --------------------------------------------------------------------
-    -- 6. Soma final
+    -- 5. Soma final igual ao Python:
+    -- soma todos os termos e clipa só no final.
     --------------------------------------------------------------------
     sum_process : PROCESS(clk)
         VARIABLE acc_re, acc_im : INTEGER;
@@ -197,7 +166,7 @@ BEGIN
                 acc_re := 0;
                 acc_im := 0;
 
-                FOR k IN 0 TO n_total_terms-1 LOOP
+                FOR k IN 0 TO n_total_terms - 1 LOOP
                     acc_re := acc_re + multiplied(k).reall;
                     acc_im := acc_im + multiplied(k).imag;
                 END LOOP;
