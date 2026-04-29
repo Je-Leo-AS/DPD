@@ -19,6 +19,7 @@ PACKAGE functions IS
     CONSTANT coef_offset_per_delay : offset_array_t := (0, 5, 8);
 
     FUNCTION max_degree_fn(a : degree_array_t) RETURN INTEGER;
+    FUNCTION level_size(level : INTEGER) RETURN INTEGER;
 
     CONSTANT max_poly_degree : INTEGER := 5;
 
@@ -36,6 +37,11 @@ PACKAGE functions IS
     TYPE complex_number IS RECORD
         reall : data_t;
         imag  : data_t;
+    END RECORD;
+
+    TYPE acc_complex_number IS RECORD
+        reall : INTEGER;
+        imag  : INTEGER;
     END RECORD;
 
     TYPE delay_line_t     IS ARRAY (0 TO n_signals_used-1) OF complex_number;
@@ -61,6 +67,26 @@ PACKAGE functions IS
         (reall => 93,   imag => -3)
     );
 
+        --------------------------------------------------------------------
+    -- Tipos locais
+    --------------------------------------------------------------------
+    TYPE term_pipe_local_t IS ARRAY (0 TO max_poly_degree - 1, 0 TO n_signals_used - 1) OF complex_number;
+    TYPE mag_pipe_local_t  IS ARRAY (0 TO max_poly_degree - 1, 0 TO n_signals_used - 1) OF INTEGER;
+
+    TYPE align_pipe_local_t IS ARRAY (
+        0 TO max_poly_degree - 1,
+        0 TO max_poly_degree - 1,
+        0 TO n_signals_used - 1
+    ) OF complex_number;
+
+    CONSTANT SUM_LEVELS : INTEGER := 4; -- ceil_log2(9)
+
+    TYPE sum_tree_t IS ARRAY (
+        0 TO SUM_LEVELS,
+        0 TO n_total_terms - 1
+    ) OF acc_complex_number;
+
+
     --------------------------------------------------------------------
     -- Funções auxiliares
     --------------------------------------------------------------------
@@ -69,6 +95,8 @@ PACKAGE functions IS
     FUNCTION calc_mag2(a : complex_number) RETURN INTEGER;
     FUNCTION cmul(a, b : complex_number) RETURN complex_number;
     FUNCTION zero_complex RETURN complex_number;
+    FUNCTION zero_acc_complex RETURN acc_complex_number;
+
 
 END PACKAGE;
 
@@ -135,6 +163,21 @@ PACKAGE BODY functions IS
         z.reall := 0;
         z.imag  := 0;
         RETURN z;
+    END FUNCTION;
+
+    FUNCTION zero_acc_complex RETURN acc_complex_number IS
+        VARIABLE z : acc_complex_number;
+    BEGIN
+        z.reall := 0;
+        z.imag  := 0;
+        RETURN z;
+    END FUNCTION;
+
+    FUNCTION level_size(level : INTEGER) RETURN INTEGER IS
+        VARIABLE divisor : INTEGER;
+    BEGIN
+        divisor := 2 ** level;
+        RETURN (n_total_terms + divisor - 1) / divisor;
     END FUNCTION;
 
 END PACKAGE BODY;

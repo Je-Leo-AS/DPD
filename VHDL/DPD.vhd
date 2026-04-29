@@ -17,19 +17,6 @@ END ENTITY;
 ARCHITECTURE rtl OF DPD IS
 
     --------------------------------------------------------------------
-    -- Tipos locais
-    --------------------------------------------------------------------
-    TYPE term_pipe_local_t IS ARRAY (0 TO max_poly_degree - 1, 0 TO n_signals_used - 1) OF complex_number;
-    TYPE mag_pipe_local_t  IS ARRAY (0 TO max_poly_degree - 1, 0 TO n_signals_used - 1) OF INTEGER;
-
-    -- align_pipe(delay_extra, ordem, atraso)
-    TYPE align_pipe_local_t IS ARRAY (
-        0 TO max_poly_degree - 1,
-        0 TO max_poly_degree - 1,
-        0 TO n_signals_used - 1
-    ) OF complex_number;
-
-    --------------------------------------------------------------------
     -- Sinais principais
     --------------------------------------------------------------------
     SIGNAL delay_line      : delay_line_t   := (OTHERS => zero_complex);
@@ -59,6 +46,11 @@ ARCHITECTURE rtl OF DPD IS
     --------------------------------------------------------------------
     SIGNAL align_pipe      : align_pipe_local_t := (OTHERS => (OTHERS => (OTHERS => zero_complex)));
     SIGNAL align_pipe_next : align_pipe_local_t := (OTHERS => (OTHERS => (OTHERS => zero_complex)));
+
+    --------------------------------------------------------------------
+    -- Árvore de soma
+    --------------------------------------------------------------------
+    SIGNAL sum_tree : sum_tree_t := (OTHERS => (OTHERS => zero_acc_complex));
 
 BEGIN
 
@@ -119,7 +111,6 @@ BEGIN
 
     --------------------------------------------------------------------
     -- 3. Pipeline por ordem
-    -- estágio 0: base
     --------------------------------------------------------------------
     gen_term_stage0 : FOR m IN 0 TO n_signals_used - 1 GENERATE
     BEGIN
@@ -127,10 +118,6 @@ BEGIN
         msq_pipe_next(0, m)  <= msq_vec(m);
     END GENERATE;
 
-    --------------------------------------------------------------------
-    -- 3b. Estágios seguintes
-    -- cada estágio faz apenas uma multiplicação dependente
-    --------------------------------------------------------------------
     gen_term_stages : FOR s IN 1 TO max_poly_degree - 1 GENERATE
         gen_term_delay : FOR m IN 0 TO n_signals_used - 1 GENERATE
         BEGIN
@@ -146,9 +133,6 @@ BEGIN
         END GENERATE;
     END GENERATE;
 
-    --------------------------------------------------------------------
-    -- 3c. Registro do pipeline por ordem
-    --------------------------------------------------------------------
     terms_pipe_process : PROCESS(clk)
     BEGIN
         IF rising_edge(clk) THEN
@@ -164,7 +148,6 @@ BEGIN
 
     --------------------------------------------------------------------
     -- 4. Alinhamento temporal das ordens
-    -- ordem p recebe atraso extra = max_poly_degree - 1 - p
     --------------------------------------------------------------------
     gen_align_in : FOR p IN 0 TO max_poly_degree - 1 GENERATE
         gen_align_in_delay : FOR m IN 0 TO n_signals_used - 1 GENERATE
@@ -182,9 +165,6 @@ BEGIN
         END GENERATE;
     END GENERATE;
 
-    --------------------------------------------------------------------
-    -- 4b. Registro do alinhamento
-    --------------------------------------------------------------------
     align_process : PROCESS(clk)
     BEGIN
         IF rising_edge(clk) THEN
@@ -232,9 +212,6 @@ BEGIN
         multiplied_next(k) <= cmul(coefficients(k), XX(k));
     END GENERATE;
 
-    --------------------------------------------------------------------
-    -- 6b. Registro da multiplicação
-    --------------------------------------------------------------------
     mult_process : PROCESS(clk)
     BEGIN
         IF rising_edge(clk) THEN
@@ -247,7 +224,43 @@ BEGIN
     END PROCESS;
 
     --------------------------------------------------------------------
-    -- 7. Soma final
+    -- 7. Árvore de soma combinacional
+    --------------------------------------------------------------------
+    gen_sum_input : FOR k IN 0 TO n_total_terms - 1 GENERATE
+    BEGIN
+        sum_tree(0, k).reall <= multiplied(k).reall;
+        sum_tree(0, k).imag  <= multiplied(k).imag;
+    END GENERATE;
+
+    gen_sum_levels : FOR level IN 1 TO SUM_LEVELS GENERATE
+        gen_sum_nodes : FOR k IN 0 TO n_total_terms - 1 GENERATE
+        BEGIN
+            valid_pair : IF (2 * k + 1) < level_size(level - 1) GENERATE
+            BEGIN
+                sum_tree(level, k).reall <=
+                    sum_tree(level - 1, 2 * k).reall +
+                    sum_tree(level - 1, 2 * k + 1).reall;
+
+                sum_tree(level, k).imag <=
+                    sum_tree(level - 1, 2 * k).imag +
+                    sum_tree(level - 1, 2 * k + 1).imag;
+            END GENERATE;
+
+            valid_single : IF ((2 * k) < level_size(level - 1)) AND
+                              ((2 * k + 1) >= level_size(level - 1)) GENERATE
+            BEGIN
+                sum_tree(level, k) <= sum_tree(level - 1, 2 * k);
+            END GENERATE;
+
+            invalid_node : IF (2 * k) >= level_size(level - 1) GENERATE
+            BEGIN
+                sum_tree(level, k) <= zero_acc_complex;
+            END GENERATE;
+        END GENERATE;
+    END GENERATE;
+
+    --------------------------------------------------------------------
+    -- 8. Registro da soma final
     --------------------------------------------------------------------
     sum_process : PROCESS(clk)
         VARIABLE acc_re, acc_im : INTEGER;
@@ -257,13 +270,8 @@ BEGIN
                 UR_out <= (OTHERS => '0');
                 UI_out <= (OTHERS => '0');
             ELSE
-                acc_re := 0;
-                acc_im := 0;
-
-                FOR k IN 0 TO n_total_terms - 1 LOOP
-                    acc_re := acc_re + multiplied(k).reall;
-                    acc_im := acc_im + multiplied(k).imag;
-                END LOOP;
+                acc_re := sum_tree(SUM_LEVELS, 0).reall;
+                acc_im := sum_tree(SUM_LEVELS, 0).imag;
 
                 UR_out <= STD_LOGIC_VECTOR(to_signed(clip_data(acc_re), n_bits_resolution));
                 UI_out <= STD_LOGIC_VECTOR(to_signed(clip_data(acc_im), n_bits_resolution));

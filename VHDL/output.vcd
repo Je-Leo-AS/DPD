@@ -1,5 +1,5 @@
 $date
-  Tue Apr 21 19:44:27 2026
+  Wed Apr 29 17:53:36 2026
 $end
 $version
   GHDL v0
@@ -49,6 +49,7 @@ $comment term_pipe_next is not handled $end
 $comment msq_pipe_next is not handled $end
 $comment align_pipe is not handled $end
 $comment align_pipe_next is not handled $end
+$comment sum_tree is not handled $end
 $scope module gen_prep_power(0) $end
 $upscope $end
 $scope module gen_prep_power(1) $end
@@ -318,6 +319,176 @@ $upscope $end
 $scope module gen_mult(7) $end
 $upscope $end
 $scope module gen_mult(8) $end
+$upscope $end
+$scope module gen_sum_input(0) $end
+$upscope $end
+$scope module gen_sum_input(1) $end
+$upscope $end
+$scope module gen_sum_input(2) $end
+$upscope $end
+$scope module gen_sum_input(3) $end
+$upscope $end
+$scope module gen_sum_input(4) $end
+$upscope $end
+$scope module gen_sum_input(5) $end
+$upscope $end
+$scope module gen_sum_input(6) $end
+$upscope $end
+$scope module gen_sum_input(7) $end
+$upscope $end
+$scope module gen_sum_input(8) $end
+$upscope $end
+$scope module gen_sum_levels(1) $end
+$scope module gen_sum_nodes(0) $end
+$scope module valid_pair $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(1) $end
+$scope module valid_pair $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(2) $end
+$scope module valid_pair $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(3) $end
+$scope module valid_pair $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(4) $end
+$scope module valid_single $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(5) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(6) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(7) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(8) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_levels(2) $end
+$scope module gen_sum_nodes(0) $end
+$scope module valid_pair $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(1) $end
+$scope module valid_pair $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(2) $end
+$scope module valid_single $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(3) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(4) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(5) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(6) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(7) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(8) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_levels(3) $end
+$scope module gen_sum_nodes(0) $end
+$scope module valid_pair $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(1) $end
+$scope module valid_single $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(2) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(3) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(4) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(5) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(6) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(7) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(8) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_levels(4) $end
+$scope module gen_sum_nodes(0) $end
+$scope module valid_pair $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(1) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(2) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(3) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(4) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(5) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(6) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(7) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
+$scope module gen_sum_nodes(8) $end
+$scope module invalid_node $end
+$upscope $end
+$upscope $end
 $upscope $end
 $upscope $end
 $upscope $end
