@@ -1,0 +1,193 @@
+m255
+K4
+z2
+!s12c _opt1
+Z0 !s99 nomlopt
+!s12c _opt
+R0
+!s11e MIXED_VERSIONS
+!s11f vlog 2025.2 2025.05, May 31 2025
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z1 d/home/je/Code/questa_sim
+T_opt
+!i145 1
+!i144 0
+Z2 !s12d 3375000
+!s110 1779352420
+Vhaj5fCK4F]dTQW>NDVGhi0
+Z3 04 2 8 work tb behavior 1
+Z4 04 4 4 work glbl fast 0
+=1-00d76db85371-6a0ec362-d1f53-2878d
+!s9c 1
+R0
+Z5 !s12f OEM100
+Z6 !s12b OEM100
+Z7 !s124 OEM10U254 
+Z8 !s135 nogc
+o-quiet -sdf -auto_acc_if_foreign -work work -L simprims_ver -L unisims_ver -L unimacro_ver -sdftyp /uut=DPD_timesim.sdf -suppress 1948
+Z9 tCvgOpt 0
+n@_opt
+Z10 OL;O;2025.2;82
+R1
+T_opt1
+!i145 1
+!i144 0
+R2
+!s110 1779352714
+V6kZ1En;ZAYnNiWHW8i;BZ3
+R3
+R4
+=1-00d76db85371-6a0ec489-76b40-28d8e
+!s9c 1
+R0
+R5
+R6
+R7
+R8
+o-quiet -auto_acc_if_foreign -work work -L simprims_ver -L unisims_ver -L unimacro_ver
+R9
+n@_opt1
+R10
+vDPD
+2DPD_timesim.v
+Z11 !s110 1779352703
+!i10b 1
+!s100 3?dbd?S[l]=FD=FfoT5E[0
+IJ7D7G43Qln?n2PbGXRf[g0
+R1
+w1779352601
+8DPD_timesim.v
+FDPD_timesim.v
+!i122 9
+L0 36 91928
+Z12 VDg1SIo80bB@j0V0VzS_@n1
+Z13 OL;L;2025.2;82
+r1
+!s85 0
+31
+!s108 1779352702.000000
+!s107 DPD_timesim.v|
+!s90 -reportprogress|300|DPD_timesim.v|
+!i113 0
+Z14 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R9
+n@d@p@d
+Pfunctions
+Z15 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z16 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z17 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 11
+Z18 w1779344155
+R1
+Z19 8functions.vhd
+Z20 Ffunctions.vhd
+l0
+L5 97
+V2`<gcTU<^kdYN12XoLnZS1
+!s100 ;E<2dIa47=>SBE?Dn3STA2
+Z21 OL;C;2025.2;82
+31
+b1
+R11
+!i10b 1
+Z22 !s108 1779352703.000000
+Z23 !s90 -reportprogress|300|-93|functions.vhd|
+Z24 !s107 functions.vhd|
+!i113 0
+o-93
+Z25 tExplicit 1 CvgOpt 0
+Bbody
+DPx4 work 9 functions 0 22 2`<gcTU<^kdYN12XoLnZS1
+R15
+R16
+R17
+!i122 11
+l0
+L103 81
+V[JN89nY4`<enD=l;QSV3@2
+!s100 ZCmG<J2LA8hb7zm2<09060
+R21
+31
+R11
+!i10b 1
+R22
+R23
+R24
+!i113 0
+o-93
+R25
+vglbl
+2glbl.v
+R11
+!i10b 1
+!s100 STl5FD^[_K;c3kd]BFhAP0
+I`b>1RF>^c^I;fk@QnR=751
+R1
+w1779344278
+8glbl.v
+Fglbl.v
+!i122 10
+L0 5 62
+R12
+R13
+r1
+!s85 0
+31
+R22
+!s107 glbl.v|
+!s90 -reportprogress|300|glbl.v|
+!i113 0
+R14
+R9
+Etb
+Z26 w1778633984
+Z27 DPx3 std 3 env 0 22 g[fj8WJKOa<0Y`zWY3UD70
+Z28 DPx4 ieee 16 std_logic_textio 0 22 8]8<fKiYoHe;_IDO3kmNH2
+R15
+R16
+R17
+!i122 12
+R1
+Z29 8tb_main.vhd
+Z30 Ftb_main.vhd
+l0
+L10 1
+Vo7baN3hTK[nLT3=YTe?870
+!s100 Ho_AG9WCizdFiO]AI`OaW0
+R21
+31
+R11
+!i10b 1
+R22
+Z31 !s90 -reportprogress|300|-93|tb_main.vhd|
+Z32 !s107 tb_main.vhd|
+!i113 0
+o-93
+R25
+Abehavior
+R27
+R28
+R15
+R16
+R17
+DEx4 work 2 tb 0 22 o7baN3hTK[nLT3=YTe?870
+!i122 12
+l38
+L13 18073
+V?_1O]@1:ABJollSF]X5aj2
+!s100 6P=C0Vc`6dHOYbYgQ?NZl2
+R21
+31
+R11
+!i10b 1
+R22
+R31
+R32
+!i113 0
+o-93
+R25

@@ -14,6 +14,8 @@ ENTITY DPD IS
     );
 END ENTITY;
 
+
+
 ARCHITECTURE rtl OF DPD IS
 
     --------------------------------------------------------------------
@@ -114,22 +116,22 @@ BEGIN
     --------------------------------------------------------------------
     gen_term_stage0 : FOR m IN 0 TO n_signals_used - 1 GENERATE
     BEGIN
-        term_pipe_next(0, m) <= base_vec(m);
-        msq_pipe_next(0, m)  <= msq_vec(m);
+        term_pipe_next(0)(m) <= base_vec(m);
+        msq_pipe_next(0)(m)  <= msq_vec(m);
     END GENERATE;
 
     gen_term_stages : FOR s IN 1 TO max_poly_degree - 1 GENERATE
         gen_term_delay : FOR m IN 0 TO n_signals_used - 1 GENERATE
         BEGIN
-            term_pipe_next(s, m).reall <= clip_data(
-                readeq(term_pipe(s - 1, m).reall * msq_pipe(s - 1, m))
+            term_pipe_next(s)(m).reall <= clip_data(
+                readeq(term_pipe(s - 1)(m).reall * msq_pipe(s - 1)(m))
             );
 
-            term_pipe_next(s, m).imag <= clip_data(
-                readeq(term_pipe(s - 1, m).imag * msq_pipe(s - 1, m))
+            term_pipe_next(s)(m).imag <= clip_data(
+                readeq(term_pipe(s - 1)(m).imag * msq_pipe(s - 1)(m))
             );
 
-            msq_pipe_next(s, m) <= msq_pipe(s - 1, m);
+            msq_pipe_next(s)(m) <= msq_pipe(s - 1)(m);
         END GENERATE;
     END GENERATE;
 
@@ -152,7 +154,7 @@ BEGIN
     gen_align_in : FOR p IN 0 TO max_poly_degree - 1 GENERATE
         gen_align_in_delay : FOR m IN 0 TO n_signals_used - 1 GENERATE
         BEGIN
-            align_pipe_next(0, p, m) <= term_pipe(p, m);
+            align_pipe_next(0)(p)(m) <= term_pipe(p)(m);
         END GENERATE;
     END GENERATE;
 
@@ -160,7 +162,7 @@ BEGIN
         gen_align_order : FOR p IN 0 TO max_poly_degree - 1 GENERATE
             gen_align_delay : FOR m IN 0 TO n_signals_used - 1 GENERATE
             BEGIN
-                align_pipe_next(d, p, m) <= align_pipe(d - 1, p, m);
+                align_pipe_next(d)(p)(m) <= align_pipe(d - 1)(p)(m);
             END GENERATE;
         END GENERATE;
     END GENERATE;
@@ -194,7 +196,7 @@ BEGIN
                 FOR m IN 0 TO n_signals_used - 1 LOOP
                     FOR p IN 0 TO poly_degree_per_delay(m) - 1 LOOP
                         dsel := max_poly_degree - 1 - p;
-                        temp_xx(idx) := align_pipe(dsel, p, m);
+                        temp_xx(idx) := align_pipe(dsel)(p)(m);
                         idx := idx + 1;
                     END LOOP;
                 END LOOP;
@@ -228,8 +230,8 @@ BEGIN
     --------------------------------------------------------------------
     gen_sum_input : FOR k IN 0 TO n_total_terms - 1 GENERATE
     BEGIN
-        sum_tree(0, k).reall <= multiplied(k).reall;
-        sum_tree(0, k).imag  <= multiplied(k).imag;
+        sum_tree(0)(k).reall <= multiplied(k).reall;
+        sum_tree(0)(k).imag  <= multiplied(k).imag;
     END GENERATE;
 
     gen_sum_levels : FOR level IN 1 TO SUM_LEVELS GENERATE
@@ -237,24 +239,24 @@ BEGIN
         BEGIN
             valid_pair : IF (2 * k + 1) < level_size(level - 1) GENERATE
             BEGIN
-                sum_tree(level, k).reall <=
-                    sum_tree(level - 1, 2 * k).reall +
-                    sum_tree(level - 1, 2 * k + 1).reall;
+                sum_tree(level)(k).reall <=
+                    sum_tree(level - 1)(2 * k).reall +
+                    sum_tree(level - 1)(2 * k + 1).reall;
 
-                sum_tree(level, k).imag <=
-                    sum_tree(level - 1, 2 * k).imag +
-                    sum_tree(level - 1, 2 * k + 1).imag;
+                sum_tree(level)(k).imag <=
+                    sum_tree(level - 1)(2 * k).imag +
+                    sum_tree(level - 1)(2 * k + 1).imag;
             END GENERATE;
 
             valid_single : IF ((2 * k) < level_size(level - 1)) AND
                               ((2 * k + 1) >= level_size(level - 1)) GENERATE
             BEGIN
-                sum_tree(level, k) <= sum_tree(level - 1, 2 * k);
+                sum_tree(level)(k) <= sum_tree(level - 1)(2 * k);
             END GENERATE;
 
             invalid_node : IF (2 * k) >= level_size(level - 1) GENERATE
             BEGIN
-                sum_tree(level, k) <= zero_acc_complex;
+                sum_tree(level)(k) <= zero_acc_complex;
             END GENERATE;
         END GENERATE;
     END GENERATE;
@@ -270,8 +272,8 @@ BEGIN
                 UR_out <= (OTHERS => '0');
                 UI_out <= (OTHERS => '0');
             ELSE
-                acc_re := sum_tree(SUM_LEVELS, 0).reall;
-                acc_im := sum_tree(SUM_LEVELS, 0).imag;
+                acc_re := sum_tree(SUM_LEVELS)(0).reall;
+                acc_im := sum_tree(SUM_LEVELS)(0).imag;
 
                 UR_out <= STD_LOGIC_VECTOR(to_signed(clip_data(acc_re), n_bits_resolution));
                 UI_out <= STD_LOGIC_VECTOR(to_signed(clip_data(acc_im), n_bits_resolution));

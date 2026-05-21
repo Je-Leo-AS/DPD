@@ -70,21 +70,20 @@ PACKAGE functions IS
         --------------------------------------------------------------------
     -- Tipos locais
     --------------------------------------------------------------------
-    TYPE term_pipe_local_t IS ARRAY (0 TO max_poly_degree - 1, 0 TO n_signals_used - 1) OF complex_number;
-    TYPE mag_pipe_local_t  IS ARRAY (0 TO max_poly_degree - 1, 0 TO n_signals_used - 1) OF INTEGER;
+    -- Evita matrizes VHDL 2D/3D diretas, pois o XST pode rejeitar
+    -- com "Matrix not supported yet" em algumas famílias, como Virtex-5.
+    -- Usamos arrays aninhados: acesso (i)(j) em vez de (i, j).
+    TYPE term_pipe_local_t IS ARRAY (0 TO max_poly_degree - 1) OF delay_line_t;
+    TYPE mag_pipe_local_t  IS ARRAY (0 TO max_poly_degree - 1) OF mag_array_t;
 
-    TYPE align_pipe_local_t IS ARRAY (
-        0 TO max_poly_degree - 1,
-        0 TO max_poly_degree - 1,
-        0 TO n_signals_used - 1
-    ) OF complex_number;
+    TYPE align_delay_t      IS ARRAY (0 TO n_signals_used - 1) OF complex_number;
+    TYPE align_order_t      IS ARRAY (0 TO max_poly_degree - 1) OF align_delay_t;
+    TYPE align_pipe_local_t IS ARRAY (0 TO max_poly_degree - 1) OF align_order_t;
 
     CONSTANT SUM_LEVELS : INTEGER := 4; -- ceil_log2(9)
 
-    TYPE sum_tree_t IS ARRAY (
-        0 TO SUM_LEVELS,
-        0 TO n_total_terms - 1
-    ) OF acc_complex_number;
+    TYPE sum_tree_level_t IS ARRAY (0 TO n_total_terms - 1) OF acc_complex_number;
+    TYPE sum_tree_t       IS ARRAY (0 TO SUM_LEVELS) OF sum_tree_level_t;
 
 
     --------------------------------------------------------------------
