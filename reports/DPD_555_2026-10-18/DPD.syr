@@ -1,0 +1,1164 @@
+Release 14.7 - xst P.20131013 (lin64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.03 secs
+ 
+--> 
+Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.03 secs
+ 
+--> 
+Reading design: DPD.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "DPD.prj"
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "DPD"
+Output Format                      : NGC
+Target Device                      : xc7a100t-2-csg324
+
+---- Source Options
+Top Module Name                    : DPD
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 32
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Parsing VHDL file "/home/je/Code/DPD/VHDL/functions.vhd" into library work
+Parsing package <functions>.
+Parsing package body <functions>.
+Parsing VHDL file "/home/je/Code/DPD/VHDL/DPD.vhd" into library work
+Parsing entity <DPD>.
+Parsing architecture <rtl> of entity <dpd>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating entity <DPD> (architecture <rtl>) from library <work>.
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <DPD>.
+    Related source file is "/home/je/Code/DPD/VHDL/DPD.vhd".
+    Register <base_vec[0]_reall> equivalent to <delay_line[1]_reall> has been removed
+    Register <base_vec[1]_imag> equivalent to <delay_line[2]_imag> has been removed
+    Register <base_vec[1]_reall> equivalent to <delay_line[2]_reall> has been removed
+    Register <base_vec[0]_imag> equivalent to <delay_line[1]_imag> has been removed
+    Register <term_pipe[0][0]_imag> equivalent to <delay_line[2]_imag> has been removed
+    Register <term_pipe[0][0]_reall> equivalent to <delay_line[2]_reall> has been removed
+    Register <term_pipe[0][1]_imag> equivalent to <base_vec[2]_imag> has been removed
+    Register <term_pipe[0][1]_reall> equivalent to <base_vec[2]_reall> has been removed
+    Register <align_pipe[0][0][1]_imag> equivalent to <term_pipe[0][2]_imag> has been removed
+    Register <align_pipe[0][0][1]_reall> equivalent to <term_pipe[0][2]_reall> has been removed
+    Register <align_pipe[0][0][0]_imag> equivalent to <base_vec[2]_imag> has been removed
+    Register <align_pipe[0][0][0]_reall> equivalent to <base_vec[2]_reall> has been removed
+    Register <align_pipe[1][0][0]_imag> equivalent to <term_pipe[0][2]_imag> has been removed
+    Register <align_pipe[1][0][1]_imag> equivalent to <align_pipe[0][0][2]_imag> has been removed
+    Register <align_pipe[1][0][0]_reall> equivalent to <term_pipe[0][2]_reall> has been removed
+    Register <align_pipe[1][0][1]_reall> equivalent to <align_pipe[0][0][2]_reall> has been removed
+    Register <align_pipe[2][0][1]_reall> equivalent to <align_pipe[1][0][2]_reall> has been removed
+    Register <align_pipe[2][0][0]_imag> equivalent to <align_pipe[0][0][2]_imag> has been removed
+    Register <align_pipe[2][0][1]_imag> equivalent to <align_pipe[1][0][2]_imag> has been removed
+    Register <align_pipe[2][0][0]_reall> equivalent to <align_pipe[0][0][2]_reall> has been removed
+    Register <align_pipe[3][0][0]_reall> equivalent to <align_pipe[1][0][2]_reall> has been removed
+    Register <align_pipe[3][0][0]_imag> equivalent to <align_pipe[1][0][2]_imag> has been removed
+    Register <align_pipe[3][0][1]_reall> equivalent to <align_pipe[2][0][2]_reall> has been removed
+    Register <align_pipe[3][0][1]_imag> equivalent to <align_pipe[2][0][2]_imag> has been removed
+    Register <align_pipe[4][0][1]_imag> equivalent to <align_pipe[3][0][2]_imag> has been removed
+    Register <align_pipe[4][0][0]_reall> equivalent to <align_pipe[2][0][2]_reall> has been removed
+    Register <align_pipe[4][0][0]_imag> equivalent to <align_pipe[2][0][2]_imag> has been removed
+    Register <align_pipe[4][0][1]_reall> equivalent to <align_pipe[3][0][2]_reall> has been removed
+    Register <XX[5]_reall> equivalent to <align_pipe[4][0][2]_reall> has been removed
+    Register <XX[0]_imag> equivalent to <align_pipe[3][0][2]_imag> has been removed
+    Register <XX[5]_imag> equivalent to <align_pipe[4][0][2]_imag> has been removed
+    Register <XX[0]_reall> equivalent to <align_pipe[3][0][2]_reall> has been removed
+    Found 11-bit register for signal <delay_line[0]_imag>.
+    Found 11-bit register for signal <delay_line[1]_reall>.
+    Found 11-bit register for signal <delay_line[1]_imag>.
+    Found 11-bit register for signal <delay_line[2]_reall>.
+    Found 11-bit register for signal <delay_line[2]_imag>.
+    Found 11-bit register for signal <base_vec[2]_reall>.
+    Found 11-bit register for signal <base_vec[2]_imag>.
+    Found 32-bit register for signal <msq_vec<0>>.
+    Found 32-bit register for signal <msq_vec<1>>.
+    Found 32-bit register for signal <msq_vec<2>>.
+    Found 11-bit register for signal <term_pipe[0][2]_reall>.
+    Found 11-bit register for signal <term_pipe[0][2]_imag>.
+    Found 11-bit register for signal <term_pipe[1][0]_reall>.
+    Found 11-bit register for signal <term_pipe[1][0]_imag>.
+    Found 11-bit register for signal <term_pipe[1][1]_reall>.
+    Found 11-bit register for signal <term_pipe[1][1]_imag>.
+    Found 11-bit register for signal <term_pipe[1][2]_reall>.
+    Found 11-bit register for signal <term_pipe[1][2]_imag>.
+    Found 11-bit register for signal <term_pipe[2][0]_reall>.
+    Found 11-bit register for signal <term_pipe[2][0]_imag>.
+    Found 11-bit register for signal <term_pipe[2][1]_reall>.
+    Found 11-bit register for signal <term_pipe[2][1]_imag>.
+    Found 11-bit register for signal <term_pipe[2][2]_reall>.
+    Found 11-bit register for signal <term_pipe[2][2]_imag>.
+    Found 11-bit register for signal <term_pipe[3][0]_reall>.
+    Found 11-bit register for signal <term_pipe[3][0]_imag>.
+    Found 11-bit register for signal <term_pipe[3][1]_reall>.
+    Found 11-bit register for signal <term_pipe[3][1]_imag>.
+    Found 11-bit register for signal <term_pipe[3][2]_reall>.
+    Found 11-bit register for signal <term_pipe[3][2]_imag>.
+    Found 11-bit register for signal <term_pipe[4][0]_reall>.
+    Found 11-bit register for signal <term_pipe[4][0]_imag>.
+    Found 11-bit register for signal <term_pipe[4][1]_reall>.
+    Found 11-bit register for signal <term_pipe[4][1]_imag>.
+    Found 11-bit register for signal <term_pipe[4][2]_reall>.
+    Found 11-bit register for signal <term_pipe[4][2]_imag>.
+    Found 32-bit register for signal <msq_pipe<0><0>>.
+    Found 32-bit register for signal <msq_pipe<0><1>>.
+    Found 32-bit register for signal <msq_pipe<0><2>>.
+    Found 32-bit register for signal <msq_pipe<1><0>>.
+    Found 32-bit register for signal <msq_pipe<1><1>>.
+    Found 32-bit register for signal <msq_pipe<1><2>>.
+    Found 32-bit register for signal <msq_pipe<2><0>>.
+    Found 32-bit register for signal <msq_pipe<2><1>>.
+    Found 32-bit register for signal <msq_pipe<2><2>>.
+    Found 32-bit register for signal <msq_pipe<3><0>>.
+    Found 32-bit register for signal <msq_pipe<3><1>>.
+    Found 32-bit register for signal <msq_pipe<3><2>>.
+    Found 11-bit register for signal <align_pipe[0][0][2]_reall>.
+    Found 11-bit register for signal <align_pipe[0][0][2]_imag>.
+    Found 11-bit register for signal <align_pipe[0][1][0]_reall>.
+    Found 11-bit register for signal <align_pipe[0][1][0]_imag>.
+    Found 11-bit register for signal <align_pipe[0][1][1]_reall>.
+    Found 11-bit register for signal <align_pipe[0][1][1]_imag>.
+    Found 11-bit register for signal <align_pipe[0][1][2]_reall>.
+    Found 11-bit register for signal <align_pipe[0][1][2]_imag>.
+    Found 11-bit register for signal <align_pipe[0][2][0]_reall>.
+    Found 11-bit register for signal <align_pipe[0][2][0]_imag>.
+    Found 11-bit register for signal <align_pipe[0][2][1]_reall>.
+    Found 11-bit register for signal <align_pipe[0][2][1]_imag>.
+    Found 11-bit register for signal <align_pipe[0][2][2]_reall>.
+    Found 11-bit register for signal <align_pipe[0][2][2]_imag>.
+    Found 11-bit register for signal <align_pipe[0][3][0]_reall>.
+    Found 11-bit register for signal <align_pipe[0][3][0]_imag>.
+    Found 11-bit register for signal <align_pipe[0][3][1]_reall>.
+    Found 11-bit register for signal <align_pipe[0][3][1]_imag>.
+    Found 11-bit register for signal <align_pipe[0][3][2]_reall>.
+    Found 11-bit register for signal <align_pipe[0][3][2]_imag>.
+    Found 11-bit register for signal <align_pipe[0][4][0]_reall>.
+    Found 11-bit register for signal <align_pipe[0][4][0]_imag>.
+    Found 11-bit register for signal <align_pipe[0][4][1]_reall>.
+    Found 11-bit register for signal <align_pipe[0][4][1]_imag>.
+    Found 11-bit register for signal <align_pipe[0][4][2]_reall>.
+    Found 11-bit register for signal <align_pipe[0][4][2]_imag>.
+    Found 11-bit register for signal <align_pipe[1][0][2]_reall>.
+    Found 11-bit register for signal <align_pipe[1][0][2]_imag>.
+    Found 11-bit register for signal <align_pipe[1][1][0]_reall>.
+    Found 11-bit register for signal <align_pipe[1][1][0]_imag>.
+    Found 11-bit register for signal <align_pipe[1][1][1]_reall>.
+    Found 11-bit register for signal <align_pipe[1][1][1]_imag>.
+    Found 11-bit register for signal <align_pipe[1][1][2]_reall>.
+    Found 11-bit register for signal <align_pipe[1][1][2]_imag>.
+    Found 11-bit register for signal <align_pipe[1][2][0]_reall>.
+    Found 11-bit register for signal <align_pipe[1][2][0]_imag>.
+    Found 11-bit register for signal <align_pipe[1][2][1]_reall>.
+    Found 11-bit register for signal <align_pipe[1][2][1]_imag>.
+    Found 11-bit register for signal <align_pipe[1][2][2]_reall>.
+    Found 11-bit register for signal <align_pipe[1][2][2]_imag>.
+    Found 11-bit register for signal <align_pipe[1][3][0]_reall>.
+    Found 11-bit register for signal <align_pipe[1][3][0]_imag>.
+    Found 11-bit register for signal <align_pipe[1][3][1]_reall>.
+    Found 11-bit register for signal <align_pipe[1][3][1]_imag>.
+    Found 11-bit register for signal <align_pipe[1][3][2]_reall>.
+    Found 11-bit register for signal <align_pipe[1][3][2]_imag>.
+    Found 11-bit register for signal <align_pipe[2][0][2]_reall>.
+    Found 11-bit register for signal <align_pipe[2][0][2]_imag>.
+    Found 11-bit register for signal <align_pipe[2][1][0]_reall>.
+    Found 11-bit register for signal <align_pipe[2][1][0]_imag>.
+    Found 11-bit register for signal <align_pipe[2][1][1]_reall>.
+    Found 11-bit register for signal <align_pipe[2][1][1]_imag>.
+    Found 11-bit register for signal <align_pipe[2][1][2]_reall>.
+    Found 11-bit register for signal <align_pipe[2][1][2]_imag>.
+    Found 11-bit register for signal <align_pipe[2][2][0]_reall>.
+    Found 11-bit register for signal <align_pipe[2][2][0]_imag>.
+    Found 11-bit register for signal <align_pipe[2][2][1]_reall>.
+    Found 11-bit register for signal <align_pipe[2][2][1]_imag>.
+    Found 11-bit register for signal <align_pipe[2][2][2]_reall>.
+    Found 11-bit register for signal <align_pipe[2][2][2]_imag>.
+    Found 11-bit register for signal <align_pipe[3][0][2]_reall>.
+    Found 11-bit register for signal <align_pipe[3][0][2]_imag>.
+    Found 11-bit register for signal <align_pipe[3][1][0]_reall>.
+    Found 11-bit register for signal <align_pipe[3][1][0]_imag>.
+    Found 11-bit register for signal <align_pipe[3][1][1]_reall>.
+    Found 11-bit register for signal <align_pipe[3][1][1]_imag>.
+    Found 11-bit register for signal <align_pipe[3][1][2]_reall>.
+    Found 11-bit register for signal <align_pipe[3][1][2]_imag>.
+    Found 11-bit register for signal <align_pipe[4][0][2]_reall>.
+    Found 11-bit register for signal <align_pipe[4][0][2]_imag>.
+    Found 11-bit register for signal <XX[1]_reall>.
+    Found 11-bit register for signal <XX[1]_imag>.
+    Found 11-bit register for signal <XX[2]_reall>.
+    Found 11-bit register for signal <XX[2]_imag>.
+    Found 11-bit register for signal <XX[3]_reall>.
+    Found 11-bit register for signal <XX[3]_imag>.
+    Found 11-bit register for signal <XX[4]_reall>.
+    Found 11-bit register for signal <XX[4]_imag>.
+    Found 11-bit register for signal <XX[6]_reall>.
+    Found 11-bit register for signal <XX[6]_imag>.
+    Found 11-bit register for signal <XX[7]_reall>.
+    Found 11-bit register for signal <XX[7]_imag>.
+    Found 11-bit register for signal <XX[8]_reall>.
+    Found 11-bit register for signal <XX[8]_imag>.
+    Found 11-bit register for signal <XX[9]_reall>.
+    Found 11-bit register for signal <XX[9]_imag>.
+    Found 11-bit register for signal <XX[10]_reall>.
+    Found 11-bit register for signal <XX[10]_imag>.
+    Found 11-bit register for signal <XX[11]_reall>.
+    Found 11-bit register for signal <XX[11]_imag>.
+    Found 11-bit register for signal <XX[12]_reall>.
+    Found 11-bit register for signal <XX[12]_imag>.
+    Found 11-bit register for signal <XX[13]_reall>.
+    Found 11-bit register for signal <XX[13]_imag>.
+    Found 11-bit register for signal <XX[14]_reall>.
+    Found 11-bit register for signal <XX[14]_imag>.
+    Found 11-bit register for signal <multiplied[0]_reall>.
+    Found 11-bit register for signal <multiplied[0]_imag>.
+    Found 11-bit register for signal <multiplied[1]_reall>.
+    Found 11-bit register for signal <multiplied[1]_imag>.
+    Found 11-bit register for signal <multiplied[2]_reall>.
+    Found 11-bit register for signal <multiplied[2]_imag>.
+    Found 11-bit register for signal <multiplied[3]_reall>.
+    Found 11-bit register for signal <multiplied[3]_imag>.
+    Found 11-bit register for signal <multiplied[4]_reall>.
+    Found 11-bit register for signal <multiplied[4]_imag>.
+    Found 11-bit register for signal <multiplied[5]_reall>.
+    Found 11-bit register for signal <multiplied[5]_imag>.
+    Found 11-bit register for signal <multiplied[6]_reall>.
+    Found 11-bit register for signal <multiplied[6]_imag>.
+    Found 11-bit register for signal <multiplied[7]_reall>.
+    Found 11-bit register for signal <multiplied[7]_imag>.
+    Found 11-bit register for signal <multiplied[8]_reall>.
+    Found 11-bit register for signal <multiplied[8]_imag>.
+    Found 11-bit register for signal <multiplied[9]_reall>.
+    Found 11-bit register for signal <multiplied[9]_imag>.
+    Found 11-bit register for signal <multiplied[10]_reall>.
+    Found 11-bit register for signal <multiplied[10]_imag>.
+    Found 11-bit register for signal <multiplied[11]_reall>.
+    Found 11-bit register for signal <multiplied[11]_imag>.
+    Found 11-bit register for signal <multiplied[12]_reall>.
+    Found 11-bit register for signal <multiplied[12]_imag>.
+    Found 11-bit register for signal <multiplied[13]_reall>.
+    Found 11-bit register for signal <multiplied[13]_imag>.
+    Found 11-bit register for signal <multiplied[14]_reall>.
+    Found 11-bit register for signal <multiplied[14]_imag>.
+    Found 11-bit register for signal <UR_out>.
+    Found 11-bit register for signal <UI_out>.
+    Found 11-bit register for signal <delay_line[0]_reall>.
+    Found 13-bit subtractor for signal <GND_5_o_PWR_5_o_sub_863_OUT> created at line 163.
+    Found 13-bit subtractor for signal <GND_5_o_PWR_5_o_sub_885_OUT> created at line 163.
+    Found 13-bit subtractor for signal <PWR_5_o_GND_5_o_sub_907_OUT> created at line 163.
+    Found 11-bit subtractor for signal <multiplied_next[3]_reall> created at line 163.
+    Found 13-bit subtractor for signal <GND_5_o_GND_5_o_sub_943_OUT> created at line 163.
+    Found 10-bit subtractor for signal <n1548[9:0]> created at line 163.
+    Found 12-bit subtractor for signal <PWR_5_o_GND_5_o_sub_979_OUT> created at line 163.
+    Found 10-bit subtractor for signal <n1552[9:0]> created at line 163.
+    Found 10-bit subtractor for signal <n1554[9:0]> created at line 163.
+    Found 12-bit subtractor for signal <GND_5_o_GND_5_o_sub_1029_OUT> created at line 163.
+    Found 10-bit subtractor for signal <n1558[9:0]> created at line 163.
+    Found 8-bit subtractor for signal <n1560[7:0]> created at line 163.
+    Found 12-bit subtractor for signal <GND_5_o_PWR_5_o_sub_1079_OUT> created at line 163.
+    Found 12-bit subtractor for signal <XX[13]_imag[10]_unary_minus_1092_OUT> created at line 159.
+    Found 12-bit subtractor for signal <XX[13]_reall[10]_unary_minus_1098_OUT> created at line 161.
+    Found 12-bit subtractor for signal <PWR_5_o_XX[13]_imag[10]_sub_1101_OUT> created at line 163.
+    Found 10-bit subtractor for signal <n1566[9:0]> created at line 163.
+    Found 12-bit adder for signal <delay_line[0]_reall[10]_GND_5_o_add_20_OUT> created at line 141.
+    Found 12-bit adder for signal <delay_line[0]_imag[10]_GND_5_o_add_23_OUT> created at line 141.
+    Found 13-bit adder for signal <n2906> created at line 94.
+    Found 12-bit adder for signal <delay_line[1]_reall[10]_GND_5_o_add_29_OUT> created at line 141.
+    Found 12-bit adder for signal <delay_line[1]_imag[10]_GND_5_o_add_32_OUT> created at line 141.
+    Found 13-bit adder for signal <n2915> created at line 94.
+    Found 12-bit adder for signal <delay_line[2]_reall[10]_GND_5_o_add_38_OUT> created at line 141.
+    Found 12-bit adder for signal <delay_line[2]_imag[10]_GND_5_o_add_41_OUT> created at line 141.
+    Found 13-bit adder for signal <n2924> created at line 94.
+    Found 22-bit adder for signal <term_pipe[0][0]_reall[10]_GND_5_o_add_72_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[0][0]_imag[10]_GND_5_o_add_79_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[0][1]_reall[10]_GND_5_o_add_87_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[0][1]_imag[10]_GND_5_o_add_94_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[0][2]_reall[10]_GND_5_o_add_102_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[0][2]_imag[10]_GND_5_o_add_109_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[1][0]_reall[10]_GND_5_o_add_117_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[1][0]_imag[10]_GND_5_o_add_124_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[1][1]_reall[10]_GND_5_o_add_132_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[1][1]_imag[10]_GND_5_o_add_139_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[1][2]_reall[10]_GND_5_o_add_147_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[1][2]_imag[10]_GND_5_o_add_154_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[2][0]_reall[10]_GND_5_o_add_162_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[2][0]_imag[10]_GND_5_o_add_169_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[2][1]_reall[10]_GND_5_o_add_177_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[2][1]_imag[10]_GND_5_o_add_184_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[2][2]_reall[10]_GND_5_o_add_192_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[2][2]_imag[10]_GND_5_o_add_199_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[3][0]_reall[10]_GND_5_o_add_207_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[3][0]_imag[10]_GND_5_o_add_214_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[3][1]_reall[10]_GND_5_o_add_222_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[3][1]_imag[10]_GND_5_o_add_229_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[3][2]_reall[10]_GND_5_o_add_237_OUT> created at line 141.
+    Found 22-bit adder for signal <term_pipe[3][2]_imag[10]_GND_5_o_add_244_OUT> created at line 141.
+    Found 12-bit adder for signal <GND_5_o_GND_5_o_add_852_OUT> created at line 141.
+    Found 6-bit adder for signal <PWR_5_o_GND_5_o_add_855_OUT> created at line 141.
+    Found 12-bit adder for signal <GND_5_o_GND_5_o_add_858_OUT> created at line 141.
+    Found 6-bit adder for signal <PWR_5_o_GND_5_o_add_861_OUT> created at line 141.
+    Found 13-bit adder for signal <n3011> created at line 164.
+    Found 12-bit adder for signal <GND_5_o_GND_5_o_add_874_OUT> created at line 141.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_877_OUT> created at line 141.
+    Found 12-bit adder for signal <GND_5_o_GND_5_o_add_880_OUT> created at line 141.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_883_OUT> created at line 141.
+    Found 13-bit adder for signal <n3026> created at line 164.
+    Found 12-bit adder for signal <PWR_5_o_GND_5_o_add_896_OUT> created at line 141.
+    Found 10-bit adder for signal <GND_5_o_GND_5_o_add_899_OUT> created at line 141.
+    Found 12-bit adder for signal <PWR_5_o_GND_5_o_add_902_OUT> created at line 141.
+    Found 10-bit adder for signal <GND_5_o_GND_5_o_add_905_OUT> created at line 141.
+    Found 13-bit adder for signal <n3041> created at line 164.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_918_OUT> created at line 141.
+    Found 10-bit adder for signal <GND_5_o_GND_5_o_add_921_OUT> created at line 141.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_924_OUT> created at line 141.
+    Found 10-bit adder for signal <GND_5_o_GND_5_o_add_927_OUT> created at line 141.
+    Found 11-bit adder for signal <n3056> created at line 164.
+    Found 12-bit adder for signal <GND_5_o_GND_5_o_add_932_OUT> created at line 141.
+    Found 10-bit adder for signal <GND_5_o_GND_5_o_add_935_OUT> created at line 141.
+    Found 12-bit adder for signal <GND_5_o_GND_5_o_add_938_OUT> created at line 141.
+    Found 10-bit adder for signal <GND_5_o_GND_5_o_add_941_OUT> created at line 141.
+    Found 13-bit adder for signal <n3071> created at line 164.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_954_OUT> created at line 141.
+    Found 6-bit adder for signal <GND_5_o_GND_5_o_add_957_OUT> created at line 141.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_960_OUT> created at line 141.
+    Found 6-bit adder for signal <GND_5_o_GND_5_o_add_963_OUT> created at line 141.
+    Found 10-bit adder for signal <n3086> created at line 164.
+    Found 11-bit adder for signal <PWR_5_o_GND_5_o_add_968_OUT> created at line 141.
+    Found 8-bit adder for signal <GND_5_o_GND_5_o_add_971_OUT> created at line 141.
+    Found 11-bit adder for signal <PWR_5_o_GND_5_o_add_974_OUT> created at line 141.
+    Found 8-bit adder for signal <GND_5_o_GND_5_o_add_977_OUT> created at line 141.
+    Found 12-bit adder for signal <n3101> created at line 164.
+    Found 8-bit adder for signal <PWR_5_o_GND_5_o_add_990_OUT> created at line 141.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_993_OUT> created at line 141.
+    Found 8-bit adder for signal <PWR_5_o_GND_5_o_add_996_OUT> created at line 141.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_999_OUT> created at line 141.
+    Found 10-bit adder for signal <n3116> created at line 164.
+    Found 9-bit adder for signal <GND_5_o_GND_5_o_add_1004_OUT> created at line 141.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_1007_OUT> created at line 141.
+    Found 9-bit adder for signal <GND_5_o_GND_5_o_add_1010_OUT> created at line 141.
+    Found 9-bit adder for signal <PWR_5_o_GND_5_o_add_1013_OUT> created at line 141.
+    Found 10-bit adder for signal <n3131> created at line 164.
+    Found 11-bit adder for signal <GND_5_o_GND_5_o_add_1018_OUT> created at line 141.
+    Found 6-bit adder for signal <GND_5_o_GND_5_o_add_1021_OUT> created at line 141.
+    Found 11-bit adder for signal <GND_5_o_GND_5_o_add_1024_OUT> created at line 141.
+    Found 6-bit adder for signal <GND_5_o_GND_5_o_add_1027_OUT> created at line 141.
+    Found 12-bit adder for signal <n3146> created at line 164.
+    Found 9-bit adder for signal <GND_5_o_GND_5_o_add_1040_OUT> created at line 141.
+    Found 4-bit adder for signal <PWR_5_o_GND_5_o_add_1043_OUT> created at line 141.
+    Found 9-bit adder for signal <GND_5_o_GND_5_o_add_1046_OUT> created at line 141.
+    Found 4-bit adder for signal <PWR_5_o_GND_5_o_add_1049_OUT> created at line 141.
+    Found 10-bit adder for signal <n3161> created at line 164.
+    Found 7-bit adder for signal <PWR_5_o_GND_5_o_add_1054_OUT> created at line 141.
+    Found 6-bit adder for signal <GND_5_o_GND_5_o_add_1057_OUT> created at line 141.
+    Found 7-bit adder for signal <PWR_5_o_GND_5_o_add_1060_OUT> created at line 141.
+    Found 6-bit adder for signal <GND_5_o_GND_5_o_add_1063_OUT> created at line 141.
+    Found 8-bit adder for signal <n3176> created at line 164.
+    Found 11-bit adder for signal <GND_5_o_GND_5_o_add_1068_OUT> created at line 141.
+    Found 7-bit adder for signal <PWR_5_o_GND_5_o_add_1071_OUT> created at line 141.
+    Found 11-bit adder for signal <GND_5_o_GND_5_o_add_1074_OUT> created at line 141.
+    Found 7-bit adder for signal <PWR_5_o_GND_5_o_add_1077_OUT> created at line 141.
+    Found 12-bit adder for signal <n3191> created at line 164.
+    Found 11-bit adder for signal <PWR_5_o_GND_5_o_add_1090_OUT> created at line 141.
+    Found 3-bit adder for signal <XX[13]_imag[10]_GND_5_o_add_1093_OUT> created at line 141.
+    Found 11-bit adder for signal <PWR_5_o_GND_5_o_add_1096_OUT> created at line 141.
+    Found 3-bit adder for signal <XX[13]_reall[10]_GND_5_o_add_1099_OUT> created at line 141.
+    Found 12-bit adder for signal <n3206> created at line 164.
+    Found 8-bit adder for signal <GND_5_o_GND_5_o_add_1112_OUT> created at line 141.
+    Found 9-bit adder for signal <GND_5_o_GND_5_o_add_1115_OUT> created at line 141.
+    Found 8-bit adder for signal <GND_5_o_GND_5_o_add_1118_OUT> created at line 141.
+    Found 9-bit adder for signal <GND_5_o_GND_5_o_add_1121_OUT> created at line 141.
+    Found 10-bit adder for signal <n3221> created at line 164.
+    Found 32-bit adder for signal <sum_tree[1][0]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[1][0]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[1][1]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[1][1]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[1][2]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[1][2]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[1][3]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[1][3]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[1][4]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[1][4]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[1][5]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[1][5]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[1][6]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[1][6]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[2][0]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[2][0]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[2][1]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[2][1]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[2][2]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[2][2]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[2][3]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[2][3]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[3][0]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[3][0]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[3][1]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[3][1]_imag> created at line 247.
+    Found 32-bit adder for signal <sum_tree[4][0]_reall> created at line 243.
+    Found 32-bit adder for signal <sum_tree[4][0]_imag> created at line 247.
+    Found 11x11-bit multiplier for signal <delay_line[0]_reall[10]_delay_line[0]_reall[10]_MuLt_18_OUT> created at line 94.
+    Found 11x11-bit multiplier for signal <delay_line[0]_imag[10]_delay_line[0]_imag[10]_MuLt_21_OUT> created at line 95.
+    Found 11x11-bit multiplier for signal <delay_line[1]_reall[10]_delay_line[1]_reall[10]_MuLt_27_OUT> created at line 94.
+    Found 11x11-bit multiplier for signal <delay_line[1]_imag[10]_delay_line[1]_imag[10]_MuLt_30_OUT> created at line 95.
+    Found 11x11-bit multiplier for signal <delay_line[2]_reall[10]_delay_line[2]_reall[10]_MuLt_36_OUT> created at line 94.
+    Found 11x11-bit multiplier for signal <delay_line[2]_imag[10]_delay_line[2]_imag[10]_MuLt_39_OUT> created at line 95.
+    Found 11x32-bit multiplier for signal <n2153> created at line 127.
+    Found 11x32-bit multiplier for signal <n2156> created at line 131.
+    Found 11x32-bit multiplier for signal <n2159> created at line 127.
+    Found 11x32-bit multiplier for signal <n2162> created at line 131.
+    Found 11x32-bit multiplier for signal <n2165> created at line 127.
+    Found 11x32-bit multiplier for signal <n2168> created at line 131.
+    Found 11x32-bit multiplier for signal <n2171> created at line 127.
+    Found 11x32-bit multiplier for signal <n2174> created at line 131.
+    Found 11x32-bit multiplier for signal <n2177> created at line 127.
+    Found 11x32-bit multiplier for signal <n2180> created at line 131.
+    Found 11x32-bit multiplier for signal <n2183> created at line 127.
+    Found 11x32-bit multiplier for signal <n2186> created at line 131.
+    Found 11x32-bit multiplier for signal <n2189> created at line 127.
+    Found 11x32-bit multiplier for signal <n2192> created at line 131.
+    Found 11x32-bit multiplier for signal <n2195> created at line 127.
+    Found 11x32-bit multiplier for signal <n2198> created at line 131.
+    Found 11x32-bit multiplier for signal <n2201> created at line 127.
+    Found 11x32-bit multiplier for signal <n2204> created at line 131.
+    Found 11x32-bit multiplier for signal <n2207> created at line 127.
+    Found 11x32-bit multiplier for signal <n2210> created at line 131.
+    Found 11x32-bit multiplier for signal <n2213> created at line 127.
+    Found 11x32-bit multiplier for signal <n2216> created at line 131.
+    Found 11x32-bit multiplier for signal <n2219> created at line 127.
+    Found 11x32-bit multiplier for signal <n2222> created at line 131.
+    Found 11x11-bit multiplier for signal <GND_5_o_XX[0]_reall[10]_MuLt_850_OUT> created at line 158.
+    Found 5x11-bit multiplier for signal <PWR_5_o_XX[0]_imag[10]_MuLt_853_OUT> created at line 159.
+    Found 11x11-bit multiplier for signal <GND_5_o_XX[0]_imag[10]_MuLt_856_OUT> created at line 160.
+    Found 5x11-bit multiplier for signal <PWR_5_o_XX[0]_reall[10]_MuLt_859_OUT> created at line 161.
+    Found 11x11-bit multiplier for signal <GND_5_o_XX[1]_reall[10]_MuLt_872_OUT> created at line 158.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[1]_imag[10]_MuLt_875_OUT> created at line 159.
+    Found 11x11-bit multiplier for signal <GND_5_o_XX[1]_imag[10]_MuLt_878_OUT> created at line 160.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[1]_reall[10]_MuLt_881_OUT> created at line 161.
+    Found 11x11-bit multiplier for signal <PWR_5_o_XX[2]_reall[10]_MuLt_894_OUT> created at line 158.
+    Found 9x11-bit multiplier for signal <GND_5_o_XX[2]_imag[10]_MuLt_897_OUT> created at line 159.
+    Found 11x11-bit multiplier for signal <PWR_5_o_XX[2]_imag[10]_MuLt_900_OUT> created at line 160.
+    Found 9x11-bit multiplier for signal <GND_5_o_XX[2]_reall[10]_MuLt_903_OUT> created at line 161.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[3]_reall[10]_MuLt_916_OUT> created at line 158.
+    Found 9x11-bit multiplier for signal <GND_5_o_XX[3]_imag[10]_MuLt_919_OUT> created at line 159.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[3]_imag[10]_MuLt_922_OUT> created at line 160.
+    Found 9x11-bit multiplier for signal <GND_5_o_XX[3]_reall[10]_MuLt_925_OUT> created at line 161.
+    Found 11x11-bit multiplier for signal <GND_5_o_XX[4]_reall[10]_MuLt_930_OUT> created at line 158.
+    Found 9x11-bit multiplier for signal <GND_5_o_XX[4]_imag[10]_MuLt_933_OUT> created at line 159.
+    Found 11x11-bit multiplier for signal <GND_5_o_XX[4]_imag[10]_MuLt_936_OUT> created at line 160.
+    Found 9x11-bit multiplier for signal <GND_5_o_XX[4]_reall[10]_MuLt_939_OUT> created at line 161.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[5]_reall[10]_MuLt_952_OUT> created at line 158.
+    Found 5x11-bit multiplier for signal <GND_5_o_XX[5]_imag[10]_MuLt_955_OUT> created at line 159.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[5]_imag[10]_MuLt_958_OUT> created at line 160.
+    Found 5x11-bit multiplier for signal <GND_5_o_XX[5]_reall[10]_MuLt_961_OUT> created at line 161.
+    Found 10x11-bit multiplier for signal <PWR_5_o_XX[6]_reall[10]_MuLt_966_OUT> created at line 158.
+    Found 7x11-bit multiplier for signal <GND_5_o_XX[6]_imag[10]_MuLt_969_OUT> created at line 159.
+    Found 10x11-bit multiplier for signal <PWR_5_o_XX[6]_imag[10]_MuLt_972_OUT> created at line 160.
+    Found 7x11-bit multiplier for signal <GND_5_o_XX[6]_reall[10]_MuLt_975_OUT> created at line 161.
+    Found 7x11-bit multiplier for signal <PWR_5_o_XX[7]_reall[10]_MuLt_988_OUT> created at line 158.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[7]_imag[10]_MuLt_991_OUT> created at line 159.
+    Found 7x11-bit multiplier for signal <PWR_5_o_XX[7]_imag[10]_MuLt_994_OUT> created at line 160.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[7]_reall[10]_MuLt_997_OUT> created at line 161.
+    Found 8x11-bit multiplier for signal <GND_5_o_XX[8]_reall[10]_MuLt_1002_OUT> created at line 158.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[8]_imag[10]_MuLt_1005_OUT> created at line 159.
+    Found 8x11-bit multiplier for signal <GND_5_o_XX[8]_imag[10]_MuLt_1008_OUT> created at line 160.
+    Found 8x11-bit multiplier for signal <PWR_5_o_XX[8]_reall[10]_MuLt_1011_OUT> created at line 161.
+    Found 10x11-bit multiplier for signal <GND_5_o_XX[9]_reall[10]_MuLt_1016_OUT> created at line 158.
+    Found 5x11-bit multiplier for signal <GND_5_o_XX[9]_imag[10]_MuLt_1019_OUT> created at line 159.
+    Found 10x11-bit multiplier for signal <GND_5_o_XX[9]_imag[10]_MuLt_1022_OUT> created at line 160.
+    Found 5x11-bit multiplier for signal <GND_5_o_XX[9]_reall[10]_MuLt_1025_OUT> created at line 161.
+    Found 8x11-bit multiplier for signal <GND_5_o_XX[10]_reall[10]_MuLt_1038_OUT> created at line 158.
+    Found 3x11-bit multiplier for signal <PWR_5_o_XX[10]_imag[10]_MuLt_1041_OUT> created at line 159.
+    Found 8x11-bit multiplier for signal <GND_5_o_XX[10]_imag[10]_MuLt_1044_OUT> created at line 160.
+    Found 3x11-bit multiplier for signal <PWR_5_o_XX[10]_reall[10]_MuLt_1047_OUT> created at line 161.
+    Found 6x11-bit multiplier for signal <PWR_5_o_XX[11]_reall[10]_MuLt_1052_OUT> created at line 158.
+    Found 5x11-bit multiplier for signal <GND_5_o_XX[11]_imag[10]_MuLt_1055_OUT> created at line 159.
+    Found 6x11-bit multiplier for signal <PWR_5_o_XX[11]_imag[10]_MuLt_1058_OUT> created at line 160.
+    Found 5x11-bit multiplier for signal <GND_5_o_XX[11]_reall[10]_MuLt_1061_OUT> created at line 161.
+    Found 10x11-bit multiplier for signal <GND_5_o_XX[12]_reall[10]_MuLt_1066_OUT> created at line 158.
+    Found 6x11-bit multiplier for signal <PWR_5_o_XX[12]_imag[10]_MuLt_1069_OUT> created at line 159.
+    Found 10x11-bit multiplier for signal <GND_5_o_XX[12]_imag[10]_MuLt_1072_OUT> created at line 160.
+    Found 6x11-bit multiplier for signal <PWR_5_o_XX[12]_reall[10]_MuLt_1075_OUT> created at line 161.
+    Found 10x11-bit multiplier for signal <PWR_5_o_XX[13]_reall[10]_MuLt_1088_OUT> created at line 158.
+    Found 10x11-bit multiplier for signal <PWR_5_o_XX[13]_imag[10]_MuLt_1094_OUT> created at line 160.
+    Found 7x11-bit multiplier for signal <GND_5_o_XX[14]_reall[10]_MuLt_1110_OUT> created at line 158.
+    Found 8x11-bit multiplier for signal <GND_5_o_XX[14]_imag[10]_MuLt_1113_OUT> created at line 159.
+    Found 7x11-bit multiplier for signal <GND_5_o_XX[14]_imag[10]_MuLt_1116_OUT> created at line 160.
+    Found 8x11-bit multiplier for signal <GND_5_o_XX[14]_reall[10]_MuLt_1119_OUT> created at line 161.
+    Found 22-bit comparator greater for signal <term_pipe[0][0]_reall[10]_GND_5_o_LessThan_74_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[0][0]_reall[10]_LessThan_75_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[0][0]_imag[10]_GND_5_o_LessThan_81_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[0][0]_imag[10]_LessThan_82_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[0][1]_reall[10]_GND_5_o_LessThan_89_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[0][1]_reall[10]_LessThan_90_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[0][1]_imag[10]_GND_5_o_LessThan_96_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[0][1]_imag[10]_LessThan_97_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[0][2]_reall[10]_GND_5_o_LessThan_104_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[0][2]_reall[10]_LessThan_105_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[0][2]_imag[10]_GND_5_o_LessThan_111_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[0][2]_imag[10]_LessThan_112_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[1][0]_reall[10]_GND_5_o_LessThan_119_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[1][0]_reall[10]_LessThan_120_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[1][0]_imag[10]_GND_5_o_LessThan_126_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[1][0]_imag[10]_LessThan_127_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[1][1]_reall[10]_GND_5_o_LessThan_134_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[1][1]_reall[10]_LessThan_135_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[1][1]_imag[10]_GND_5_o_LessThan_141_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[1][1]_imag[10]_LessThan_142_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[1][2]_reall[10]_GND_5_o_LessThan_149_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[1][2]_reall[10]_LessThan_150_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[1][2]_imag[10]_GND_5_o_LessThan_156_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[1][2]_imag[10]_LessThan_157_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[2][0]_reall[10]_GND_5_o_LessThan_164_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[2][0]_reall[10]_LessThan_165_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[2][0]_imag[10]_GND_5_o_LessThan_171_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[2][0]_imag[10]_LessThan_172_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[2][1]_reall[10]_GND_5_o_LessThan_179_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[2][1]_reall[10]_LessThan_180_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[2][1]_imag[10]_GND_5_o_LessThan_186_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[2][1]_imag[10]_LessThan_187_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[2][2]_reall[10]_GND_5_o_LessThan_194_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[2][2]_reall[10]_LessThan_195_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[2][2]_imag[10]_GND_5_o_LessThan_201_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[2][2]_imag[10]_LessThan_202_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[3][0]_reall[10]_GND_5_o_LessThan_209_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[3][0]_reall[10]_LessThan_210_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[3][0]_imag[10]_GND_5_o_LessThan_216_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[3][0]_imag[10]_LessThan_217_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[3][1]_reall[10]_GND_5_o_LessThan_224_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[3][1]_reall[10]_LessThan_225_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[3][1]_imag[10]_GND_5_o_LessThan_231_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[3][1]_imag[10]_LessThan_232_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[3][2]_reall[10]_GND_5_o_LessThan_239_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[3][2]_reall[10]_LessThan_240_o> created at line 132
+    Found 22-bit comparator greater for signal <term_pipe[3][2]_imag[10]_GND_5_o_LessThan_246_o> created at line 130
+    Found 22-bit comparator greater for signal <PWR_5_o_term_pipe[3][2]_imag[10]_LessThan_247_o> created at line 132
+    Found 13-bit comparator greater for signal <GND_5_o_GND_5_o_LessThan_865_o> created at line 130
+    Found 13-bit comparator greater for signal <PWR_5_o_GND_5_o_LessThan_866_o> created at line 132
+    Found 13-bit comparator greater for signal <BUS_0038_GND_5_o_LessThan_869_o> created at line 130
+    Found 13-bit comparator greater for signal <PWR_5_o_BUS_0038_LessThan_870_o> created at line 132
+    Found 13-bit comparator greater for signal <GND_5_o_GND_5_o_LessThan_887_o> created at line 130
+    Found 13-bit comparator greater for signal <PWR_5_o_GND_5_o_LessThan_888_o> created at line 132
+    Found 13-bit comparator greater for signal <BUS_0043_GND_5_o_LessThan_891_o> created at line 130
+    Found 13-bit comparator greater for signal <PWR_5_o_BUS_0043_LessThan_892_o> created at line 132
+    Found 13-bit comparator greater for signal <PWR_5_o_GND_5_o_LessThan_909_o> created at line 130
+    Found 13-bit comparator greater for signal <PWR_5_o_PWR_5_o_LessThan_910_o> created at line 132
+    Found 13-bit comparator greater for signal <BUS_0048_GND_5_o_LessThan_913_o> created at line 130
+    Found 13-bit comparator greater for signal <PWR_5_o_BUS_0048_LessThan_914_o> created at line 132
+    Found 13-bit comparator greater for signal <GND_5_o_GND_5_o_LessThan_945_o> created at line 130
+    Found 13-bit comparator greater for signal <PWR_5_o_GND_5_o_LessThan_946_o> created at line 132
+    Found 13-bit comparator greater for signal <BUS_0058_GND_5_o_LessThan_949_o> created at line 130
+    Found 13-bit comparator greater for signal <PWR_5_o_BUS_0058_LessThan_950_o> created at line 132
+    Found 12-bit comparator greater for signal <PWR_5_o_GND_5_o_LessThan_981_o> created at line 130
+    Found 12-bit comparator greater for signal <PWR_5_o_PWR_5_o_LessThan_982_o> created at line 132
+    Found 12-bit comparator greater for signal <BUS_0068_GND_5_o_LessThan_985_o> created at line 130
+    Found 12-bit comparator greater for signal <PWR_5_o_BUS_0068_LessThan_986_o> created at line 132
+    Found 12-bit comparator greater for signal <GND_5_o_GND_5_o_LessThan_1031_o> created at line 130
+    Found 12-bit comparator greater for signal <PWR_5_o_GND_5_o_LessThan_1032_o> created at line 132
+    Found 12-bit comparator greater for signal <BUS_0083_GND_5_o_LessThan_1035_o> created at line 130
+    Found 12-bit comparator greater for signal <PWR_5_o_BUS_0083_LessThan_1036_o> created at line 132
+    Found 12-bit comparator greater for signal <GND_5_o_GND_5_o_LessThan_1081_o> created at line 130
+    Found 12-bit comparator greater for signal <PWR_5_o_GND_5_o_LessThan_1082_o> created at line 132
+    Found 12-bit comparator greater for signal <BUS_0098_GND_5_o_LessThan_1085_o> created at line 130
+    Found 12-bit comparator greater for signal <PWR_5_o_BUS_0098_LessThan_1086_o> created at line 132
+    Found 12-bit comparator greater for signal <PWR_5_o_GND_5_o_LessThan_1103_o> created at line 130
+    Found 12-bit comparator greater for signal <PWR_5_o_PWR_5_o_LessThan_1104_o> created at line 132
+    Found 12-bit comparator greater for signal <BUS_0103_GND_5_o_LessThan_1107_o> created at line 130
+    Found 12-bit comparator greater for signal <PWR_5_o_BUS_0103_LessThan_1108_o> created at line 132
+    Found 32-bit comparator greater for signal <sum_tree[4][0]_reall[31]_GND_5_o_LessThan_1335_o> created at line 130
+    Found 32-bit comparator greater for signal <PWR_5_o_sum_tree[4][0]_reall[31]_LessThan_1336_o> created at line 132
+    Found 32-bit comparator greater for signal <sum_tree[4][0]_imag[31]_GND_5_o_LessThan_1339_o> created at line 130
+    Found 32-bit comparator greater for signal <PWR_5_o_sum_tree[4][0]_imag[31]_LessThan_1340_o> created at line 132
+    Summary:
+	inferred  88 Multiplier(s).
+	inferred 153 Adder/Subtractor(s).
+	inferred 2262 D-type flip-flop(s).
+	inferred  84 Comparator(s).
+	inferred  60 Multiplexer(s).
+Unit <DPD> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Multipliers                                          : 88
+ 11x10-bit multiplier                                  : 8
+ 11x11-bit multiplier                                  : 14
+ 11x3-bit multiplier                                   : 2
+ 11x5-bit multiplier                                   : 8
+ 11x6-bit multiplier                                   : 4
+ 11x7-bit multiplier                                   : 6
+ 11x8-bit multiplier                                   : 16
+ 11x9-bit multiplier                                   : 6
+ 32x11-bit multiplier                                  : 24
+# Adders/Subtractors                                   : 153
+ 10-bit adder                                          : 11
+ 10-bit subtractor                                     : 5
+ 11-bit adder                                          : 9
+ 11-bit subtractor                                     : 1
+ 12-bit adder                                          : 18
+ 12-bit subtractor                                     : 6
+ 13-bit adder                                          : 7
+ 13-bit subtractor                                     : 4
+ 22-bit adder                                          : 24
+ 3-bit adder                                           : 2
+ 32-bit adder                                          : 28
+ 4-bit adder                                           : 2
+ 6-bit adder                                           : 8
+ 7-bit adder                                           : 4
+ 8-bit adder                                           : 7
+ 8-bit subtractor                                      : 1
+ 9-bit adder                                           : 16
+# Registers                                            : 177
+ 11-bit register                                       : 162
+ 32-bit register                                       : 15
+# Comparators                                          : 84
+ 12-bit comparator greater                             : 16
+ 13-bit comparator greater                             : 16
+ 22-bit comparator greater                             : 48
+ 32-bit comparator greater                             : 4
+# Multiplexers                                         : 60
+ 11-bit 2-to-1 multiplexer                             : 60
+# Xors                                                 : 36
+ 1-bit xor2                                            : 36
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+Synthesizing (advanced) Unit <DPD>.
+	The following adders/subtractors are grouped into adder tree <Madd_sum_tree[4][0]_imag1> :
+ 	<Madd_sum_tree[1][0]_imag> in block <DPD>, 	<Madd_sum_tree[1][1]_imag> in block <DPD>, 	<Madd_sum_tree[1][2]_imag> in block <DPD>, 	<Madd_sum_tree[1][3]_imag> in block <DPD>, 	<Madd_sum_tree[1][4]_imag> in block <DPD>, 	<Madd_sum_tree[1][5]_imag> in block <DPD>, 	<Madd_sum_tree[1][6]_imag> in block <DPD>, 	<Madd_sum_tree[2][3]_imag> in block <DPD>.
+	The following adders/subtractors are grouped into adder tree <Madd_sum_tree[4][0]_reall1> :
+ 	<Madd_sum_tree[1][0]_reall> in block <DPD>, 	<Madd_sum_tree[1][1]_reall> in block <DPD>, 	<Madd_sum_tree[1][2]_reall> in block <DPD>, 	<Madd_sum_tree[1][3]_reall> in block <DPD>, 	<Madd_sum_tree[1][4]_reall> in block <DPD>, 	<Madd_sum_tree[1][5]_reall> in block <DPD>, 	<Madd_sum_tree[1][6]_reall> in block <DPD>, 	<Madd_sum_tree[2][3]_reall> in block <DPD>.
+	The following adders/subtractors are grouped into adder tree <Madd_sum_tree[3][0]_imag1> :
+ 	<Madd_sum_tree[2][0]_imag> in block <DPD>, 	<Madd_sum_tree[2][1]_imag> in block <DPD>.
+	The following adders/subtractors are grouped into adder tree <Madd_sum_tree[3][0]_reall1> :
+ 	<Madd_sum_tree[2][0]_reall> in block <DPD>, 	<Madd_sum_tree[2][1]_reall> in block <DPD>.
+Unit <DPD> synthesized (advanced).
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Multipliers                                          : 88
+ 11x10-bit multiplier                                  : 8
+ 11x11-bit multiplier                                  : 14
+ 11x3-bit multiplier                                   : 2
+ 11x5-bit multiplier                                   : 8
+ 11x6-bit multiplier                                   : 4
+ 11x7-bit multiplier                                   : 6
+ 11x8-bit multiplier                                   : 16
+ 11x9-bit multiplier                                   : 6
+ 32x11-bit multiplier                                  : 24
+# Adders/Subtractors                                   : 125
+ 10-bit adder                                          : 11
+ 10-bit subtractor                                     : 5
+ 11-bit adder                                          : 9
+ 11-bit subtractor                                     : 1
+ 12-bit adder                                          : 18
+ 12-bit subtractor                                     : 6
+ 13-bit adder                                          : 7
+ 13-bit subtractor                                     : 4
+ 22-bit adder                                          : 24
+ 3-bit adder                                           : 2
+ 4-bit adder                                           : 2
+ 6-bit adder                                           : 8
+ 7-bit adder                                           : 4
+ 8-bit adder                                           : 7
+ 8-bit subtractor                                      : 1
+ 9-bit adder                                           : 16
+# Adder Trees                                          : 2
+ 32-bit / 15-inputs adder tree                         : 2
+# Registers                                            : 2262
+ Flip-Flops                                            : 2262
+# Comparators                                          : 84
+ 12-bit comparator greater                             : 16
+ 13-bit comparator greater                             : 16
+ 22-bit comparator greater                             : 48
+ 32-bit comparator greater                             : 4
+# Multiplexers                                         : 60
+ 11-bit 2-to-1 multiplexer                             : 60
+# Xors                                                 : 36
+ 1-bit xor2                                            : 36
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+INFO:Xst:2261 - The FF/Latch <multiplied[10]_imag_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[10]_imag_10> 
+INFO:Xst:2261 - The FF/Latch <msq_vec_1_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_vec_1_13> <msq_vec_1_14> <msq_vec_1_15> <msq_vec_1_16> <msq_vec_1_17> <msq_vec_1_18> <msq_vec_1_19> <msq_vec_1_20> <msq_vec_1_21> <msq_vec_1_22> <msq_vec_1_23> <msq_vec_1_24> <msq_vec_1_25> <msq_vec_1_26> <msq_vec_1_27> <msq_vec_1_28> <msq_vec_1_29> <msq_vec_1_30> <msq_vec_1_31> 
+INFO:Xst:2261 - The FF/Latch <multiplied[5]_reall_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[5]_reall_10> 
+INFO:Xst:2261 - The FF/Latch <multiplied[8]_reall_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[8]_reall_10> 
+INFO:Xst:2261 - The FF/Latch <multiplied[7]_reall_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[7]_reall_10> 
+INFO:Xst:2261 - The FF/Latch <multiplied[7]_imag_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[7]_imag_10> 
+INFO:Xst:2261 - The FF/Latch <multiplied[14]_imag_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[14]_imag_10> 
+INFO:Xst:2261 - The FF/Latch <msq_vec_2_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_vec_2_13> <msq_vec_2_14> <msq_vec_2_15> <msq_vec_2_16> <msq_vec_2_17> <msq_vec_2_18> <msq_vec_2_19> <msq_vec_2_20> <msq_vec_2_21> <msq_vec_2_22> <msq_vec_2_23> <msq_vec_2_24> <msq_vec_2_25> <msq_vec_2_26> <msq_vec_2_27> <msq_vec_2_28> <msq_vec_2_29> <msq_vec_2_30> <msq_vec_2_31> 
+INFO:Xst:2261 - The FF/Latch <multiplied[8]_imag_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[8]_imag_10> 
+INFO:Xst:2261 - The FF/Latch <msq_vec_0_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_vec_0_13> <msq_vec_0_14> <msq_vec_0_15> <msq_vec_0_16> <msq_vec_0_17> <msq_vec_0_18> <msq_vec_0_19> <msq_vec_0_20> <msq_vec_0_21> <msq_vec_0_22> <msq_vec_0_23> <msq_vec_0_24> <msq_vec_0_25> <msq_vec_0_26> <msq_vec_0_27> <msq_vec_0_28> <msq_vec_0_29> <msq_vec_0_30> <msq_vec_0_31> 
+INFO:Xst:2261 - The FF/Latch <multiplied[11]_imag_7> in Unit <DPD> is equivalent to the following 3 FFs/Latches, which will be removed : <multiplied[11]_imag_8> <multiplied[11]_imag_9> <multiplied[11]_imag_10> 
+INFO:Xst:2261 - The FF/Latch <multiplied[10]_reall_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[10]_reall_10> 
+INFO:Xst:2261 - The FF/Latch <multiplied[5]_imag_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[5]_imag_10> 
+INFO:Xst:2261 - The FF/Latch <multiplied[14]_reall_9> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[14]_reall_10> 
+INFO:Xst:2261 - The FF/Latch <multiplied[11]_reall_7> in Unit <DPD> is equivalent to the following 3 FFs/Latches, which will be removed : <multiplied[11]_reall_8> <multiplied[11]_reall_9> <multiplied[11]_reall_10> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<0>_1_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<0>_1_13> <msq_pipe<0>_1_14> <msq_pipe<0>_1_15> <msq_pipe<0>_1_16> <msq_pipe<0>_1_17> <msq_pipe<0>_1_18> <msq_pipe<0>_1_19> <msq_pipe<0>_1_20> <msq_pipe<0>_1_21> <msq_pipe<0>_1_22> <msq_pipe<0>_1_23> <msq_pipe<0>_1_24> <msq_pipe<0>_1_25> <msq_pipe<0>_1_26> <msq_pipe<0>_1_27> <msq_pipe<0>_1_28> <msq_pipe<0>_1_29> <msq_pipe<0>_1_30> <msq_pipe<0>_1_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<0>_2_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<0>_2_13> <msq_pipe<0>_2_14> <msq_pipe<0>_2_15> <msq_pipe<0>_2_16> <msq_pipe<0>_2_17> <msq_pipe<0>_2_18> <msq_pipe<0>_2_19> <msq_pipe<0>_2_20> <msq_pipe<0>_2_21> <msq_pipe<0>_2_22> <msq_pipe<0>_2_23> <msq_pipe<0>_2_24> <msq_pipe<0>_2_25> <msq_pipe<0>_2_26> <msq_pipe<0>_2_27> <msq_pipe<0>_2_28> <msq_pipe<0>_2_29> <msq_pipe<0>_2_30> <msq_pipe<0>_2_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<0>_0_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<0>_0_13> <msq_pipe<0>_0_14> <msq_pipe<0>_0_15> <msq_pipe<0>_0_16> <msq_pipe<0>_0_17> <msq_pipe<0>_0_18> <msq_pipe<0>_0_19> <msq_pipe<0>_0_20> <msq_pipe<0>_0_21> <msq_pipe<0>_0_22> <msq_pipe<0>_0_23> <msq_pipe<0>_0_24> <msq_pipe<0>_0_25> <msq_pipe<0>_0_26> <msq_pipe<0>_0_27> <msq_pipe<0>_0_28> <msq_pipe<0>_0_29> <msq_pipe<0>_0_30> <msq_pipe<0>_0_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<1>_2_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<1>_2_13> <msq_pipe<1>_2_14> <msq_pipe<1>_2_15> <msq_pipe<1>_2_16> <msq_pipe<1>_2_17> <msq_pipe<1>_2_18> <msq_pipe<1>_2_19> <msq_pipe<1>_2_20> <msq_pipe<1>_2_21> <msq_pipe<1>_2_22> <msq_pipe<1>_2_23> <msq_pipe<1>_2_24> <msq_pipe<1>_2_25> <msq_pipe<1>_2_26> <msq_pipe<1>_2_27> <msq_pipe<1>_2_28> <msq_pipe<1>_2_29> <msq_pipe<1>_2_30> <msq_pipe<1>_2_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<1>_0_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<1>_0_13> <msq_pipe<1>_0_14> <msq_pipe<1>_0_15> <msq_pipe<1>_0_16> <msq_pipe<1>_0_17> <msq_pipe<1>_0_18> <msq_pipe<1>_0_19> <msq_pipe<1>_0_20> <msq_pipe<1>_0_21> <msq_pipe<1>_0_22> <msq_pipe<1>_0_23> <msq_pipe<1>_0_24> <msq_pipe<1>_0_25> <msq_pipe<1>_0_26> <msq_pipe<1>_0_27> <msq_pipe<1>_0_28> <msq_pipe<1>_0_29> <msq_pipe<1>_0_30> <msq_pipe<1>_0_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<1>_1_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<1>_1_13> <msq_pipe<1>_1_14> <msq_pipe<1>_1_15> <msq_pipe<1>_1_16> <msq_pipe<1>_1_17> <msq_pipe<1>_1_18> <msq_pipe<1>_1_19> <msq_pipe<1>_1_20> <msq_pipe<1>_1_21> <msq_pipe<1>_1_22> <msq_pipe<1>_1_23> <msq_pipe<1>_1_24> <msq_pipe<1>_1_25> <msq_pipe<1>_1_26> <msq_pipe<1>_1_27> <msq_pipe<1>_1_28> <msq_pipe<1>_1_29> <msq_pipe<1>_1_30> <msq_pipe<1>_1_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<2>_2_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<2>_2_13> <msq_pipe<2>_2_14> <msq_pipe<2>_2_15> <msq_pipe<2>_2_16> <msq_pipe<2>_2_17> <msq_pipe<2>_2_18> <msq_pipe<2>_2_19> <msq_pipe<2>_2_20> <msq_pipe<2>_2_21> <msq_pipe<2>_2_22> <msq_pipe<2>_2_23> <msq_pipe<2>_2_24> <msq_pipe<2>_2_25> <msq_pipe<2>_2_26> <msq_pipe<2>_2_27> <msq_pipe<2>_2_28> <msq_pipe<2>_2_29> <msq_pipe<2>_2_30> <msq_pipe<2>_2_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<2>_0_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<2>_0_13> <msq_pipe<2>_0_14> <msq_pipe<2>_0_15> <msq_pipe<2>_0_16> <msq_pipe<2>_0_17> <msq_pipe<2>_0_18> <msq_pipe<2>_0_19> <msq_pipe<2>_0_20> <msq_pipe<2>_0_21> <msq_pipe<2>_0_22> <msq_pipe<2>_0_23> <msq_pipe<2>_0_24> <msq_pipe<2>_0_25> <msq_pipe<2>_0_26> <msq_pipe<2>_0_27> <msq_pipe<2>_0_28> <msq_pipe<2>_0_29> <msq_pipe<2>_0_30> <msq_pipe<2>_0_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<2>_1_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<2>_1_13> <msq_pipe<2>_1_14> <msq_pipe<2>_1_15> <msq_pipe<2>_1_16> <msq_pipe<2>_1_17> <msq_pipe<2>_1_18> <msq_pipe<2>_1_19> <msq_pipe<2>_1_20> <msq_pipe<2>_1_21> <msq_pipe<2>_1_22> <msq_pipe<2>_1_23> <msq_pipe<2>_1_24> <msq_pipe<2>_1_25> <msq_pipe<2>_1_26> <msq_pipe<2>_1_27> <msq_pipe<2>_1_28> <msq_pipe<2>_1_29> <msq_pipe<2>_1_30> <msq_pipe<2>_1_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<3>_0_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<3>_0_13> <msq_pipe<3>_0_14> <msq_pipe<3>_0_15> <msq_pipe<3>_0_16> <msq_pipe<3>_0_17> <msq_pipe<3>_0_18> <msq_pipe<3>_0_19> <msq_pipe<3>_0_20> <msq_pipe<3>_0_21> <msq_pipe<3>_0_22> <msq_pipe<3>_0_23> <msq_pipe<3>_0_24> <msq_pipe<3>_0_25> <msq_pipe<3>_0_26> <msq_pipe<3>_0_27> <msq_pipe<3>_0_28> <msq_pipe<3>_0_29> <msq_pipe<3>_0_30> <msq_pipe<3>_0_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<3>_1_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<3>_1_13> <msq_pipe<3>_1_14> <msq_pipe<3>_1_15> <msq_pipe<3>_1_16> <msq_pipe<3>_1_17> <msq_pipe<3>_1_18> <msq_pipe<3>_1_19> <msq_pipe<3>_1_20> <msq_pipe<3>_1_21> <msq_pipe<3>_1_22> <msq_pipe<3>_1_23> <msq_pipe<3>_1_24> <msq_pipe<3>_1_25> <msq_pipe<3>_1_26> <msq_pipe<3>_1_27> <msq_pipe<3>_1_28> <msq_pipe<3>_1_29> <msq_pipe<3>_1_30> <msq_pipe<3>_1_31> 
+INFO:Xst:2261 - The FF/Latch <msq_pipe<3>_2_12> in Unit <DPD> is equivalent to the following 19 FFs/Latches, which will be removed : <msq_pipe<3>_2_13> <msq_pipe<3>_2_14> <msq_pipe<3>_2_15> <msq_pipe<3>_2_16> <msq_pipe<3>_2_17> <msq_pipe<3>_2_18> <msq_pipe<3>_2_19> <msq_pipe<3>_2_20> <msq_pipe<3>_2_21> <msq_pipe<3>_2_22> <msq_pipe<3>_2_23> <msq_pipe<3>_2_24> <msq_pipe<3>_2_25> <msq_pipe<3>_2_26> <msq_pipe<3>_2_27> <msq_pipe<3>_2_28> <msq_pipe<3>_2_29> <msq_pipe<3>_2_30> <msq_pipe<3>_2_31> 
+
+Optimizing unit <DPD> ...
+INFO:Xst:2261 - The FF/Latch <multiplied[11]_imag_6> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[11]_imag_7> 
+INFO:Xst:2261 - The FF/Latch <multiplied[11]_reall_6> in Unit <DPD> is equivalent to the following FF/Latch, which will be removed : <multiplied[11]_reall_7> 
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block DPD, actual ratio is 7.
+
+Final Macro Processing ...
+
+Processing Unit <DPD> :
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_0>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_1>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_2>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_3>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_4>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_5>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_6>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_7>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_8>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_9>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_reall_10>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_0>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_1>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_2>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_3>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_4>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_5>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_6>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_7>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_8>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_9>.
+	Found 4-bit shift register for signal <align_pipe[1][0][2]_imag_10>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_0>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_1>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_2>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_3>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_4>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_5>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_6>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_7>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_8>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_9>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_imag_10>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_0>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_1>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_2>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_3>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_4>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_5>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_6>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_7>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_8>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_9>.
+	Found 4-bit shift register for signal <align_pipe[2][1][0]_reall_10>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_0>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_1>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_2>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_3>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_4>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_5>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_6>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_7>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_8>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_9>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_reall_10>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_0>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_1>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_2>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_3>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_4>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_5>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_6>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_7>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_8>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_9>.
+	Found 4-bit shift register for signal <align_pipe[2][1][1]_imag_10>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_0>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_1>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_2>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_3>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_4>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_5>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_6>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_7>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_8>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_9>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_reall_10>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_0>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_1>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_2>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_3>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_4>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_5>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_6>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_7>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_8>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_9>.
+	Found 4-bit shift register for signal <align_pipe[2][1][2]_imag_10>.
+Unit <DPD> processed.
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 1463
+ Flip-Flops                                            : 1463
+# Shift Registers                                      : 88
+ 4-bit shift register                                  : 88
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : DPD.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 7271
+#      GND                         : 1
+#      INV                         : 80
+#      LUT1                        : 594
+#      LUT2                        : 598
+#      LUT3                        : 523
+#      LUT4                        : 592
+#      LUT5                        : 282
+#      LUT6                        : 730
+#      MUXCY                       : 1889
+#      VCC                         : 1
+#      XORCY                       : 1981
+# FlipFlops/Latches                : 1642
+#      FD                          : 24
+#      FDE                         : 88
+#      FDR                         : 1439
+#      FDRE                        : 91
+# Shift Registers                  : 88
+#      SRLC16E                     : 88
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 45
+#      IBUF                        : 23
+#      OBUF                        : 22
+# DSPs                             : 67
+#      DSP48E1                     : 67
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 7a100tcsg324-2 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:            1642  out of  126800     1%  
+ Number of Slice LUTs:                 3487  out of  63400     5%  
+    Number used as Logic:              3399  out of  63400     5%  
+    Number used as Memory:               88  out of  19000     0%  
+       Number used as SRL:               88
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:   4205
+   Number with an unused Flip Flop:    2563  out of   4205    60%  
+   Number with an unused LUT:           718  out of   4205    17%  
+   Number of fully used LUT-FF pairs:   924  out of   4205    21%  
+   Number of unique control sets:         4
+
+IO Utilization: 
+ Number of IOs:                          46
+ Number of bonded IOBs:                  46  out of    210    21%  
+
+Specific Feature Utilization:
+ Number of BUFG/BUFGCTRLs:                1  out of     32     3%  
+ Number of DSP48E1s:                     67  out of    240    27%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | BUFGP                  | 1797  |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -2
+
+   Minimum period: 9.302ns (Maximum Frequency: 107.499MHz)
+   Minimum input arrival time before clock: 1.174ns
+   Maximum output required time after clock: 0.737ns
+   Maximum combinational path delay: No path found
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 9.302ns (frequency: 107.499MHz)
+  Total number of paths / destination ports: 836187892 / 3547
+-------------------------------------------------------------------------
+Delay:               9.302ns (Levels of Logic = 37)
+  Source:            multiplied[10]_imag_0 (FF)
+  Destination:       UI_out_0 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: multiplied[10]_imag_0 to UI_out_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDR:C->Q              1   0.398   0.451  multiplied[10]_imag_0 (multiplied[10]_imag_0)
+     LUT2:I0->O            1   0.105   0.000  ADDERTREE_INTERNAL_Madd22_lut<0> (ADDERTREE_INTERNAL_Madd22_lut<0>)
+     MUXCY:S->O            1   0.392   0.000  ADDERTREE_INTERNAL_Madd22_cy<0> (ADDERTREE_INTERNAL_Madd22_cy<0>)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd22_cy<1> (ADDERTREE_INTERNAL_Madd22_cy<1>)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd22_cy<2> (ADDERTREE_INTERNAL_Madd22_cy<2>)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd22_cy<3> (ADDERTREE_INTERNAL_Madd22_cy<3>)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd22_cy<4> (ADDERTREE_INTERNAL_Madd22_cy<4>)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd22_cy<5> (ADDERTREE_INTERNAL_Madd22_cy<5>)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd22_cy<6> (ADDERTREE_INTERNAL_Madd22_cy<6>)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd22_cy<7> (ADDERTREE_INTERNAL_Madd22_cy<7>)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd22_cy<8> (ADDERTREE_INTERNAL_Madd22_cy<8>)
+     MUXCY:CI->O           0   0.025   0.000  ADDERTREE_INTERNAL_Madd22_cy<9> (ADDERTREE_INTERNAL_Madd22_cy<9>)
+     XORCY:CI->O          44   0.417   0.489  ADDERTREE_INTERNAL_Madd22_xor<10> (ADDERTREE_INTERNAL_Madd_1022)
+     LUT3:I2->O            1   0.105   0.357  ADDERTREE_INTERNAL_Madd2318 (ADDERTREE_INTERNAL_Madd2312)
+     LUT4:I3->O            1   0.105   0.000  ADDERTREE_INTERNAL_Madd23_lut<0>11 (ADDERTREE_INTERNAL_Madd23_lut<0>11)
+     MUXCY:S->O            1   0.392   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_10 (ADDERTREE_INTERNAL_Madd23_cy<0>11)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_11 (ADDERTREE_INTERNAL_Madd23_cy<0>12)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_12 (ADDERTREE_INTERNAL_Madd23_cy<0>13)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_13 (ADDERTREE_INTERNAL_Madd23_cy<0>14)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_14 (ADDERTREE_INTERNAL_Madd23_cy<0>15)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_15 (ADDERTREE_INTERNAL_Madd23_cy<0>16)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_16 (ADDERTREE_INTERNAL_Madd23_cy<0>17)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_17 (ADDERTREE_INTERNAL_Madd23_cy<0>18)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_18 (ADDERTREE_INTERNAL_Madd23_cy<0>19)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_19 (ADDERTREE_INTERNAL_Madd23_cy<0>20)
+     MUXCY:CI->O           1   0.025   0.000  ADDERTREE_INTERNAL_Madd23_cy<0>_20 (ADDERTREE_INTERNAL_Madd23_cy<0>21)
+     XORCY:CI->O           1   0.417   0.357  ADDERTREE_INTERNAL_Madd23_xor<0>_21 (ADDERTREE_INTERNAL_Madd_2225)
+     LUT2:I1->O            1   0.105   0.000  ADDERTREE_INTERNAL_Madd26_lut<22> (ADDERTREE_INTERNAL_Madd26_lut<22>)
+     MUXCY:S->O            1   0.392   0.000  ADDERTREE_INTERNAL_Madd26_cy<22> (ADDERTREE_INTERNAL_Madd26_cy<22>)
+     XORCY:CI->O           2   0.417   0.362  ADDERTREE_INTERNAL_Madd26_xor<23> (ADDERTREE_INTERNAL_Madd_2326)
+     LUT3:I2->O            1   0.105   0.357  ADDERTREE_INTERNAL_Madd2723 (ADDERTREE_INTERNAL_Madd2724)
+     LUT4:I3->O            1   0.105   0.000  ADDERTREE_INTERNAL_Madd27_lut<0>24 (ADDERTREE_INTERNAL_Madd27_lut<0>24)
+     MUXCY:S->O            1   0.392   0.000  ADDERTREE_INTERNAL_Madd27_cy<0>_23 (ADDERTREE_INTERNAL_Madd27_cy<0>24)
+     XORCY:CI->O           2   0.417   0.785  ADDERTREE_INTERNAL_Madd27_xor<0>_24 (ADDERTREE_INTERNAL_Madd_2527)
+     LUT5:I0->O            1   0.105   0.000  Mcompar_PWR_5_o_sum_tree[4][0]_imag[31]_LessThan_1340_o_lut<3> (Mcompar_PWR_5_o_sum_tree[4][0]_imag[31]_LessThan_1340_o_lut<3>)
+     MUXCY:S->O            1   0.392   0.000  Mcompar_PWR_5_o_sum_tree[4][0]_imag[31]_LessThan_1340_o_cy<3> (Mcompar_PWR_5_o_sum_tree[4][0]_imag[31]_LessThan_1340_o_cy<3>)
+     MUXCY:CI->O          11   0.280   0.507  Mcompar_PWR_5_o_sum_tree[4][0]_imag[31]_LessThan_1340_o_cy<4> (Mcompar_PWR_5_o_sum_tree[4][0]_imag[31]_LessThan_1340_o_cy<4>)
+     LUT3:I1->O            1   0.105   0.000  sum_tree[4][0]_imag[10]_PWR_5_o_mux_1340_OUT<0>1 (sum_tree[4][0]_imag[10]_PWR_5_o_mux_1340_OUT<0>1)
+     FDR:D                     0.015          UI_out_0
+    ----------------------------------------
+    Total                      9.302ns (5.636ns logic, 3.666ns route)
+                                       (60.6% logic, 39.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 1845 / 1845
+-------------------------------------------------------------------------
+Offset:              1.174ns (Levels of Logic = 2)
+  Source:            reset (PAD)
+  Destination:       multiplied[0]_imag_10 (FF)
+  Destination Clock: clk rising
+
+  Data Path: reset to multiplied[0]_imag_10
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O          1651   0.001   1.053  reset_IBUF (reset_IBUF)
+     LUT6:I0->O            1   0.105   0.000  multiplied[0]_imag_10_rstpot (multiplied[0]_imag_10_rstpot)
+     FD:D                      0.015          multiplied[0]_imag_10
+    ----------------------------------------
+    Total                      1.174ns (0.121ns logic, 1.053ns route)
+                                       (10.3% logic, 89.7% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 22 / 22
+-------------------------------------------------------------------------
+Offset:              0.737ns (Levels of Logic = 1)
+  Source:            UR_out_10 (FF)
+  Destination:       UR_out<10> (PAD)
+  Source Clock:      clk rising
+
+  Data Path: UR_out_10 to UR_out<10>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               1   0.398   0.339  UR_out_10 (UR_out_10)
+     OBUF:I->O                 0.000          UR_out_10_OBUF (UR_out<10>)
+    ----------------------------------------
+    Total                      0.737ns (0.398ns logic, 0.339ns route)
+                                       (54.0% logic, 46.0% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock clk
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clk            |    9.302|         |         |         |
+---------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 18.00 secs
+Total CPU time to Xst completion: 17.08 secs
+ 
+--> 
+
+
+Total memory usage is 530988 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :   29 (   0 filtered)
+

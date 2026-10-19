@@ -1,0 +1,9 @@
+############################################################
+# CLOCK CONSTRAINT ONLY (para análise de timing / Fmax)
+############################################################
+
+# Define o clock
+NET "clk" TNM_NET = "clk";
+
+# Define período do clock (10 ns = 100 MHz)
+TIMESPEC "TS_clk" = PERIOD "clk" 10 ns HIGH 50%;
